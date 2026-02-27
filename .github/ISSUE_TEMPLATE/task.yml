@@ -47,18 +47,6 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: acceptance
-    attributes:
-      label: Acceptance Criteria
-      description: What must be completed for this task to be done?
-      placeholder: |
-        - UI matches Figma design
-        - Login API works correctly
-        - No console errors
-    validations:
-      required: true
-
   - type: input
     id: estimate
     attributes:
