@@ -1,4 +1,18 @@
 /* navbar */
+
+:root {
+    --light-pink: #FFF5F5;
+  --cream: #faf7f4;
+  --charcoal: #2c2c2c;
+  --soft-black: #1a1a1a;
+  --accent: #c4956a;
+  --white: #ffffff;
+  --border: #ece8e3;
+  --font-display: 'Cormorant Garamond', serif;
+  --font-body: 'DM Sans', sans-serif;
+  --navbar-height: 58px;
+  --transition: 0.25s ease;
+}
 .adm-navbar {
   display: flex;
   align-items: center;
@@ -276,56 +290,4 @@
   .adm-stat     { font-size: 1.6rem; }
   .adm-stat--sm { font-size: 1.2rem; }
   .adm-totals   { gap: 24px; }
-}
-
-
-
-
-
-
-
-
-
-
-
-/* dashboard */
-
-.admin-layout {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 24px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px 16px;
-}
-
-.profile-card {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-}
-
-.profile-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.profile-name {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 4px;
-}
-
-.profile-role {
-  font-size: 0.8rem;
-  color: #888;
-}
-
-@media (max-width: 768px) {
-  .admin-layout {
-    grid-template-columns: 1fr;
-  }
 }
