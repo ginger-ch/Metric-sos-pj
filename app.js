@@ -1,4 +1,6 @@
 const express = require('express');
+const session = require('express-session');  // ← เพิ่ม
+const flash = require('connect-flash');
 const app = express();
 
 app.set('view engine', 'ejs');
