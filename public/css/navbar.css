@@ -329,3 +329,288 @@ body {
     display: none !important;
   }
 }
+
+/* ============================================
+   ของ admin นะเบบี๋
+   ============================================ */
+
+/* --- Navbar --- */
+.adm-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  background: var(--light-pink);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.adm-navbar__brand a {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--soft-black);
+  text-decoration: none;
+}
+
+.adm-navbar__links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.adm-navbar__links a {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--charcoal);
+  text-decoration: none;
+  padding-bottom: 4px;
+  letter-spacing: 0.03em;
+  transition: color var(--transition);
+}
+
+.adm-navbar__links a:hover,
+.adm-navbar__links a.adm-active {
+  color: var(--accent);
+  border-bottom: 2px solid var(--accent);
+}
+
+.adm-navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.adm-icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--charcoal);
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition);
+}
+.adm-icon-btn:hover { color: var(--accent); }
+
+.adm-hamburger { display: none; }
+
+/* --- Mobile Sidebar --- */
+.adm-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 200;
+}
+.adm-overlay--show { display: block; }
+
+.adm-sidebar {
+  position: fixed;
+  top: 0; right: 0;
+  height: 100%;
+  width: 200px;
+  background: var(--light-pink);
+  z-index: 300;
+  padding: 24px 16px;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  box-shadow: -2px 0 12px rgba(0,0,0,0.08);
+}
+.adm-sidebar--open { transform: translateX(0); }
+
+.adm-sidebar__brand {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--soft-black);
+  margin-bottom: 24px;
+}
+
+.adm-sidebar__links {
+  list-style: none;
+  padding: 0; margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.adm-sidebar__links a {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--charcoal);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+.adm-sidebar__links a:hover { color: var(--accent); }
+
+/* --- Layout --- */
+.adm-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 20px;
+}
+
+/* --- Profile --- */
+.adm-profile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+.adm-profile__avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.adm-profile__name {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--soft-black);
+  margin: 0 0 4px;
+}
+.adm-profile__role {
+  font-size: 0.78rem;
+  color: #999;
+  letter-spacing: 0.04em;
+}
+
+/* --- Section shared --- */
+.adm-section {
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--border);
+}
+.adm-section-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--soft-black);
+  margin: 0 0 12px;
+}
+.adm-label {
+  font-size: 0.72rem;
+  color: #aaa;
+  letter-spacing: 0.05em;
+  margin: 10px 0 2px;
+}
+.adm-stat {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 500;
+  color: var(--soft-black);
+  margin: 0;
+}
+.adm-stat--sm { font-size: 1.5rem; }
+
+/* --- Item Sold --- */
+.adm-item-list {
+  list-style: none;
+  padding: 0; margin: 0;
+}
+.adm-item-list li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--charcoal);
+  padding: 4px 0;
+}
+
+/* --- Popular Items --- */
+.adm-popular-item {
+  display: flex;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--charcoal);
+  margin-bottom: 6px;
+}
+.adm-popular-rank { font-weight: 500; min-width: 28px; }
+
+/* --- Notifications --- */
+.adm-notif-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.adm-notif-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.adm-notif-content { display: flex; gap: 10px; align-items: flex-start; }
+.adm-notif-icon { color: #aaa; margin-top: 2px; }
+.adm-notif-title { font-size: 0.83rem; font-weight: 500; margin: 0 0 2px; color: var(--soft-black); }
+.adm-notif-body  { font-size: 0.75rem; color: #aaa; margin: 0; }
+.adm-notif-close {
+  background: none; border: none;
+  font-size: 1.1rem; color: #bbb;
+  cursor: pointer; padding: 0 0 0 8px;
+  transition: color var(--transition);
+}
+.adm-notif-close:hover { color: var(--charcoal); }
+
+/* --- Categories --- */
+.adm-cat-list { display: flex; flex-direction: column; gap: 8px; margin: 12px 0; }
+.adm-cat-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fce4ec;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+.adm-cat-drag { color: #ccc; font-size: 1rem; cursor: grab; }
+.adm-cat-bar  { width: 10px; height: 10px; border-radius: 2px; background: var(--accent); flex-shrink: 0; }
+.adm-cat-name { font-size: 0.82rem; color: var(--charcoal); }
+
+.adm-totals { display: flex; gap: 32px; margin-top: 12px; }
+
+/* --- Orders Table --- */
+.adm-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.adm-table th {
+  text-align: left;
+  font-weight: 500;
+  color: #aaa;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.04em;
+}
+.adm-table td { padding: 7px 6px; color: var(--charcoal); }
+.adm-table tr:hover td { background: var(--cream); }
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+  .adm-navbar__links { display: none; }
+  .adm-hamburger     { display: flex; }
+
+  .adm-layout {
+    grid-template-columns: 1fr;
+    padding: 16px;
+    gap: 0;
+  }
+
+  .adm-stat     { font-size: 1.6rem; }
+  .adm-stat--sm { font-size: 1.2rem; }
+  .adm-totals   { gap: 24px; }
+}
