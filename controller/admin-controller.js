@@ -27,10 +27,6 @@ exports.getDashboard = (req, res) => {
       { number: '0001', date: '20-02-25', customer: 'ThepSa01' },
       { number: '0001', date: '20-02-25', customer: 'ThepSa01' },
     ],
-    // categories: [
-    //   { name: 'Dress' }, { name: '#cat2' }, { name: '#cat3' },
-    //   { name: '#cat4' }, { name: '#cat5' }, { name: '#cat6' },
-    // ],
     categories: [
       { name: 'Dress',  products: ['dress1', 'dress2', 'dress3', 'dress4'] },
       { name: '#cat2',  products: ['item1', 'item2'] },
