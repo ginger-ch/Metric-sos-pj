@@ -28,6 +28,10 @@ app.get('/', (req, res) => {
   });
 });
 
+//admin เองจร้า
+const adminRoutes = require('./routes/adminRoutes');
+app.use('/admin', adminRoutes);
+
 
 const PORT = 4000;
 app.listen(PORT, () => {
