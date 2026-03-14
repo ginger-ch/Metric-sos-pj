@@ -1,4 +1,6 @@
 const express = require('express');
+const session = require('express-session');  // ← เพิ่ม
+const flash = require('connect-flash');
 const app = express();
 
 app.set('view engine', 'ejs');
@@ -6,7 +8,12 @@ app.set('views', './view');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
+app.use(flash());
 
+
+//login page
+app.use('/', require('./route/auth-route'));
 // --- Routes ---
 
 // Homepage
@@ -37,3 +44,7 @@ const PORT = 4000;
 app.listen(PORT, () => {
   console.log(`✅ Girlette running at http://localhost:${PORT}`);
 });
+
+
+
+
