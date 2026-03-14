@@ -291,3 +291,38 @@
   .adm-stat--sm { font-size: 1.2rem; }
   .adm-totals   { gap: 24px; }
 }
+
+.adm-cat-arrow {
+  margin-left: auto;
+  font-size: 1rem;
+  transition: transform 0.25s ease;
+  color: #aaa;
+}
+
+.adm-cat-arrow.open {
+  transform: rotate(180deg);
+}
+
+.adm-cat-products {
+  display: none;
+  flex-direction: column;
+  background: var(--cream);
+  border-radius: 0 0 4px 4px;
+  margin-top: -8px;
+  margin-bottom: 4px;
+}
+
+.adm-cat-products.open {
+  display: flex;
+}
+
+.adm-cat-product-item {
+  font-size: 0.8rem;
+  color: var(--charcoal);
+  padding: 6px 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.adm-cat-product-item:last-child {
+  border-bottom: none;
+}

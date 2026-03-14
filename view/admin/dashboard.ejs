@@ -72,6 +72,36 @@
   </section>
   <% } %>
 
+  <section class="adm-section">
+  <p class="adm-section-title">Product & Categories</p>
+
+  <div class="adm-cat-list">
+  <% categories.forEach((cat, i) => { %>
+  <div class="adm-cat-item" data-index="<%= i %>" style="cursor:pointer;">    
+    <span class="adm-cat-drag">&#9776;</span>
+    <span class="adm-cat-name"><%= cat.name %></span>
+    <span class="adm-cat-arrow" id="arrow-<%= i %>">&#8964;</span>
+  </div>
+  <div class="adm-cat-products" id="cat-products-<%= i %>">
+    <% cat.products.forEach(p => { %>
+    <div class="adm-cat-product-item"><%= p %></div>
+    <% }) %>
+  </div>
+  <% }) %>
+</div>
+
+  <div class="adm-totals">
+    <div>
+      <p class="adm-label">Total category</p>
+      <p class="adm-stat"><%= totalCategory %></p>
+    </div>
+    <div>
+      <p class="adm-label">Total product</p>
+      <p class="adm-stat"><%= totalProduct %></p>
+    </div>
+  </div>
+</section>
+
   </main>
 </div>
   <script src="/js/notifications.js"></script>
