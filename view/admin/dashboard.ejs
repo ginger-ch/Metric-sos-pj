@@ -1,0 +1,29 @@
+<%- include('../layouts/header') %>
+<link rel="stylesheet" href="/css/admin-dashboard.css">
+<%- include('../partials/admin-navbar') %>
+
+<div class="admin-layout">
+  <aside class="admin-left">
+
+    <div class="profile-card">
+      <img
+        src="<%= admin.profileImage || '/images/default-avatar.png' %>"
+        alt="<%= admin.name %>"
+        class="profile-avatar"
+      />
+      <div class="profile-info">
+        <h2 class="profile-name"><%= admin.name %></h2>
+        <span class="profile-role">Admin</span>
+      </div>
+    </div>
+        <!-- part of left-side dashboard -->
+
+  </aside>
+
+  <main class="admin-right">
+        <!-- part of right-side dashboard -->
+
+  </main>
+</div>
+
+<%- include('../layouts/footer') %>
