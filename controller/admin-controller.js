@@ -1,24 +1,37 @@
-const User    = require('../models/User');
-const Product = require('../models/Product');
-const Category = require('../models/Category');
-const Order   = require('../models/Order');
-
-exports.getDashboard = async (req, res) => {
-  try {
-    res.render('admin/dashboard', {
-      currentPage: 'dashboard',
-      admin: req.session.user, 
-      notifications: [],
-      earnings: { totalMonth: '0K', totalWeek: 0 },
-      itemSold: [],
-      popularItems: [],
-      recentOrders: [],
-      categories: [],
-      totalCategory: 0,
-      totalProduct: 0,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Server Error');
-  }
+exports.getDashboard = (req, res) => {
+  res.render('admin/dashboard', {
+    currentPage: 'dashboard',
+    admin: {
+      name: 'Linn Latt Yamone',
+      role: 'Admin',
+      profileImage: '/image/default-avatar.png',
+    },
+    notifications: [
+      { type: 'stock', message: 'Skirt3 out of stock!', body: 'Body text.' },
+      { type: 'order', message: 'New order!',           body: 'Body text.' },
+      { type: 'order', message: 'New order!',           body: 'Body text.' },
+    ],
+    earnings: { totalMonth: '30K', totalWeek: 200 },
+    itemSold: [
+      { name: 'dress1', qty: 40 },
+      { name: 'dress2', qty: 31 },
+      { name: 'skirt4', qty: 25 },
+    ],
+    popularItems: [
+      { rank: '1st', name: '#item1', orders: 12 },
+      { rank: '2nd', name: '#item2', orders: 10 },
+      { rank: '3rd', name: '#item3', orders: 5  },
+    ],
+    recentOrders: [
+      { number: '0001', date: '20-02-25', customer: 'ThepSa01' },
+      { number: '0001', date: '20-02-25', customer: 'ThepSa01' },
+      { number: '0001', date: '20-02-25', customer: 'ThepSa01' },
+    ],
+    categories: [
+      { name: 'Dress' }, { name: '#cat2' }, { name: '#cat3' },
+      { name: '#cat4' }, { name: '#cat5' }, { name: '#cat6' },
+    ],
+    totalCategory: 6,
+    totalProduct: 24,
+  });
 };
