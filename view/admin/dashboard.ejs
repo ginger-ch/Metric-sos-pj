@@ -15,7 +15,36 @@
         <span class="adm-profile__role">Admin</span>
       </div>
     </div>
-        <!-- part of left-side dashboard -->
+         
+    <section class="adm-section">
+      <p class="adm-section-title">Earning</p>
+      <p class="adm-label">Total Month Income</p>
+      <p class="adm-stat"><%= earnings.totalMonth %></p>
+      <p class="adm-label">Total Week Income</p>
+      <p class="adm-stat adm-stat--sm"><%= earnings.totalWeek %></p>
+    </section>
+
+    <section class="adm-section">
+      <p class="adm-section-title">Item sold</p>
+      <ul class="adm-item-list">
+        <% itemSold.forEach(item => { %>
+        <li>
+          <span><%= item.name %></span>
+          <span><%= item.qty %></span>
+        </li>
+        <% }) %>
+      </ul>
+    </section>
+
+    <section class="adm-section">
+      <p class="adm-section-title">Popular items</p>
+      <% popularItems.forEach(item => { %>
+      <div class="adm-popular-item">
+        <span class="adm-popular-rank"><%= item.rank %></span>
+        <span><%= item.name %> : <%= item.orders %> orders</span>
+      </div>
+      <% }) %>
+    </section>
 
   </aside>
 
