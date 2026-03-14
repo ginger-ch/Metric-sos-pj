@@ -129,9 +129,9 @@
 /* --- Layout --- */
 .adm-layout {
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: 260px 1fr 280px;
   gap: 32px;
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 28px 20px;
 }
