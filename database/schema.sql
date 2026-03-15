@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS girllette;
-USE girlletee;
+USE girllette;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
