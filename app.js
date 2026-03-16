@@ -81,8 +81,6 @@ app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 app.use(flash());
 
 // --- Routes ---
-app.use('/', require('./route/auth-route'));
-
 app.get('/', (req, res) => {
   res.render('index', {
     categories: [
@@ -101,8 +99,9 @@ app.get('/', (req, res) => {
   });
 });
 
+app.use('/', require('./route/auth-route'));
 app.use('/admin', require('./route/admin-route'));
 
 app.listen(4000, () => {
-  console.log('✅ Girlette running at http://localhost:4000');
+  console.log('Girlette running at http://localhost:4000');
 });
