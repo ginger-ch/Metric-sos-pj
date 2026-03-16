@@ -39,3 +39,39 @@ exports.postLogin = async (req, res) => {
     res.redirect('/login');
   }
 };
+
+exports.getRegister = (req, res) => {
+  res.render('auth/register', {
+    errors: {},
+    formData: {}
+  });
+};
+
+exports.postRegister = async (req, res) => {
+  const { username, email, password } = req.body;
+  const errors = {};
+
+  if (!username) errors.username = 'Username is required';
+  if (!email)    errors.email    = 'Email is required';
+  if (!password) errors.password = 'Password is required';
+
+  if (Object.keys(errors).length > 0) {
+    return res.render('auth/register', { errors, formData: req.body });
+  }
+
+  try {
+    const password_hash = await bcrypt.hash(password, 10);
+    await db.query(
+      'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
+      [username, email, password_hash]
+    );
+    req.flash('success', 'Account created!');
+    res.redirect('/login');
+  } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+      if (err.message.includes('username')) errors.username = 'Username already taken';
+      if (err.message.includes('email'))    errors.email    = 'Email already in use';
+    }
+    res.render('auth/register', { errors, formData: req.body });
+  }
+};
