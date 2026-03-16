@@ -19,9 +19,11 @@
   },
   "homepage": "https://github.com/camt-pathathai/termproject-2025-sos#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "connect-flash": "^0.1.1",
     "ejs": "^5.0.1",
     "express": "^5.2.1",
-    "express-session": "^1.19.0"
+    "express-session": "^1.19.0",
+    "mysql2": "^3.20.0"
   }
 }

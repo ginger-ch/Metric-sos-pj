@@ -81,6 +81,7 @@ app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 app.use(flash());
 
 // --- Routes ---
+
 app.get('/', (req, res) => {
   res.render('index', {
     categories: [
