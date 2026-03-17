@@ -12,4 +12,33 @@
     />
     <button type="submit">&#128269;</button>
   </form>
+
+  <form method="GET" action="/admin/orders" class="filter-form">
+  <input type="hidden" name="search" value="<%= search %>" />
+
+  <div class="filter-group">
+    <label>Month</label>
+    <select name="month" onchange="this.form.submit()">
+      <option value="">All</option>
+      <% ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+         .forEach((m, i) => { %>
+        <option value="<%= i+1 %>" <%= selectedMonth == i+1 ? 'selected' : '' %>>
+          <%= m %>
+        </option>
+      <% }) %>
+    </select>
+  </div>
+
+  <div class="filter-group">
+    <label>Status</label>
+    <select name="status" onchange="this.form.submit()">
+      <option value="">All</option>
+      <% ['pending','processing','shipped','completed','cancelled'].forEach(s => { %>
+        <option value="<%= s %>" <%= selectedStatus === s ? 'selected' : '' %>>
+          <%= s %>
+        </option>
+      <% }) %>
+    </select>
+  </div>
+</form>
 </div>
