@@ -63,3 +63,27 @@ VALUES
 (5, 'S', 'blue', 13),
 (5, 'M', 'blue', 9),
 (5, 'L', 'blue', 4);
+
+-- seed orders
+INSERT INTO orders (order_number, user_id, shipping_address, total_amount, status, order_date)
+VALUES
+('#0001', NULL, '123 Test St', 300.00, 'pending',   '2025-01-20'),
+('#0002', NULL, '123 Test St', 450.00, 'pending',   '2025-01-20'),
+('#0003', NULL, '123 Test St', 590.00, 'processing','2025-02-10'),
+('#0004', NULL, '123 Test St', 590.00, 'shipped',   '2025-02-15'),
+('#0005', NULL, '123 Test St', 500.00, 'completed', '2025-03-01'),
+('#0006', NULL, '123 Test St', 300.00, 'pending',   '2025-03-05'),
+('#0007', NULL, '123 Test St', 450.00, 'cancelled', '2025-03-10'),
+('#0008', NULL, '123 Test St', 590.00, 'pending',   '2025-04-01');
+
+-- seed order_items (เชื่อม order กับ product)
+INSERT INTO order_items (order_id, product_id, attribute_id, quantity, unit_price)
+VALUES
+(1, 1, 1, 1, 300.00),
+(2, 2, 4, 1, 450.00),
+(3, 3, 7, 1, 590.00),
+(4, 4, 10, 1, 590.00),
+(5, 5, 13, 1, 500.00),
+(6, 1, 2, 1, 300.00),
+(7, 2, 5, 1, 450.00),
+(8, 3, 8, 1, 590.00);
