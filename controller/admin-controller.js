@@ -123,6 +123,54 @@ exports.getDashboard = async (req, res) => {
 
 exports.getOrders = async (req, res) => {
   try {
+    const { search = '', month = '', status = '', page = 1 } = req.query;
+    const limit = 8;
+    const offset = (page - 1) * limit;
+
+    let conditions = [];
+    let params = [];
+
+    if (search) {
+      conditions.push(`(o.order_number LIKE ? OR p.product_name LIKE ?)`);
+      params.push(`%${search}%`, `%${search}%`);
+    }
+    if (month) {
+      conditions.push(`MONTH(o.order_date) = ?`);
+      params.push(month);
+    }
+    if (status) {
+      conditions.push(`o.status = ?`);
+      params.push(status);
+    }
+
+    const whereClause = conditions.length ? 'WHERE ' + conditions.join(' AND ') : '';
+
+    const [orders] = await db.query(`
+      SELECT
+        o.order_id,
+        o.order_number,
+        DATE_FORMAT(o.order_date, '%d-%m-%y') AS order_date,
+        p.product_name AS order_name,
+        u.username AS customer,
+        o.status
+      FROM orders o
+      LEFT JOIN users u ON u.user_id = o.user_id
+      LEFT JOIN order_items oi ON oi.order_id = o.order_id
+      LEFT JOIN products p ON p.product_id = oi.product_id
+      ${whereClause}
+      GROUP BY o.order_id
+      ORDER BY o.order_date DESC
+      LIMIT ? OFFSET ?
+    `, [...params, limit, offset]);
+
+    const [[{ total }]] = await db.query(`
+      SELECT COUNT(DISTINCT o.order_id) AS total
+      FROM orders o
+      LEFT JOIN order_items oi ON oi.order_id = o.order_id
+      LEFT JOIN products p ON p.product_id = oi.product_id
+      ${whereClause}
+    `, params);
+
     res.render('admin/orders', {
       currentPage: 'orders',
       admin: {
