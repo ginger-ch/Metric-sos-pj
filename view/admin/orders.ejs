@@ -40,5 +40,60 @@
       <% }) %>
     </select>
   </div>
+
+  <table class="orders-table desktop-only">
+  <thead>
+    <tr>
+      <th>Order number</th>
+      <th>Order date</th>
+      <th>Order name</th>
+      <th>Customer account</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% orders.forEach(order => { %>
+    <tr>
+      <td><%= order.order_number %></td>
+      <td><%= order.order_date %></td>
+      <td><%= order.order_name %></td>
+      <td><%= order.customer %></td>
+      <td>
+        <select class="status-select" data-id="<%= order.order_id %>">
+          <% ['pending','processing','shipped','completed','cancelled'].forEach(s => { %>
+            <option value="<%= s %>" <%= order.status === s ? 'selected' : '' %>><%= s %></option>
+          <% }) %>
+        </select>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<div class="orders-accordion mobile-only">
+  <% orders.forEach(order => { %>
+  <div class="accordion-item">
+    <div class="accordion-header">
+      <span><%= order.order_number %></span>
+      <span class="chevron">&#8964;</span>
+    </div>
+    <div class="accordion-body">
+      <p>Order date: <span><%= order.order_date %></span></p>
+      <p>Order name: <span><%= order.order_name %></span></p>
+      <p>Customer: <span><%= order.customer %></span></p>
+      <p>Status: <span><%= order.status %></span></p>
+    </div>
+  </div>
+  <% }) %>
+</div>
+
+<div class="pagination">
+  <% for (let i = 1; i <= totalPages; i++) { %>
+    <a href="?page=<%= i %>&month=<%= selectedMonth %>&status=<%= selectedStatus %>&search=<%= search %>"
+       class="<%= i === currentPageNum ? 'active' : '' %>">
+      <%= i %>
+    </a>
+  <% } %>
+</div>
 </form>
 </div>
