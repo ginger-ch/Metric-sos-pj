@@ -120,3 +120,24 @@ exports.getDashboard = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+exports.getOrders = async (req, res) => {
+  try {
+    res.render('admin/orders', {
+      currentPage: 'orders',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+      orders: [],
+      totalPages: 1,
+      currentPageNum: 1,
+      selectedMonth: '',
+      selectedStatus: '',
+      search: '',
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
