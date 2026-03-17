@@ -1,5 +1,15 @@
+<%- include('../layouts/header', { extraCss: '/css/admin-order.css' }) %>
 <%- include('../partials/admin-navbar') %>
 
-<div class="admin-orders-page">
+<div class="orders-header">
   <h1>Orders</h1>
+  <form method="GET" action="/admin/orders" class="search-form">
+    <input
+      type="text"
+      name="search"
+      placeholder="Search order name"
+      value="<%= search %>"
+    />
+    <button type="submit">&#128269;</button>
+  </form>
 </div>
