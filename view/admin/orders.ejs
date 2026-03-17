@@ -3,28 +3,23 @@
 
 <div class="orders-header">
   <h1>Orders</h1>
+
   <form method="GET" action="/admin/orders" class="search-form">
-    <input
-      type="text"
-      name="search"
-      placeholder="Search order name"
-      value="<%= search %>"
-    />
+    <input type="text" name="search" placeholder="Search order name" value="<%= search %>" />
     <button type="submit">&#128269;</button>
   </form>
 
-  <form method="GET" action="/admin/orders" class="filter-form">
+</div>
+
+<form method="GET" action="/admin/orders" class="filter-form">
   <input type="hidden" name="search" value="<%= search %>" />
 
   <div class="filter-group">
     <label>Month</label>
     <select name="month" onchange="this.form.submit()">
       <option value="">All</option>
-      <% ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
-         .forEach((m, i) => { %>
-        <option value="<%= i+1 %>" <%= selectedMonth == i+1 ? 'selected' : '' %>>
-          <%= m %>
-        </option>
+      <% ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'].forEach((m, i) => { %>
+        <option value="<%= i+1 %>" <%= selectedMonth == i+1 ? 'selected' : '' %>><%= m %></option>
       <% }) %>
     </select>
   </div>
@@ -34,14 +29,14 @@
     <select name="status" onchange="this.form.submit()">
       <option value="">All</option>
       <% ['pending','processing','shipped','completed','cancelled'].forEach(s => { %>
-        <option value="<%= s %>" <%= selectedStatus === s ? 'selected' : '' %>>
-          <%= s %>
-        </option>
+        <option value="<%= s %>" <%= selectedStatus === s ? 'selected' : '' %>><%= s %></option>
       <% }) %>
     </select>
   </div>
 
-  <table class="orders-table desktop-only">
+</form>
+
+<table class="orders-table desktop-only">
   <thead>
     <tr>
       <th>Order number</th>
@@ -94,6 +89,4 @@
       <%= i %>
     </a>
   <% } %>
-</div>
-</form>
 </div>

@@ -150,7 +150,7 @@ exports.getOrders = async (req, res) => {
         o.order_id,
         o.order_number,
         DATE_FORMAT(o.order_date, '%d-%m-%y') AS order_date,
-        p.product_name AS order_name,
+        ANY_VALUE(p.product_name) AS order_name,
         u.username AS customer,
         o.status
       FROM orders o
@@ -158,7 +158,7 @@ exports.getOrders = async (req, res) => {
       LEFT JOIN order_items oi ON oi.order_id = o.order_id
       LEFT JOIN products p ON p.product_id = oi.product_id
       ${whereClause}
-      GROUP BY o.order_id
+      GROUP BY o.order_id, o.order_number, o.order_date, u.username, o.status
       ORDER BY o.order_date DESC
       LIMIT ? OFFSET ?
     `, [...params, limit, offset]);
@@ -171,24 +171,28 @@ exports.getOrders = async (req, res) => {
       ${whereClause}
     `, params);
 
+    console.log('orders result:', orders);
+    console.log('total:', total);
+
     res.render('admin/orders', {
       currentPage: 'orders',
       admin: {
         name: req.session?.user?.full_name || 'Admin',
         profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
       },
-      orders: [],
-      totalPages: 1,
-      currentPageNum: 1,
-      selectedMonth: '',
-      selectedStatus: '',
-      search: '',
+      orders,                         
+      totalPages: Math.ceil(total / limit),  
+      currentPageNum: parseInt(page),    
+      selectedMonth: month,               
+      selectedStatus: status,            
+      search,                             
     });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
   }
 };
+
 
 exports.updateOrderStatus = async (req, res) => {
   try {
