@@ -47,6 +47,25 @@ body:
     validations:
       required: true
 
+  - type: checkboxes
+    id: acceptance_criteria
+    attributes:
+      label: Acceptance Criteria
+      description: Conditions that must be met before this task is considered complete
+      options:
+        - label: Home page matches Figma UI design
+        - label: Page is fully responsive (mobile, tablet, desktop)
+        - label: Interactive elements work correctly (buttons, nav, etc.)
+        - label: Product data is fetched successfully from API
+        - label: Data displays correctly on the home page
+        - label: Loading state is handled (spinner or skeleton)
+        - label: Error state is handled gracefully
+        - label: Navigation links work correctly
+        - label: No console errors in browser
+        - label: Tested and working on latest build
+        - label: Code pushed to feature branch
+        - label: Pull request created for review
+
   - type: input
     id: estimate
     attributes:
