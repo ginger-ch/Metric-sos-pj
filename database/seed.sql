@@ -5,6 +5,9 @@ VALUES
 ('DRESS', 'dress', 'show'),
 ('OUTERWEAR', 'outerwear', 'show'),
 ('PAJAMAS', 'pajamas', 'show');
+('ACCESSORY','accessory','hide');
+('BAG', 'bag', 'hide')
+('SOCK', 'sock', 'show')
 
 INSERT INTO products (category_id, product_name, description, base_price)
 VALUES
@@ -16,26 +19,30 @@ VALUES
 
 INSERT INTO product_images (product_id, image_url, is_primary, sort_order)
 VALUES
--- Product 1
+-- Top 
+-- top1
 (1, '/image/products/top/top1_1.jpg', 1, 1),
 (1, '/image/products/top/top1_2.jpg', 0, 2),
 (1, '/image/products/top/top1_3.jpg', 0, 3),
 
--- Product 2
+-- top 2
 (2, '/image/products/top/top2_1.jpg', 1, 1),
 (2, '/image/products/top/top2_2.jpg', 0, 2),
 
--- Product 3
+-- top 3
 (3, '/image/products/top/top3_1.jpg', 1, 1),
 (3, '/image/products/top/top3_2.jpg', 0, 2),
 
--- Product 4
+-- top 4
 (4, '/image/products/top/top4_1.jpg', 1, 1),
 (4, '/image/products/top/top4_2.jpg', 0, 2),
 
--- Product 5
+-- top 5
 (5, '/image/products/top/top5_1.jpg', 1, 1),
 (5, '/image/products/top/top5_2.jpg', 0, 2);
+
+-- Bottom
+
 
 INSERT INTO product_attributes (product_id, size, color, stock_qty)
 VALUES
