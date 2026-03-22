@@ -34,11 +34,41 @@
     </div>
   </div>
 
-  <!-- ตารางจะเพิ่มตรงนี้ -->
+  <table class="category-table">
+  <thead>
+    <tr>
+      <th>CATEGORY NAME</th>
+      <th>PRODUCT</th>
+      <th>VISIBILITY</th>
+      <th>ACTION</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% categories.forEach(cat => { %>
+    <tr>
+      <td>#<%= cat.category_name.toLowerCase() %></td>
+      <td><%= cat.product_count %></td>
+      <td><%= cat.visibility %></td>
+      <td class="action-btns">
+        <% if (cat.visibility === 'show') { %>
+          <button class="btn-hide"
+            onclick="toggleVisibility(<%= cat.category_id %>, 'hidden')">HIDE</button>
+        <% } else { %>
+          <button class="btn-show"
+            onclick="toggleVisibility(<%= cat.category_id %>, 'show')">SHOW</button>
+        <% } %>
+        <button class="btn-edit"
+          onclick="openEditModal(<%= cat.category_id %>, '<%= cat.category_name %>', '<%= cat.visibility %>')">EDIT</button>
+        <button class="btn-delete"
+          onclick="deleteCategory(<%= cat.category_id %>)">DELETE</button>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
 
 </main>
 
-<!-- ✅ modal อยู่นอก main -->
 <div id="newCategoryModal" class="modal-overlay" style="display:none">
   <div class="modal-box">
     <h2>New Category</h2>
