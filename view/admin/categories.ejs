@@ -17,6 +17,20 @@
         </form>
     </div>
 
+    <form method="GET" action="/admin/categories" id="searchForm">
+        <input type="hidden" name="filter" value="<%= selectedFilter %>">
+        <div class="search-input-wrap">
+            <input
+            type="text"
+            name="search"
+            placeholder="Search category name"
+            value="<%= search %>"
+            oninput="debounceSearch(this)"
+            />
+            <span class="search-icon">🔍</span>
+        </div>
+    </form>
+
   </div>
 </main>
 
