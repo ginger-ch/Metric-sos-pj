@@ -148,3 +148,24 @@ exports.createCategory = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+exports.updateVisibility = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { visibility } = req.body;
+    await adminModel.updateCategoryVisibility(id, visibility);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+};
+
+exports.deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await adminModel.deleteCategory(id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+};

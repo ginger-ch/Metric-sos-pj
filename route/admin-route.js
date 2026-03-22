@@ -8,7 +8,7 @@ router.patch('/orders/:id/status', adminController.updateOrderStatus);
 router.get('/categories', adminController.getCategories);
 router.post('/categories', adminController.createCategory);
 // router.put('/categories/:id', adminController.updateCategory);
-// router.patch('/categories/:id/visibility', adminController.updateVisibility);
-// router.delete('/categories/:id', adminController.deleteCategory);
+router.patch('/categories/:id/visibility', adminController.updateVisibility);
+router.delete('/categories/:id', adminController.deleteCategory);
 
 module.exports = router;
