@@ -85,7 +85,7 @@ exports.getOrders = async (req, res) => {
     const orders = await adminModel.getOrders(conditions, params, limit, offset);
     const total  = await adminModel.getTotalOrders(conditions, params);
 
-    res.render('admin/orders', {
+    res.render('admin/order', {
       currentPage: 'orders',
       admin: {
         name: req.session?.user?.full_name || 'Admin',
@@ -113,5 +113,23 @@ exports.updateOrderStatus = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ success: false });
+  }
+};
+
+exports.getCategories = async (req, res) => {
+  try {
+    const { filter = '', search = '' } = req.query;
+    const categories = await adminModel.getAllCategories();
+    
+    res.render('admin/categories', {
+      currentPage: 'categories',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
   }
 };

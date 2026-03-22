@@ -126,3 +126,25 @@ exports.updateOrderStatus = async (id, status) => {
     [status, id]
   );
 };
+
+// Categories
+exports.getAllCategories = async (filter = '', search = '') => {
+  const conditions = [];
+  const params = [];
+
+  if (filter)  { conditions.push(`c.visibility = ?`);          params.push(filter); }
+  if (search)  { conditions.push(`c.category_name LIKE ?`);    params.push(`%${search}%`); }
+
+  const where = conditions.length ? 'WHERE ' + conditions.join(' AND ') : '';
+
+  const [categories] = await db.query(`
+    SELECT c.category_id, c.category_name, c.slug, c.visibility,
+           COUNT(p.product_id) AS product_count
+    FROM categories c
+    LEFT JOIN products p ON p.category_id = c.category_id
+    ${where}
+    GROUP BY c.category_id
+    ORDER BY c.category_name ASC
+  `, params);
+  return categories;
+};
