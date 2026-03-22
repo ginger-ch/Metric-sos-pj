@@ -1,5 +1,5 @@
-const bcrypt = require('bcrypt');
-const db = require('../config/db');
+const bcrypt = require('bcryptjs');
+const userModel = require('../model/user-model');
 
 exports.getLogin = (req, res) => {
   res.render('auth/login', {
@@ -10,21 +10,16 @@ exports.getLogin = (req, res) => {
 };
 
 exports.postLogin = async (req, res) => {
-  const { username, password } = req.body;
-
+  const { username, email, password, fullname } = req.body;
   try {
-    const [rows] = await db.query(
-      'SELECT * FROM users WHERE username = ?', [username]
-    );
+    const user = await userModel.findByUsername(username);
 
-    if (rows.length === 0) {
+    if (!user) {
       req.flash('error', 'Incorrect username or password.');
       return res.redirect('/login');
     }
 
-    const user = rows[0];
     const match = await bcrypt.compare(password, user.password_hash);
-
     if (!match) {
       req.flash('error', 'Incorrect username or password.');
       return res.redirect('/login');
@@ -32,7 +27,6 @@ exports.postLogin = async (req, res) => {
 
     req.session.user = user;
     res.redirect('/');
-
   } catch (err) {
     console.error(err);
     req.flash('error', 'Something went wrong.');
@@ -48,7 +42,7 @@ exports.getRegister = (req, res) => {
 };
 
 exports.postRegister = async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, full_name } = req.body;
   const errors = {};
 
   if (!username) errors.username = 'Username is required';
@@ -61,16 +55,17 @@ exports.postRegister = async (req, res) => {
 
   try {
     const password_hash = await bcrypt.hash(password, 10);
-    await db.query(
-      'INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)',
-      [username, email, password_hash]
-    );
+    await userModel.createUser(username, email, password_hash, full_name);
+
     req.flash('success', 'Account created!');
     res.redirect('/login');
   } catch (err) {
+    console.error(err); 
     if (err.code === 'ER_DUP_ENTRY') {
       if (err.message.includes('username')) errors.username = 'Username already taken';
       if (err.message.includes('email'))    errors.email    = 'Email already in use';
+    } else {
+      errors.general = 'Something went wrong. Please try again.';
     }
     res.render('auth/register', { errors, formData: req.body });
   }

@@ -80,28 +80,9 @@ app.use(express.json());
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 app.use(flash());
 
-// --- Routes ---
-
-app.get('/', (req, res) => {
-  res.render('index', {
-    categories: [
-      { id: 'tops',      name: 'Tops' },
-      { id: 'bottoms',   name: 'Bottoms' },
-      { id: 'outerwear', name: 'Outerwear' },
-      { id: 'dresses',   name: 'Dresses' },
-      { id: 'shoes',     name: 'Shoes' },
-    ],
-    products: [
-      { id: 1, name: 'Classic Knit Top',   price: 590,  image: '' },
-      { id: 2, name: 'Wrap Mini Skirt',    price: 690,  image: '' },
-      { id: 3, name: 'Linen Blazer',       price: 1290, image: '' },
-      { id: 4, name: 'Cropped Upper Knit', price: 590,  image: '' },
-    ]
-  });
-});
-
 app.use('/', require('./route/auth-route'));
 app.use('/admin', require('./route/admin-route'));
+app.use('/', require('./route/webstore-route'));
 
 app.listen(4000, () => {
   console.log('Girlette running at http://localhost:4000');
