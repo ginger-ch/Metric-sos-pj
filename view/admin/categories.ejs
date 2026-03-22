@@ -1,0 +1,37 @@
+<%- include('../partials/admin-navbar') %>
+
+<main class="admin-category-container">
+  <div class="page-header">
+    <div>
+      <h1>Categories</h1>
+      <p>Manage your categories</p>
+    </div>
+
+    <div class="filter-search-bar">
+        <form method="GET" action="/admin/categories" id="filterForm">
+            <select name="filter" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            <option value="show"  <%= selectedFilter === 'show'   ? 'selected' : '' %>>Show</option>
+            <option value="hidden"<%= selectedFilter === 'hidden' ? 'selected' : '' %>>Hidden</option>
+            </select>
+        </form>
+    </div>
+
+    <form method="GET" action="/admin/categories" id="searchForm">
+        <input type="hidden" name="filter" value="<%= selectedFilter %>">
+        <div class="search-input-wrap">
+            <input
+            type="text"
+            name="search"
+            placeholder="Search category name"
+            value="<%= search %>"
+            oninput="debounceSearch(this)"
+            />
+            <span class="search-icon">🔍</span>
+        </div>
+    </form>
+
+  </div>
+</main>
+
+<%- include('../partials/footer') %>
