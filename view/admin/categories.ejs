@@ -6,6 +6,17 @@
       <h1>Categories</h1>
       <p>Manage your categories</p>
     </div>
+
+    <div class="filter-search-bar">
+        <form method="GET" action="/admin/categories" id="filterForm">
+            <select name="filter" onchange="this.form.submit()">
+            <option value="">All Categories</option>
+            <option value="show"  <%= selectedFilter === 'show'   ? 'selected' : '' %>>Show</option>
+            <option value="hidden"<%= selectedFilter === 'hidden' ? 'selected' : '' %>>Hidden</option>
+            </select>
+        </form>
+    </div>
+
   </div>
 </main>
 

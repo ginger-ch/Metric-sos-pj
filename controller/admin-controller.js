@@ -118,6 +118,9 @@ exports.updateOrderStatus = async (req, res) => {
 
 exports.getCategories = async (req, res) => {
   try {
+    const { filter = '', search = '' } = req.query;
+    const categories = await adminModel.getAllCategories();
+    
     res.render('admin/categories', {
       currentPage: 'categories',
       admin: {
