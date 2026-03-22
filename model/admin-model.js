@@ -148,3 +148,10 @@ exports.getAllCategories = async (filter = '', search = '') => {
   `, params);
   return categories;
 };
+
+exports.createCategory = async (name, slug, visibility) => {
+  await db.query(
+    `INSERT INTO categories (category_name, slug, visibility) VALUES (?, ?, ?)`,
+    [name, slug, visibility]
+  );
+};
