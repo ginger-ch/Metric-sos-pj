@@ -108,11 +108,9 @@
       <li class="mobile-category-toggle">
         <span>Categories <span class="arrow">›</span></span>
         <ul class="mobile-category-list" id="mobileCategoryList">
-          <li><a href="/category/top">TOP</a></li>
-          <li><a href="/category/bottom">BOTTOM</a></li>
-          <li><a href="/category/outerwear">OUTERWEAR</a></li>
-          <li><a href="/category/dress">DRESS</a></li>
-          <li><a href="/category/pajama">PAJAMA</a></li>
+          <% categories.forEach(cat => { %>
+            <li><a href="/category/<%= cat.slug %>"><%= cat.name %></a></li>
+          <% }) %>
         </ul>
       </li>
       <li><a href="/contact">Contact</a></li>
