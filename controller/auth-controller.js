@@ -60,9 +60,12 @@ exports.postRegister = async (req, res) => {
     req.flash('success', 'Account created!');
     res.redirect('/login');
   } catch (err) {
+    console.error(err); 
     if (err.code === 'ER_DUP_ENTRY') {
       if (err.message.includes('username')) errors.username = 'Username already taken';
       if (err.message.includes('email'))    errors.email    = 'Email already in use';
+    } else {
+      errors.general = 'Something went wrong. Please try again.';
     }
     res.render('auth/register', { errors, formData: req.body });
   }

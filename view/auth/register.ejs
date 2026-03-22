@@ -15,6 +15,9 @@
 
     <div class="form-area">
       <h1>Create account</h1>
+      <% if (typeof errors !== 'undefined' && errors.general) { %>
+      <p class="error-msg"><%= errors.general %></p>
+     <% } %>
 
       <form action="/register" method="POST" novalidate>
 

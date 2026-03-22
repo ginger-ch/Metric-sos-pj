@@ -1,21 +1,9 @@
-const db = require('../config/db');
+const adminModel = require('../model/admin-model');
 
 exports.getDashboard = async (req, res) => {
   try {
+    const categories = await adminModel.getCategories();
 
-    // Categories
-    const [categories] = await db.query(`
-      SELECT c.category_id, c.category_name AS name,
-             JSON_ARRAYAGG(p.product_name) AS products
-      FROM categories c
-      LEFT JOIN products p ON p.category_id = c.category_id
-      WHERE c.visibility = 'show'
-      GROUP BY c.category_id
-    `);
-
-    console.log('RAW categories:', JSON.stringify(categories[0]));
-
-    // parse products JSON string
     categories.forEach(cat => {
       if (Array.isArray(cat.products)) {
         cat.products = cat.products.filter(p => p !== null);
@@ -24,68 +12,19 @@ exports.getDashboard = async (req, res) => {
       }
     });
 
-    // Total counts
-    const [[{ totalCategory }]] = await db.query(
-      'SELECT COUNT(*) AS totalCategory FROM categories WHERE visibility = "show"'
-    );
-    const [[{ totalProduct }]] = await db.query(
-      'SELECT COUNT(*) AS totalProduct FROM products'
-    );
+    const totalCategory  = await adminModel.getTotalCategory();
+    const totalProduct   = await adminModel.getTotalProduct();
+    const totalMonth     = await adminModel.getTotalMonth();
+    const totalWeek      = await adminModel.getTotalWeek();
+    const itemSold       = await adminModel.getItemSold();
+    const recentOrders   = await adminModel.getRecentOrders();
+    const outOfStock     = await adminModel.getOutOfStock();
 
-    // Earnings (month)
-    const [[{ totalMonth }]] = await db.query(`
-      SELECT COALESCE(SUM(total_amount), 0) AS totalMonth
-      FROM orders
-      WHERE status = 'completed'
-        AND MONTH(order_date) = MONTH(CURDATE())
-        AND YEAR(order_date)  = YEAR(CURDATE())
-    `);
-
-    // Earnings (week)
-    const [[{ totalWeek }]] = await db.query(`
-      SELECT COALESCE(SUM(total_amount), 0) AS totalWeek
-      FROM orders
-      WHERE status = 'completed'
-        AND order_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-    `);
-
-    // Item sold
-    const [itemSold] = await db.query(`
-      SELECT p.product_name AS name, SUM(oi.quantity) AS qty
-      FROM order_items oi
-      JOIN products p ON p.product_id = oi.product_id
-      GROUP BY oi.product_id
-      ORDER BY qty DESC
-      LIMIT 8
-    `);
-
-    // Popular items (top 3)
     const popularItems = itemSold.slice(0, 3).map((item, i) => ({
       rank: ['1st', '2nd', '3rd'][i],
       name: item.name,
       orders: item.qty,
     }));
-
-    // Recent orders
-    const [recentOrders] = await db.query(`
-      SELECT o.order_number AS number,
-             DATE_FORMAT(o.order_date, '%d-%m-%y') AS date,
-             u.username AS customer
-      FROM orders o
-      LEFT JOIN users u ON u.user_id = o.user_id
-      ORDER BY o.order_date DESC
-      LIMIT 5
-    `);
-
-    // Notifications (out of stock)
-    const [outOfStock] = await db.query(`
-      SELECT p.product_name AS name
-      FROM product_attributes pa
-      JOIN products p ON p.product_id = pa.product_id
-      GROUP BY p.product_id
-      HAVING SUM(pa.stock_qty) = 0
-      LIMIT 5
-    `);
 
     const notifications = outOfStock.map(p => ({
       type: 'stock',
@@ -127,8 +66,8 @@ exports.getOrders = async (req, res) => {
     const limit = 8;
     const offset = (page - 1) * limit;
 
-    let conditions = [];
-    let params = [];
+    const conditions = [];
+    const params = [];
 
     if (search) {
       conditions.push(`(o.order_number LIKE ? OR p.product_name LIKE ?)`);
@@ -143,49 +82,21 @@ exports.getOrders = async (req, res) => {
       params.push(status);
     }
 
-    const whereClause = conditions.length ? 'WHERE ' + conditions.join(' AND ') : '';
+    const orders = await adminModel.getOrders(conditions, params, limit, offset);
+    const total  = await adminModel.getTotalOrders(conditions, params);
 
-    const [orders] = await db.query(`
-      SELECT
-        o.order_id,
-        o.order_number,
-        DATE_FORMAT(o.order_date, '%d-%m-%y') AS order_date,
-        ANY_VALUE(p.product_name) AS order_name,
-        u.username AS customer,
-        o.status
-      FROM orders o
-      LEFT JOIN users u ON u.user_id = o.user_id
-      LEFT JOIN order_items oi ON oi.order_id = o.order_id
-      LEFT JOIN products p ON p.product_id = oi.product_id
-      ${whereClause}
-      GROUP BY o.order_id, o.order_number, o.order_date, u.username, o.status
-      ORDER BY o.order_date DESC
-      LIMIT ? OFFSET ?
-    `, [...params, limit, offset]);
-
-    const [[{ total }]] = await db.query(`
-      SELECT COUNT(DISTINCT o.order_id) AS total
-      FROM orders o
-      LEFT JOIN order_items oi ON oi.order_id = o.order_id
-      LEFT JOIN products p ON p.product_id = oi.product_id
-      ${whereClause}
-    `, params);
-
-    console.log('orders result:', orders);
-    console.log('total:', total);
-
-    res.render('admin/orders', {
+    res.render('admin/order', {
       currentPage: 'orders',
       admin: {
         name: req.session?.user?.full_name || 'Admin',
         profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
       },
-      orders,                         
-      totalPages: Math.ceil(total / limit),  
-      currentPageNum: parseInt(page),    
-      selectedMonth: month,               
-      selectedStatus: status,            
-      search,                             
+      orders,
+      totalPages: Math.ceil(total / limit),
+      currentPageNum: parseInt(page),
+      selectedMonth: month,
+      selectedStatus: status,
+      search,
     });
   } catch (err) {
     console.error(err);
@@ -193,12 +104,11 @@ exports.getOrders = async (req, res) => {
   }
 };
 
-
 exports.updateOrderStatus = async (req, res) => {
   try {
     const { id } = req.params;
     const { status } = req.body;
-    await db.query(`UPDATE orders SET status = ? WHERE order_id = ?`, [status, id]);
+    await adminModel.updateOrderStatus(id, status);
     res.json({ success: true });
   } catch (err) {
     console.error(err);
