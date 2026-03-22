@@ -17,11 +17,13 @@
             Categories
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="/category/top">TOP</a></li>
-            <li><a class="dropdown-item" href="/category/bottom">BOTTOM</a></li>
-            <li><a class="dropdown-item" href="/category/outerwear">OUTERWEAR</a></li>
-            <li><a class="dropdown-item" href="/category/dress">DRESS</a></li>
-            <li><a class="dropdown-item" href="/category/pajama">PAJAMA</a></li>
+            <% categories.forEach(cat => { %>
+              <li>
+                <a class="dropdown-item" href="/category/<%= cat.slug %>">
+                  <%= cat.name %>
+                </a>
+              </li>
+            <% }) %>
           </ul>
         </li>
         <li class="nav-item">
