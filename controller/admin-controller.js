@@ -85,7 +85,7 @@ exports.getOrders = async (req, res) => {
     const orders = await adminModel.getOrders(conditions, params, limit, offset);
     const total  = await adminModel.getTotalOrders(conditions, params);
 
-    res.render('admin/orders', {
+    res.render('admin/order', {
       currentPage: 'orders',
       admin: {
         name: req.session?.user?.full_name || 'Admin',
