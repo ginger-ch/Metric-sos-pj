@@ -115,3 +115,18 @@ exports.updateOrderStatus = async (req, res) => {
     res.status(500).json({ success: false });
   }
 };
+
+exports.getCategories = async (req, res) => {
+  try {
+    res.render('admin/categories', {
+      currentPage: 'categories',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
