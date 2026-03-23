@@ -119,17 +119,53 @@ exports.updateOrderStatus = async (req, res) => {
 exports.getCategories = async (req, res) => {
   try {
     const { filter = '', search = '' } = req.query;
-    const categories = await adminModel.getAllCategories();
-    
+    const categories = await adminModel.getAllCategories(filter, search);
+
     res.render('admin/categories', {
       currentPage: 'categories',
       admin: {
         name: req.session?.user?.full_name || 'Admin',
         profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
       },
+      categories,
+      selectedFilter: filter,  
+      search,                  
     });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
+  }
+};
+
+exports.createCategory = async (req, res) => {
+  try {
+    const { category_name, visibility } = req.body;
+    const slug = category_name.toLowerCase().replace(/\s+/g, '-');
+    await adminModel.createCategory(category_name, slug, visibility);
+    res.redirect('/admin/categories');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.updateVisibility = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { visibility } = req.body;
+    await adminModel.updateCategoryVisibility(id, visibility);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+};
+
+exports.deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await adminModel.deleteCategory(id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
   }
 };

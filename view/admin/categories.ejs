@@ -8,30 +8,86 @@
     </div>
 
     <div class="filter-search-bar">
-        <form method="GET" action="/admin/categories" id="filterForm">
-            <select name="filter" onchange="this.form.submit()">
-            <option value="">All Categories</option>
-            <option value="show"  <%= selectedFilter === 'show'   ? 'selected' : '' %>>Show</option>
-            <option value="hidden"<%= selectedFilter === 'hidden' ? 'selected' : '' %>>Hidden</option>
-            </select>
-        </form>
-    </div>
+      <form method="GET" action="/admin/categories" id="filterForm">
+        <select name="filter" onchange="this.form.submit()">
+          <option value="">All Categories</option>
+          <option value="show"  <%= selectedFilter === 'show'   ? 'selected' : '' %>>Show</option>
+          <option value="hidden"<%= selectedFilter === 'hidden' ? 'selected' : '' %>>Hidden</option>
+        </select>
+      </form>
 
-    <form method="GET" action="/admin/categories" id="searchForm">
+      <form method="GET" action="/admin/categories" id="searchForm">
         <input type="hidden" name="filter" value="<%= selectedFilter %>">
         <div class="search-input-wrap">
-            <input
+          <input
             type="text"
             name="search"
             placeholder="Search category name"
             value="<%= search %>"
             oninput="debounceSearch(this)"
-            />
-            <span class="search-icon">🔍</span>
+          />
+          <span class="search-icon">🔍</span>
         </div>
-    </form>
+      </form>
 
+      <button class="btn-add" onclick="openModal('newCategoryModal')">+</button>
+    </div>
   </div>
+
+  <table class="category-table">
+  <thead>
+    <tr>
+      <th>CATEGORY NAME</th>
+      <th>PRODUCT</th>
+      <th>VISIBILITY</th>
+      <th>ACTION</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% categories.forEach(cat => { %>
+    <tr>
+      <td>#<%= cat.category_name.toLowerCase() %></td>
+      <td><%= cat.product_count %></td>
+      <td><%= cat.visibility %></td>
+      <td class="action-btns">
+        <% if (cat.visibility === 'show') { %>
+          <button class="btn-hide"
+            onclick="toggleVisibility(<%= cat.category_id %>, 'hidden')">HIDE</button>
+        <% } else { %>
+          <button class="btn-show"
+            onclick="toggleVisibility(<%= cat.category_id %>, 'show')">SHOW</button>
+        <% } %>
+        <button class="btn-edit"
+          onclick="openEditModal(<%= cat.category_id %>, '<%= cat.category_name %>', '<%= cat.visibility %>')">EDIT</button>
+        <button class="btn-delete"
+          onclick="deleteCategory(<%= cat.category_id %>)">DELETE</button>
+      </td>
+    </tr>
+    <% }) %>
+  </tbody>
+</table>
+
 </main>
 
-<%- include('../partials/footer') %>
+<div id="newCategoryModal" class="modal-overlay" style="display:none">
+  <div class="modal-box">
+    <h2>New Category</h2>
+    <form method="POST" action="/admin/categories">
+      <label>Category name</label>
+      <input type="text" name="category_name" required placeholder="Category name">
+
+      <label>Visibility</label>
+      <select name="visibility">
+        <option value="show">show</option>
+        <option value="hidden">hidden</option>
+      </select>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" onclick="closeModal('newCategoryModal')">CANCEL</button>
+        <button type="submit" class="btn-confirm">CONFIRM</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="/js/admin-category.js"></script>
