@@ -6,6 +6,7 @@ const contactController = require('../controller/contact-controller');
 
 router.get('/', homeController.getHomePage);
 router.get('/products', allProductsController.getAllProducts);
+router.get('/contact', contactController.getContact);
 
 module.exports = router;
 

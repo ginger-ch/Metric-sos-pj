@@ -1,0 +1,235 @@
+
+.contact-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 64px);
+  background-color: var(--white, #fff);
+}
+
+.map-section {
+  overflow: hidden;
+}
+
+.map-embed {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  border: none;
+  display: block;
+}
+
+.info-section {
+  padding: 56px 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  border-left: 1px solid #e8e4e0;
+  background-color: var(--white, #fff);
+}
+
+
+.block-label {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  color: var(--warm-gray, #b8a99a);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+
+.contact-block {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.contact-phone {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--soft-black, #1a1a1a);
+  margin: 0;
+}
+
+.contact-email {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--charcoal, #2c2c2c);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--transition, 0.3s ease);
+}
+
+.contact-email:hover {
+  color: var(--accent, #c4956a);
+  text-decoration: underline;
+}
+
+.contact-hours {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--charcoal, #2c2c2c);
+  margin: 0;
+}
+
+
+.links-row {
+  display: flex;
+  gap: 80px;
+}
+
+.links-col ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.links-col ul li a {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--charcoal, #2c2c2c);
+  text-decoration: none;
+  transition: color var(--transition, 0.3s ease);
+}
+
+.links-col ul li a:hover {
+  color: var(--accent, #c4956a);
+}
+
+/* ---------- Newsletter ---------- */
+.newsletter-block {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.newsletter-title {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--soft-black, #1a1a1a);
+  margin: 0;
+}
+
+.newsletter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 420px;
+}
+
+.newsletter-input {
+  width: 100%;
+  padding: 11px 16px;
+  border: 1px solid #d8d0c8;
+  border-radius: 2px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--charcoal, #2c2c2c);
+  background: var(--white, #fff);
+  outline: none;
+  transition: border-color var(--transition, 0.3s ease);
+}
+
+.newsletter-input::placeholder {
+  color: var(--warm-gray, #b8a99a);
+}
+
+.newsletter-input:focus {
+  border-color: var(--charcoal, #2c2c2c);
+}
+
+.newsletter-legal {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 11px;
+  font-weight: 300;
+  color: var(--warm-gray, #b8a99a);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.newsletter-legal a {
+  color: var(--warm-gray, #b8a99a);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.newsletter-legal a:hover {
+  color: var(--charcoal, #2c2c2c);
+}
+
+.newsletter-btn {
+  display: inline-block;
+  width: fit-content;
+  padding: 10px 28px;
+  background-color: var(--soft-black, #1a1a1a);
+  color: var(--white, #fff);
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border: 1px solid var(--soft-black, #1a1a1a);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color var(--transition, 0.3s ease),
+              color var(--transition, 0.3s ease);
+}
+
+.newsletter-btn:hover {
+  background-color: transparent;
+  color: var(--soft-black, #1a1a1a);
+}
+
+
+@media (max-width: 768px) {
+  .contact-page {
+    grid-template-columns: 1fr;
+  }
+
+  .map-section {
+    height: 280px;
+  }
+
+  .map-embed {
+    min-height: 280px;
+  }
+
+  .info-section {
+    padding: 36px 20px;
+    border-left: none;
+    border-top: 1px solid #e8e4e0;
+    gap: 36px;
+  }
+
+  .links-row {
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .newsletter-form {
+    max-width: 100%;
+  }
+}
+
+/* ============================================================
+   RESPONSIVE — Tablet (769px – 1024px)
+   ============================================================ */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .info-section {
+    padding: 40px 40px;
+  }
+
+  .links-row {
+    gap: 48px;
+  }
+}
