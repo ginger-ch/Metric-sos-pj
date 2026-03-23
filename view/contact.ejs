@@ -69,18 +69,37 @@
       <div class="newsletter-block">
         <p class="newsletter-title">Get the latest new from us</p>
         <div class="newsletter-form">
-          <input type="email" placeholder="Enter your email address" class="newsletter-input" />
+            <form id="subscribeForm">
+          <input 
+            type="email" 
+            name="email"
+            placeholder="Enter your email address" 
+            class="newsletter-input" 
+            required
+            />
           <p class="newsletter-legal">
             By signing up, you agree to our
             <a href="#">Privacy Policy</a> and <a href="#">Terms of Service</a>.
           </p>
-          <button class="newsletter-btn" type="button">Subscribe</button>
+          <button class="newsletter-btn" type="submit">Subscribe</button>
+          </form>
         </div>
+
+        
       </div>
+      <!-- MODAL -->
+        <div id="successModal" class="modal hidden">
+        <div class="modal-content">
+            <p>Thank you for subscribing!</p>
+            <button onclick="closeModal()">Close</button>
+        </div>
+        </div>
 
     </section>
 
   </main>
+  <script src="/js/navbar.js"></script>
+  <script src="/js/contact.js"></script>
 
 </body>
 </html>
