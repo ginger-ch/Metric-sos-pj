@@ -1,4 +1,3 @@
-const bcrypt = require('bcryptjs');
 const userModel = require('../model/user-model');
 
 exports.getLogin = (req, res) => {
@@ -10,7 +9,7 @@ exports.getLogin = (req, res) => {
 };
 
 exports.postLogin = async (req, res) => {
-  const { username, email, password, fullname } = req.body;
+  const { username, password } = req.body;
   try {
     const user = await userModel.findByUsername(username);
 
@@ -19,13 +18,17 @@ exports.postLogin = async (req, res) => {
       return res.redirect('/login');
     }
 
-    const match = await bcrypt.compare(password, user.password_hash);
+    const match = password === user.password_hash;
     if (!match) {
       req.flash('error', 'Incorrect username or password.');
       return res.redirect('/login');
     }
 
     req.session.user = user;
+
+    if (user.role === 'admin') {
+      return res.redirect('/admin');
+    }
     res.redirect('/');
   } catch (err) {
     console.error(err);
@@ -54,7 +57,7 @@ exports.postRegister = async (req, res) => {
   }
 
   try {
-    const password_hash = await bcrypt.hash(password, 10);
+    const password_hash = password;
     await userModel.createUser(username, email, password_hash, full_name);
 
     req.flash('success', 'Account created!');
