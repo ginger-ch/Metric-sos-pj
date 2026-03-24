@@ -1,8 +1,6 @@
 const bcrypt = require('bcryptjs');
 const userModel = require('../model/user-model');
 
-
-//login
 exports.getLogin = (req, res) => {
   res.render('auth/login', {
     error: req.flash('error')[0] || null,
@@ -36,8 +34,6 @@ exports.postLogin = async (req, res) => {
   }
 };
 
-
-//register
 exports.getRegister = (req, res) => {
   res.render('auth/register', {
     errors: {},
