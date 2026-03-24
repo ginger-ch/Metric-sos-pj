@@ -5,9 +5,9 @@ VALUES
 ('DRESS', 'dress', 'show'),
 ('OUTERWEAR', 'outerwear', 'show'),
 ('PAJAMAS', 'pajamas', 'show'),
-('ACCESSORY', 'accessory', 'hide'),
+('ACCESSORY', 'accessory', 'hidden'),
 ('BAG', 'bag', 'show'),
-('SOCKS', 'socks', 'hide');
+('SOCKS', 'socks', 'hidden');
 
 INSERT INTO products (category_id, product_name, description, base_price)
 VALUES
