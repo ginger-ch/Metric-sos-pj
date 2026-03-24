@@ -3,10 +3,14 @@ const router = express.Router();
 const homeController = require('../controller/home-controller');
 const allProductsController = require('../controller/allproducts-controller');
 const categoryController = require('../controller/category-controller');
+const contactController = require('../controller/contact-controller');
 
 router.get('/', homeController.getHomePage);
 router.get('/products', allProductsController.getAllProducts);
 router.get('/category/:slug', categoryController.getCategoryPage);
+router.get('/contact', contactController.getContact);
+router.post('/subscribe', contactController.subscribe);
+
 module.exports = router;
 
 

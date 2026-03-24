@@ -109,3 +109,9 @@ CREATE TABLE order_items (
     FOREIGN KEY (attribute_id) REFERENCES product_attributes(attribute_id)
         ON DELETE SET NULL
 );
+
+CREATE TABLE subscribers (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
