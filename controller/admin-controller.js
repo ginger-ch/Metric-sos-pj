@@ -1,21 +1,9 @@
-const db = require('../config/db');
+const adminModel = require('../model/admin-model');
 
 exports.getDashboard = async (req, res) => {
   try {
+    const categories = await adminModel.getCategories();
 
-    // Categories
-    const [categories] = await db.query(`
-      SELECT c.category_id, c.category_name AS name,
-             JSON_ARRAYAGG(p.product_name) AS products
-      FROM categories c
-      LEFT JOIN products p ON p.category_id = c.category_id
-      WHERE c.visibility = 'show'
-      GROUP BY c.category_id
-    `);
-
-    console.log('RAW categories:', JSON.stringify(categories[0]));
-
-    // parse products JSON string
     categories.forEach(cat => {
       if (Array.isArray(cat.products)) {
         cat.products = cat.products.filter(p => p !== null);
@@ -24,68 +12,19 @@ exports.getDashboard = async (req, res) => {
       }
     });
 
-    // Total counts
-    const [[{ totalCategory }]] = await db.query(
-      'SELECT COUNT(*) AS totalCategory FROM categories WHERE visibility = "show"'
-    );
-    const [[{ totalProduct }]] = await db.query(
-      'SELECT COUNT(*) AS totalProduct FROM products'
-    );
+    const totalCategory  = await adminModel.getTotalCategory();
+    const totalProduct   = await adminModel.getTotalProduct();
+    const totalMonth     = await adminModel.getTotalMonth();
+    const totalWeek      = await adminModel.getTotalWeek();
+    const itemSold       = await adminModel.getItemSold();
+    const recentOrders   = await adminModel.getRecentOrders();
+    const outOfStock     = await adminModel.getOutOfStock();
 
-    // Earnings (month)
-    const [[{ totalMonth }]] = await db.query(`
-      SELECT COALESCE(SUM(total_amount), 0) AS totalMonth
-      FROM orders
-      WHERE status = 'completed'
-        AND MONTH(order_date) = MONTH(CURDATE())
-        AND YEAR(order_date)  = YEAR(CURDATE())
-    `);
-
-    // Earnings (week)
-    const [[{ totalWeek }]] = await db.query(`
-      SELECT COALESCE(SUM(total_amount), 0) AS totalWeek
-      FROM orders
-      WHERE status = 'completed'
-        AND order_date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
-    `);
-
-    // Item sold
-    const [itemSold] = await db.query(`
-      SELECT p.product_name AS name, SUM(oi.quantity) AS qty
-      FROM order_items oi
-      JOIN products p ON p.product_id = oi.product_id
-      GROUP BY oi.product_id
-      ORDER BY qty DESC
-      LIMIT 8
-    `);
-
-    // Popular items (top 3)
     const popularItems = itemSold.slice(0, 3).map((item, i) => ({
       rank: ['1st', '2nd', '3rd'][i],
       name: item.name,
       orders: item.qty,
     }));
-
-    // Recent orders
-    const [recentOrders] = await db.query(`
-      SELECT o.order_number AS number,
-             DATE_FORMAT(o.order_date, '%d-%m-%y') AS date,
-             u.username AS customer
-      FROM orders o
-      LEFT JOIN users u ON u.user_id = o.user_id
-      ORDER BY o.order_date DESC
-      LIMIT 5
-    `);
-
-    // Notifications (out of stock)
-    const [outOfStock] = await db.query(`
-      SELECT p.product_name AS name
-      FROM product_attributes pa
-      JOIN products p ON p.product_id = pa.product_id
-      GROUP BY p.product_id
-      HAVING SUM(pa.stock_qty) = 0
-      LIMIT 5
-    `);
 
     const notifications = outOfStock.map(p => ({
       type: 'stock',
@@ -115,6 +54,129 @@ exports.getDashboard = async (req, res) => {
       totalProduct,
     });
 
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.getOrders = async (req, res) => {
+  try {
+    const { search = '', month = '', status = '', page = 1 } = req.query;
+    const limit = 8;
+    const offset = (page - 1) * limit;
+
+    const conditions = [];
+    const params = [];
+
+    if (search) {
+      conditions.push(`(o.order_number LIKE ? OR p.product_name LIKE ?)`);
+      params.push(`%${search}%`, `%${search}%`);
+    }
+    if (month) {
+      conditions.push(`MONTH(o.order_date) = ?`);
+      params.push(month);
+    }
+    if (status) {
+      conditions.push(`o.status = ?`);
+      params.push(status);
+    }
+
+    const orders = await adminModel.getOrders(conditions, params, limit, offset);
+    const total  = await adminModel.getTotalOrders(conditions, params);
+
+    res.render('admin/order', {
+      currentPage: 'orders',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+      orders,
+      totalPages: Math.ceil(total / limit),
+      currentPageNum: parseInt(page),
+      selectedMonth: month,
+      selectedStatus: status,
+      search,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.updateOrderStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    await adminModel.updateOrderStatus(id, status);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
+  }
+};
+
+exports.getCategories = async (req, res) => {
+  try {
+    const { filter = '', search = '' } = req.query;
+    const categories = await adminModel.getAllCategories(filter, search);
+
+    res.render('admin/categories', {
+      currentPage: 'categories',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+      categories,
+      selectedFilter: filter,  
+      search,                  
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.createCategory = async (req, res) => {
+  try {
+    const { category_name, visibility } = req.body;
+    const slug = category_name.toLowerCase().replace(/\s+/g, '-');
+    await adminModel.createCategory(category_name, slug, visibility);
+    res.redirect('/admin/categories');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.updateVisibility = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { visibility } = req.body;
+    await adminModel.updateCategoryVisibility(id, visibility);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+};
+
+exports.deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await adminModel.deleteCategory(id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+};
+
+exports.updateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { category_name, visibility } = req.body;
+    const slug = category_name.toLowerCase().replace(/\s+/g, '-');
+    await adminModel.updateCategory(id, category_name, slug, visibility);
+    res.redirect('/admin/categories');
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
