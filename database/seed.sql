@@ -1,3 +1,12 @@
+SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE order_items;
+TRUNCATE TABLE orders;
+TRUNCATE TABLE product_attributes;
+TRUNCATE TABLE product_images;
+TRUNCATE TABLE products;
+TRUNCATE TABLE categories;
+SET FOREIGN_KEY_CHECKS = 1;
+
 INSERT INTO categories (category_name, slug, visibility)
 VALUES
 ('TOP', 'top', 'show'),
@@ -311,7 +320,7 @@ VALUES
 (12, 'M', 'pink', 12),
 (12, 'L', 'pink', 8),
  
---bottom
+-- bottom
 -- bottom1
 (13, 'S', 'white', 10),
 (13, 'M', 'white', 12),
