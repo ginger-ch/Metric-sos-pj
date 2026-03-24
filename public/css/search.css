@@ -1,0 +1,128 @@
+.search-main {
+  min-height: 70vh;
+  padding: 3rem 0 5rem;
+}
+
+.search-header {
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #e8e0d8;
+  padding-bottom: 1rem;
+}
+
+.search-title {
+  font-size: clamp(1.6rem, 4vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: #1a1a1a;
+  margin-bottom: 0.25rem;
+}
+
+.search-count {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0;
+}
+
+.product-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.product-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 3/4;
+  background: #f5f2ef;
+  margin-bottom: 0.6rem;
+}
+
+.product-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-img-wrapper img {
+  transform: scale(1.04);
+}
+
+.product-name {
+  font-size: 0.82rem;
+  color: #333;
+  margin-bottom: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-price {
+  font-size: 0.82rem;
+  color: #555;
+  margin: 0;
+}
+
+.search-empty {
+  text-align: center;
+  padding: 5rem 0;
+}
+
+.search-empty-icon {
+  font-size: 3rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.search-empty-text {
+  color: #888;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-browse-btn {
+  display: inline-block;
+  padding: 0.65rem 2rem;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.search-browse-btn:hover {
+  background: #444;
+  color: #fff;
+}
+
+.search-pagination {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  margin-top: 3rem;
+}
+
+.page-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  font-size: 0.82rem;
+  color: #555;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.15s;
+}
+
+.page-btn:hover {
+  color: #1a1a1a;
+  border-bottom-color: #1a1a1a;
+}
+
+.page-btn.active {
+  color: #1a1a1a;
+  font-weight: 600;
+  border-bottom-color: #1a1a1a;
+}
