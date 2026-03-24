@@ -1,0 +1,483 @@
+/* ============================================
+   Product Management - product-management.css
+   Place in: public/css/product-management.css
+   ============================================ */
+
+/* ---------- Page Layout ---------- */
+.pm-page {
+  min-height: 100vh;
+  background-color: #f7f7f5;
+  padding: 32px 24px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.pm-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+.pm-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pm-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  color: #1a1a1a;
+  letter-spacing: -0.5px;
+}
+
+.pm-subtitle {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+}
+
+.pm-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------- Filter & Search ---------- */
+.pm-select,
+.pm-search-input {
+  height: 36px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+  color: #333;
+  padding: 0 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.pm-select {
+  padding-right: 28px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  cursor: pointer;
+}
+
+.pm-select:focus,
+.pm-search-input:focus {
+  border-color: #b0b0b0;
+}
+
+.pm-search {
+  position: relative;
+}
+
+.pm-search-input {
+  padding-right: 36px;
+  width: 180px;
+}
+
+.pm-search-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* ---------- Add Button ---------- */
+.pm-add-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  border: none;
+  background: #1a1a1a;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.pm-add-btn:hover {
+  background: #333;
+  transform: scale(1.05);
+}
+
+/* ---------- Product List ---------- */
+.pm-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pm-empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: #aaa;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px dashed #e0e0e0;
+}
+
+/* ---------- Product Card ---------- */
+.pm-card {
+  background: #fff;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  transition: box-shadow 0.2s;
+}
+
+.pm-card:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+/* Product Image */
+.pm-card-image {
+  width: 72px;
+  height: 72px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f0f0f0;
+  flex-shrink: 0;
+}
+
+.pm-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pm-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #c5c5c5;
+}
+
+/* Card Info */
+.pm-card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pm-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 4px;
+}
+
+.pm-card-detail {
+  font-size: 12px;
+  color: #aaa;
+}
+
+/* Card Meta */
+.pm-card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 200px;
+}
+
+.pm-meta-row {
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+}
+
+.pm-meta-label {
+  color: #bbb;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+.pm-meta-value {
+  color: #555;
+}
+
+/* Card Actions */
+.pm-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.pm-btn-edit,
+.pm-btn-delete {
+  display: inline-block;
+  padding: 6px 22px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  transition: opacity 0.15s, transform 0.1s;
+  border: none;
+  min-width: 80px;
+}
+
+.pm-btn-edit {
+  background: #fdecea;
+  color: #c0392b;
+}
+
+.pm-btn-edit:hover {
+  opacity: 0.8;
+}
+
+.pm-btn-delete {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.pm-btn-delete:hover {
+  background: #333;
+}
+
+/* ---------- Modal Overlay ---------- */
+.pm-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(2px);
+}
+
+.pm-modal-overlay.active {
+  display: flex;
+}
+
+/* ---------- Modal ---------- */
+.pm-modal {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  padding: 32px 32px 28px;
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.18);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.pm-modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.3px;
+}
+
+/* ---------- Form ---------- */
+.pm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pm-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pm-form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.pm-form-half {
+  flex: 1;
+  min-width: 0;
+}
+
+.pm-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+  letter-spacing: 0.02em;
+}
+
+.pm-input {
+  height: 38px;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #333;
+  padding: 0 12px;
+  outline: none;
+  background: #fafafa;
+  transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pm-input:focus {
+  border-color: #aaa;
+  background: #fff;
+}
+
+.pm-input-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-color: #fafafa;
+  cursor: pointer;
+  padding-right: 28px;
+}
+
+.pm-textarea {
+  height: auto;
+  min-height: 80px;
+  padding: 10px 12px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* Upload Box */
+.pm-upload-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed #d0d0d0;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 16px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  gap: 6px;
+}
+
+.pm-upload-box:hover {
+  border-color: #999;
+  background: #f4f4f4;
+}
+
+.pm-file-input {
+  display: none;
+}
+
+.pm-upload-icon {
+  color: #bbb;
+}
+
+.pm-upload-text {
+  font-size: 11px;
+  font-weight: 600;
+  color: #bbb;
+  letter-spacing: 0.06em;
+}
+
+/* Modal Actions */
+.pm-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.pm-btn-cancel,
+.pm-btn-confirm {
+  padding: 9px 28px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s, transform 0.1s;
+}
+
+.pm-btn-cancel {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.pm-btn-confirm {
+  background: #fdecea;
+  color: #c0392b;
+}
+
+.pm-btn-cancel:hover,
+.pm-btn-confirm:hover {
+  opacity: 0.82;
+  transform: translateY(-1px);
+}
+
+/* ---------- Responsive: Mobile ---------- */
+@media (max-width: 640px) {
+  .pm-page {
+    padding: 20px 16px;
+  }
+
+  .pm-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .pm-controls {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .pm-search-input {
+    width: 100%;
+  }
+
+  /* Mobile: card becomes vertical */
+  .pm-card {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .pm-card-meta {
+    min-width: unset;
+    width: 100%;
+  }
+
+  .pm-card-actions {
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .pm-modal {
+    padding: 24px 20px 20px;
+    margin: 16px;
+  }
+
+  .pm-form-row {
+    flex-direction: column;
+  }
+}
