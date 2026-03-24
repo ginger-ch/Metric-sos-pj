@@ -127,7 +127,6 @@ exports.updateOrderStatus = async (id, status) => {
   );
 };
 
-// Categories
 exports.getAllCategories = async (filter = '', search = '') => {
   const conditions = [];
   const params = [];
@@ -172,4 +171,89 @@ exports.updateCategory = async (id, name, slug, visibility) => {
     `UPDATE categories SET category_name = ?, slug = ?, visibility = ? WHERE category_id = ?`,
     [name, slug, visibility, id]
   );
+};
+
+
+exports.getAllProducts = async (categoryId = null, search = '') => {
+  let query = `
+    SELECT 
+      p.product_id AS _id, 
+      p.product_name AS name, 
+      p.description AS detail, 
+      p.base_price AS price,
+      ANY_VALUE(c.category_name) AS category_name,
+      ANY_VALUE(pi.image_url) AS main_image,
+      GROUP_CONCAT(DISTINCT pa.size) AS sizes,
+      GROUP_CONCAT(DISTINCT pa.color) AS colors
+    FROM products p
+    LEFT JOIN categories c ON p.category_id = c.category_id
+    LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+    LEFT JOIN product_attributes pa ON p.product_id = pa.product_id
+  `;
+
+  const conditions = [];
+  const params = [];
+
+  if (categoryId) {
+    conditions.push(`p.category_id = ?`);
+    params.push(categoryId);
+  }
+  if (search) {
+    conditions.push(`p.product_name LIKE ?`);
+    params.push(`%${search}%`);
+  }
+
+  if (conditions.length > 0) {
+    query += ` WHERE ` + conditions.join(' AND ');
+  }
+
+  // We also added p.created_at to the GROUP BY to satisfy the ORDER BY requirement
+  query += ` GROUP BY p.product_id, p.created_at ORDER BY p.created_at DESC`;
+
+  const [products] = await db.query(query, params);
+  
+  return products.map(p => ({
+    ...p,
+    category: { name: p.category_name },
+    images: p.main_image ? [p.main_image] : [],
+    sizes: p.sizes ? p.sizes.split(',') : [],
+    color: p.colors
+  }));
+};
+
+exports.createFullProduct = async (data) => {
+  const connection = await db.getConnection();
+  try {
+    await connection.beginTransaction();
+
+    const [result] = await connection.query(
+      `INSERT INTO products (category_id, product_name, description, base_price) VALUES (?, ?, ?, ?)`,
+      [data.category_id, data.name, data.detail, data.price]
+    );
+    const productId = result.insertId;
+
+    if (data.imageUrl) {
+      await connection.query(
+        `INSERT INTO product_images (product_id, image_url, is_primary) VALUES (?, ?, 1)`,
+        [productId, data.imageUrl]
+      );
+    }
+
+    await connection.query(
+      `INSERT INTO product_attributes (product_id, size, color, stock_qty) VALUES (?, ?, ?, ?)`,
+      [productId, data.size, data.color, 0] 
+    );
+
+    await connection.commit();
+    return productId;
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
+};
+
+exports.deleteProduct = async (id) => {
+  await db.query(`DELETE FROM products WHERE product_id = ?`, [id]);
 };
