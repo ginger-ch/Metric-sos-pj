@@ -24,3 +24,4 @@ docker-compose.override.yml
 
 # Upload files
 public/uploads/
+node_modules
