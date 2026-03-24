@@ -13,4 +13,3 @@ exports.createUser = async (username, email, password_hash, full_name) => {
     [username, email, password_hash, full_name || '']
   );
 };
-
