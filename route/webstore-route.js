@@ -8,6 +8,9 @@ router.get('/', homeController.getHomePage);
 router.get('/products', allProductsController.getAllProducts);
 router.get('/contact', contactController.getContact);
 router.post('/subscribe', contactController.subscribe);
+router.get('/basket', (req, res) => {
+  res.render('basket');
+});
 
 module.exports = router;
 
