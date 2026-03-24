@@ -1,41 +1,171 @@
-exports.getDashboard = (req, res) => {
-  res.render('admin/dashboard', {
-    currentPage: 'dashboard',
-    admin: {
-      name: 'Linn Latt Yamone',
-      role: 'Admin',
-      profileImage: '/image/default-avatar.png',
-    },
-    notifications: [
-      { type: 'stock', message: 'Skirt3 out of stock!', body: 'Body text.' },
-      { type: 'order', message: 'New order!',           body: 'Body text.' },
-      { type: 'order', message: 'New order!',           body: 'Body text.' },
-    ],
-    earnings: { totalMonth: '30K', totalWeek: 200 },
-    itemSold: [
-      { name: 'dress1', qty: 40 },
-      { name: 'dress2', qty: 31 },
-      { name: 'skirt4', qty: 25 },
-    ],
-    popularItems: [
-      { rank: '1st', name: '#item1', orders: 12 },
-      { rank: '2nd', name: '#item2', orders: 10 },
-      { rank: '3rd', name: '#item3', orders: 5  },
-    ],
-    recentOrders: [
-      { number: '0001', date: '20-02-25', customer: 'ThepSa01' },
-      { number: '0001', date: '20-02-25', customer: 'ThepSa01' },
-      { number: '0001', date: '20-02-25', customer: 'ThepSa01' },
-    ],
-    categories: [
-      { name: 'Dress',  products: ['dress1', 'dress2', 'dress3', 'dress4'] },
-      { name: '#cat2',  products: ['item1', 'item2'] },
-      { name: '#cat3',  products: ['item1', 'item2'] },
-      { name: '#cat4',  products: ['item1', 'item2'] },
-      { name: '#cat5',  products: ['item1', 'item2'] },
-      { name: '#cat6',  products: ['item1', 'item2'] },
-    ],
-    totalCategory: 6,
-    totalProduct: 24,
-  });
+const adminModel = require('../model/admin-model');
+
+exports.getDashboard = async (req, res) => {
+  try {
+    const categories = await adminModel.getCategories();
+
+    categories.forEach(cat => {
+      if (Array.isArray(cat.products)) {
+        cat.products = cat.products.filter(p => p !== null);
+      } else {
+        cat.products = [];
+      }
+    });
+
+    const totalCategory  = await adminModel.getTotalCategory();
+    const totalProduct   = await adminModel.getTotalProduct();
+    const totalMonth     = await adminModel.getTotalMonth();
+    const totalWeek      = await adminModel.getTotalWeek();
+    const itemSold       = await adminModel.getItemSold();
+    const recentOrders   = await adminModel.getRecentOrders();
+    const outOfStock     = await adminModel.getOutOfStock();
+
+    const popularItems = itemSold.slice(0, 3).map((item, i) => ({
+      rank: ['1st', '2nd', '3rd'][i],
+      name: item.name,
+      orders: item.qty,
+    }));
+
+    const notifications = outOfStock.map(p => ({
+      type: 'stock',
+      message: `${p.name} out of stock!`,
+      body: 'Please restock this item.',
+    }));
+
+    res.render('admin/dashboard', {
+      currentPage: 'dashboard',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        role: 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+      notifications,
+      earnings: {
+        totalMonth: totalMonth >= 1000
+          ? (totalMonth / 1000).toFixed(0) + 'K'
+          : totalMonth,
+        totalWeek,
+      },
+      itemSold,
+      popularItems,
+      recentOrders,
+      categories,
+      totalCategory,
+      totalProduct,
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.getOrders = async (req, res) => {
+  try {
+    const { search = '', month = '', status = '', page = 1 } = req.query;
+    const limit = 8;
+    const offset = (page - 1) * limit;
+
+    const conditions = [];
+    const params = [];
+
+    if (search) {
+      conditions.push(`(o.order_number LIKE ? OR p.product_name LIKE ?)`);
+      params.push(`%${search}%`, `%${search}%`);
+    }
+    if (month) {
+      conditions.push(`MONTH(o.order_date) = ?`);
+      params.push(month);
+    }
+    if (status) {
+      conditions.push(`o.status = ?`);
+      params.push(status);
+    }
+
+    const orders = await adminModel.getOrders(conditions, params, limit, offset);
+    const total  = await adminModel.getTotalOrders(conditions, params);
+
+    res.render('admin/order', {
+      currentPage: 'orders',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+      orders,
+      totalPages: Math.ceil(total / limit),
+      currentPageNum: parseInt(page),
+      selectedMonth: month,
+      selectedStatus: status,
+      search,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.updateOrderStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    await adminModel.updateOrderStatus(id, status);
+    res.json({ success: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
+  }
+};
+
+exports.getCategories = async (req, res) => {
+  try {
+    const { filter = '', search = '' } = req.query;
+    const categories = await adminModel.getAllCategories(filter, search);
+
+    res.render('admin/categories', {
+      currentPage: 'categories',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+      categories,
+      selectedFilter: filter,  
+      search,                  
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.createCategory = async (req, res) => {
+  try {
+    const { category_name, visibility } = req.body;
+    const slug = category_name.toLowerCase().replace(/\s+/g, '-');
+    await adminModel.createCategory(category_name, slug, visibility);
+    res.redirect('/admin/categories');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
+
+exports.updateVisibility = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { visibility } = req.body;
+    await adminModel.updateCategoryVisibility(id, visibility);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
+};
+
+exports.deleteCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await adminModel.deleteCategory(id);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ success: false });
+  }
 };
