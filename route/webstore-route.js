@@ -10,7 +10,7 @@ router.get('/', homeController.getHomePage);
 router.get('/products', allProductsController.getAllProducts);
 router.get('/contact', contactController.getContact);
 router.post('/subscribe', contactController.subscribe);
-router.get('/product/:id', productDetailController)
+router.get('/product/:id', productDetailController.getProduct);
 
 module.exports = router;
 
