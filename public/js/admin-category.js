@@ -22,3 +22,10 @@ async function deleteCategory(id) {
   await fetch(`/admin/categories/${id}`, { method: 'DELETE' });
   location.reload();
 }
+
+function openEditModal(id, name, visibility) {
+  document.getElementById('editCategoryName').value = name;
+  document.getElementById('editVisibility').value   = visibility;
+  document.getElementById('editCategoryForm').action = `/admin/categories/${id}?_method=PUT`;
+  openModal('editCategoryModal');
+}
