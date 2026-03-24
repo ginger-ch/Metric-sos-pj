@@ -12,7 +12,8 @@ CREATE TABLE users (
     date_of_birth DATE,
     address TEXT,
     profile_image VARCHAR(255),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    role ENUM('user', 'admin') DEFAULT 'user'
 );
 
 CREATE TABLE categories (
