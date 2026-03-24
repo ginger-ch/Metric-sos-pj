@@ -10,8 +10,11 @@ exports.getLogin = (req, res) => {
 
 exports.postLogin = async (req, res) => {
   const { username, password } = req.body;
+  console.log('LOGIN ATTEMPT:', username, password);
+
   try {
     const user = await userModel.findByUsername(username);
+    console.log('USER FOUND:', user);
 
     if (!user) {
       req.flash('error', 'Incorrect username or password.');
@@ -27,7 +30,8 @@ exports.postLogin = async (req, res) => {
     req.session.user = user;
 
     if (user.role === 'admin') {
-      return res.redirect('/admin');
+      // return res.redirect('/admin');
+      return res.redirect('/admin/dashboard');
     }
     res.redirect('/');
   } catch (err) {
