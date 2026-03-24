@@ -161,8 +161,10 @@
             class="add-to-cart-btn"
             id="addToCartBtn"
             data-product-id="<%= product.product_id %>"
+            data-stock="<%= product.stock %>"
+            data-user-id="<%= user ? user.id : '' %>" 
             onclick="addToCart()"
-          >ADD TO CART</button>
+            >ADD TO CART</button>
         </div>
 
         <!-- Description (products.description) -->
