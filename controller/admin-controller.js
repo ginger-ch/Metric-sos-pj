@@ -182,3 +182,7 @@ exports.updateCategory = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+exports.getProduct = async (req, res) =>{
+  res.render('admin/product');
+};
