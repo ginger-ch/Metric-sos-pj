@@ -169,3 +169,16 @@ exports.deleteCategory = async (req, res) => {
     res.status(500).json({ success: false });
   }
 };
+
+exports.updateCategory = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { category_name, visibility } = req.body;
+    const slug = category_name.toLowerCase().replace(/\s+/g, '-');
+    await adminModel.updateCategory(id, category_name, slug, visibility);
+    res.redirect('/admin/categories');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+};
