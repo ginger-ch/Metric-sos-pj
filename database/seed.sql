@@ -25,7 +25,8 @@ VALUES
 (1, 'White Ribbon Bow Blouse', 'Crisp white short-sleeve blouse with black ribbon bow neckline', 520),
 (1, 'Cream Tie-Neck Chiffon Blouse', 'Flowy cream chiffon blouse with self-tie bow at neckline', 550),
 (1, 'Grey Stripe Sleeveless Shirt', 'Relaxed sleeveless collared shirt in grey stripe with front tie', 490),
-(1, 'Pink Cuban Collar Short Sleeve Shirt', 'Casual short-sleeve shirt in soft pink with Cuban collar detail', 520);
+(1, 'Pink Cuban Collar Short Sleeve Shirt', 'Casual short-sleeve shirt in soft pink with Cuban collar detail', 520),
+
 -- bottom
 (2, 'White Lace Bow Mini Skirt', 'Cute mini skirt in white with black bow details, button trim, and delicate lace hem', 590),
 (2, 'Soft Tiered Maxi Skirt', 'Flowy tiered maxi skirt with elastic waist, available in pink, blue, and white', 690),
@@ -38,21 +39,38 @@ VALUES
 (2, 'Apple Embroidered Pleated Mini Skirt', 'Rust-toned pleated mini skirt with charming apple embroidery and contrast stitch hem', 650),
 (2, 'Plaid Ruffle Wrap Belt Skirt', 'Layered plaid ruffle skirt that wraps and ties at the waist, worn over jeans or pants', 580),
 (2, 'Lace Corset Panel Mini Skirt', 'Elegant white mini skirt with lace panel corset details, tiny bows, and ruffle hem', 690),
-(2, 'Brown Tiered Ruffle Asymmetric Mini Skirt', 'Dramatic tiered ruffle mini skirt in brown with floral corsage accent and asymmetric trailing hem', 790);
+(2, 'Brown Tiered Ruffle Asymmetric Mini Skirt', 'Dramatic tiered ruffle mini skirt in brown with floral corsage accent and asymmetric trailing hem', 790),
+
+-- dress
+(3, 'White Ruffle Midi Dress', 'Soft white midi dress with mock neck, tiered ruffle hem, and relaxed babydoll silhouette', 790),
+(3, 'Navy Denim Pinafore Dress', 'Sleeveless navy denim pinafore dress with front button detail, contrast stitching, and side pockets', 890),
+(3, 'Blue Plaid Sailor Collar Dress', 'Charming blue plaid dress with white lace-trimmed sailor collar and gathered waist', 850),
+(3, 'Navy Plaid Peter Pan Collar Mini Dress', 'Fitted navy plaid mini dress with white peter pan collar, puff sleeves, and pleated mesh hem', 820),
+(3, 'Plaid Double-Breasted Swing Dress', 'Vintage-style plaid dress with dark peter pan collar and double-breasted button front', 790),
+(3, 'Pink Houndstooth Peter Pan Collar Mini Dress', 'Fitted pink houndstooth mini dress with lace peter pan collar and black ribbon bow', 750),
+(3, 'Yellow Lace Hem Maxi Dress', 'Dreamy yellow maxi dress with square neck, gingham waist tie, puff sleeves, and lace-trimmed hem', 990),
+(3, 'Ivory Blue Floral Spaghetti Strap Maxi Dress', 'Flowy ivory maxi dress with blue floral print, ruffle bust, and ribbon lace-up detail', 950),
+(3, 'Ivory Cherry Embroidery Spaghetti Strap Maxi Dress', 'Romantic ivory maxi dress with all-over cherry embroidery and smocked waist', 990),
+(3, 'Baby Blue Knit Slip Maxi Dress', 'Soft baby blue knit slip dress with white ruffle trim hem, layered over a white long-sleeve inner', 880),
+(3, 'Red Gingham Pinafore Tie-Waist Dress', 'Sweet red gingham pinafore dress with bow tie waist and A-line silhouette', 790),
+(3, 'Lace Collar Puff Sleeve Two-Piece Set', 'Matching set of lace-collar puff sleeve top and smocked waist midi skirt', 1090),
+(3, 'Plaid Woolen Pinafore Midi Dress', 'Classic sleeveless plaid woolen pinafore midi dress with double-breasted button detail', 950),
+(3, 'Ivory Wildflower Print Tiered Maxi Dress', 'Airy ivory maxi dress with colorful wildflower print, lace peter pan collar, and tie sleeves', 890),
  
--- drss
-(3, 'Floral Summer Dress', 'Light floral dress perfect for summer days', 690),
-(3, 'Minimal Slip Dress', 'Simple and elegant slip dress', 720),
-(3, 'Korean Style Midi Dress', 'Soft tone midi dress with Korean style', 850),
-(3, 'Casual T-Shirt Dress', 'Loose fit t-shirt dress for daily wear', 590),
-(3, 'Bodycon Mini Dress', 'Slim fit bodycon dress for night outings', 780),
-(3, 'Pleated Long Dress', 'Elegant long dress with pleated design', 920),
-(3, 'Off-Shoulder Dress', 'Trendy off-shoulder feminine dress', 860),
-(3, 'Linen Shirt Dress', 'Breathable linen dress with shirt style', 800),
-(3, 'Layered Ruffle Dress', 'Cute layered dress with ruffle details', 880),
-(3, 'Vintage Style Dress', 'Classic vintage-inspired dress', 950),
-(3, 'Satin Evening Dress', 'Smooth satin dress for formal events', 1100),
-(3, 'Cute Mini Dress', 'Short dress for casual and cute outfits', 640);
+ -- outerwear
+(4, 'Pink Cable Knit Cardigan', 'Cozy oversized cable knit cardigan in soft pink with wood button front', 790),
+(4, 'Oversized Zip-Up Hoodie', 'Relaxed fit zip-up hoodie with front kangaroo pocket and drawstring hood', 690),
+(4, 'Plaid Flannel Overshirt', 'Soft plaid flannel shirt jacket with classic collar and button front', 620),
+(4, 'Pink Varsity Jacket', 'Cute pink varsity jacket with cream sleeves, striped trim, and patch detail', 990),
+(4, 'Oversized PU Leather Jacket', 'Edgy oversized faux leather jacket with lapel collar and zip front', 1090),
+(4, 'Padded Puffer Bomber Jacket', 'Soft padded puffer bomber jacket in grey-blue with zip pockets and fleece-lined collar', 950),
+(4, 'Blue Checkerboard Knit Cardigan', 'Oversized blue and white checkerboard knit cardigan with cute character details and front pockets', 850),
+(4, 'Lace Tie-Front Shrug Cardigan', 'Delicate sheer lace shrug with ruffle trim and front tie closure', 590),
+(4, 'Crochet Star Crop Sweater', 'Handmade-style open-knit crochet crop sweater with star motif and contrast stripe sleeves', 750),
+(4, 'Colorblock Stripe Knit Sweater', 'Retro colorblock stripe knit sweater with V-neck lace-up detail in green, brown, and grey tones', 790),
+(4, 'Black Bow Racing Leather Jacket', 'Statement black PU leather racing jacket with pink bow appliqués, contrast stripes, and zip pockets', 1290),
+(4, 'Beige Corduroy Collar Drawstring Jacket', 'Casual oversized jacket in beige with corduroy collar, snap buttons, and side drawstring tie', 890);
+ 
 
 INSERT INTO product_images (product_id, image_url, is_primary, sort_order)
 VALUES
@@ -92,7 +110,7 @@ VALUES
 -- top12
 (12, '/image/products/top/top12_1.jpg', 1, 1),
 (12, '/image/products/top/top12_2.jpg', 0, 2),
-(12, '/image/products/top/top12_3.jpg', 0, 3);
+(12, '/image/products/top/top12_3.jpg', 0, 3),
  
 -- bottom
 -- bottom1
@@ -133,38 +151,107 @@ VALUES
 -- bottom12
 (24, '/image/products/bottom/bottom12_1.jpg', 1, 1),
 (24, '/image/products/bottom/bottom12_2.jpg', 0, 2),
-(24, '/image/products/bottom/bottom12_3.jpg', 0, 3);
+(24, '/image/products/bottom/bottom12_3.jpg', 0, 3),
  
 -- dress
+-- dress1
 (25, '/image/products/dress/dress1_1.jpg', 1, 1),
 (25, '/image/products/dress/dress1_2.jpg', 0, 2),
-
+-- dress2
 (26, '/image/products/dress/dress2_1.jpg', 1, 1),
-
+(26, '/image/products/dress/dress2_2.jpg', 0, 2),
+(26, '/image/products/dress/dress2_3.jpg', 0, 3),
+-- dress3
 (27, '/image/products/dress/dress3_1.jpg', 1, 1),
 (27, '/image/products/dress/dress3_2.jpg', 0, 2),
-
+(27, '/image/products/dress/dress3_3.jpg', 0, 3),
+-- dress4
 (28, '/image/products/dress/dress4_1.jpg', 1, 1),
-
+(28, '/image/products/dress/dress4_2.jpg', 0, 2),
+-- dress5
 (29, '/image/products/dress/dress5_1.jpg', 1, 1),
 (29, '/image/products/dress/dress5_2.jpg', 0, 2),
-
+-- dress6
 (30, '/image/products/dress/dress6_1.jpg', 1, 1),
-
+(30, '/image/products/dress/dress6_2.jpg', 0, 2),
+(30, '/image/products/dress/dress6_3.jpg', 0, 3),
+-- dress7
 (31, '/image/products/dress/dress7_1.jpg', 1, 1),
 (31, '/image/products/dress/dress7_2.jpg', 0, 2),
-
+(31, '/image/products/dress/dress7_3.jpg', 0, 3),
+-- dress8a (blue floral)
 (32, '/image/products/dress/dress8_1.jpg', 1, 1),
+(32, '/image/products/dress/dress8_2.jpg', 0, 2),
+-- dress8b (cherry embroidery)
+(33, '/image/products/dress/dress8_3.jpg', 1, 1),
+(33, '/image/products/dress/dress8_4.jpg', 0, 2),
+-- dress9
+(34, '/image/products/dress/dress9_1.jpg', 1, 1),
+(34, '/image/products/dress/dress9_2.jpg', 0, 2),
+-- dress10
+(35, '/image/products/dress/dress10_1.jpg', 1, 1),
+(35, '/image/products/dress/dress10_2.jpg', 0, 2),
+-- dress11
+(36, '/image/products/dress/dress11_1.jpg', 1, 1),
+(36, '/image/products/dress/dress11_2.jpg', 0, 2),
+(36, '/image/products/dress/dress11_3.jpg', 0, 3),
+(36, '/image/products/dress/dress11_4.jpg', 0, 4),
+-- dress12
+(37, '/image/products/dress/dress12_1.jpg', 1, 1),
+(37, '/image/products/dress/dress12_2.jpg', 0, 2),
+(37, '/image/products/dress/dress12_3.jpg', 0, 3),
+(37, '/image/products/dress/dress12_4.jpg', 0, 4),
+-- dress13
+(38, '/image/products/dress/dress13_1.jpg', 1, 1),
+(38, '/image/products/dress/dress13_2.jpg', 0, 2),
+(38, '/image/products/dress/dress13_3.jpg', 0, 3),
 
-(33, '/image/products/dress/dress9_1.jpg', 1, 1),
-(33, '/image/products/dress/dress9_2.jpg', 0, 2),
-
-(34, '/image/products/dress/dress10_1.jpg', 1, 1),
-
-(35, '/image/products/dress/dress11_1.jpg', 1, 1),
-(35, '/image/products/dress/dress11_2.jpg', 0, 2),
-
-(36, '/image/products/dress/dress12_1.jpg', 1, 1);
+-- outer
+-- outerwear1
+(39, '/image/products/outerwear/outerwear1_1.jpg', 1, 1),
+(39, '/image/products/outerwear/outerwear1_2.jpg', 0, 2),
+-- outerwear2
+(40, '/image/products/outerwear/outerwear2_1.jpg', 1, 1),
+(40, '/image/products/outerwear/outerwear2_2.jpg', 0, 2),
+-- outerwear3
+(41, '/image/products/outerwear/outerwear3_1.jpg', 1, 1),
+(41, '/image/products/outerwear/outerwear3_2.jpg', 0, 2),
+-- outerwear4
+(42, '/image/products/outerwear/outerwear4_1.jpg', 1, 1),
+(42, '/image/products/outerwear/outerwear4_2.jpg', 0, 2),
+(42, '/image/products/outerwear/outerwear4_3.jpg', 0, 3),
+-- outerwear5
+(43, '/image/products/outerwear/outerwear5_1.jpg', 1, 1),
+(43, '/image/products/outerwear/outerwear5_2.jpg', 0, 2),
+-- outerwear6
+(44, '/image/products/outerwear/outerwear6_1.jpg', 1, 1),
+(44, '/image/products/outerwear/outerwear6_2.jpg', 0, 2),
+(44, '/image/products/outerwear/outerwear6_3.jpg', 0, 3),
+-- outerwear7
+(45, '/image/products/outerwear/outerwear7_1.jpg', 1, 1),
+(45, '/image/products/outerwear/outerwear7_2.jpg', 0, 2),
+-- outerwear8
+(46, '/image/products/outerwear/outerwear8_1.jpg', 1, 1),
+(46, '/image/products/outerwear/outerwear8_2.jpg', 0, 2),
+-- outerwear9
+(47, '/image/products/outerwear/outerwear9_1.jpg', 1, 1),
+(47, '/image/products/outerwear/outerwear9_2.jpg', 0, 2),
+(47, '/image/products/outerwear/outerwear9_3.jpg', 0, 3),
+-- outerwear10
+(48, '/image/products/outerwear/outerwear10_1.jpg', 1, 1),
+(48, '/image/products/outerwear/outerwear10_2.jpg', 0, 2),
+(48, '/image/products/outerwear/outerwear10_3.jpg', 0, 3),
+(48, '/image/products/outerwear/outerwear10_4.jpg', 0, 4),
+-- outerwear11
+(49, '/image/products/outerwear/outerwear11_1.jpg', 1, 1),
+(49, '/image/products/outerwear/outerwear11_2.jpg', 0, 2),
+(49, '/image/products/outerwear/outerwear11_3.jpg', 0, 3),
+(49, '/image/products/outerwear/outerwear11_4.jpg', 0, 4),
+(49, '/image/products/outerwear/outerwear11_5.jpg', 0, 5),
+-- outerwear12
+(50, '/image/products/outerwear/outerwear12_1.jpg', 1, 1);
+ 
+ 
 
 INSERT INTO product_attributes (product_id, size, color, stock_qty)
 VALUES
@@ -222,7 +309,7 @@ VALUES
 -- top12: pink
 (12, 'S', 'pink', 10),
 (12, 'M', 'pink', 12),
-(12, 'L', 'pink', 8);
+(12, 'L', 'pink', 8),
  
 --bottom
 -- bottom1
@@ -295,68 +382,164 @@ VALUES
 -- bottom12
 (24, 'S', 'brown', 9),
 (24, 'M', 'brown', 11),
-(24, 'L', 'brown', 7);
+(24, 'L', 'brown', 7),
  
 -- dress
--- Product 25
-(25, 'S', 'floral', 8),
-(25, 'M', 'floral', 10),
-(25, 'L', 'floral', 5),
+-- dress1
+(25, 'S', 'white', 10),
+(25, 'M', 'white', 12),
+(25, 'L', 'white', 8),
+ 
+-- dress2
+(26, 'S', 'navy',  9),
+(26, 'M', 'navy',  11),
+(26, 'L', 'navy',  7),
+ 
+-- dress3
+(27, 'S', 'blue',  10),
+(27, 'M', 'blue',  12),
+(27, 'L', 'blue',  8),
+ 
+-- dress4
+(28, 'S', 'navy',  10),
+(28, 'M', 'navy',  12),
+(28, 'L', 'navy',  8),
+ 
+-- dress5
+(29, 'S', 'red',   10),
+(29, 'M', 'red',   12),
+(29, 'L', 'red',   8),
+(29, 'S', 'beige', 9),
+(29, 'M', 'beige', 11),
+(29, 'L', 'beige', 7),
+ 
+-- dress6
+(30, 'S', 'pink',  10),
+(30, 'M', 'pink',  12),
+(30, 'L', 'pink',  8),
+ 
+-- dress7
+(31, 'S', 'yellow', 10),
+(31, 'M', 'yellow', 12),
+(31, 'L', 'yellow', 8),
+ 
+-- dress8a
+(32, 'S', 'ivory', 9),
+(32, 'M', 'ivory', 11),
+(32, 'L', 'ivory', 7),
+ 
+-- dress8b
+(33, 'S', 'ivory', 9),
+(33, 'M', 'ivory', 11),
+(33, 'L', 'ivory', 7),
+ 
+-- dress9
+(34, 'S', 'blue',  10),
+(34, 'M', 'blue',  12),
+(34, 'L', 'blue',  8),
+ 
+-- dress10
+(35, 'S', 'red',   10),
+(35, 'M', 'red',   12),
+(35, 'L', 'red',   8),
+ 
+-- dress11 
+(36, 'S', 'blue',      10),
+(36, 'M', 'blue',      12),
+(36, 'L', 'blue',      8),
+(36, 'S', 'multicolor', 9),
+(36, 'M', 'multicolor', 11),
+(36, 'L', 'multicolor', 7),
+ 
+-- dress12 
+(37, 'S', 'grey',  9),
+(37, 'M', 'grey',  11),
+(37, 'L', 'grey',  7),
+(37, 'S', 'navy',  9),
+(37, 'M', 'navy',  10),
+(37, 'L', 'navy',  6),
+ 
+-- dress13
+(38, 'S', 'ivory', 10),
+(38, 'M', 'ivory', 12),
+(38, 'L', 'ivory', 8),
 
--- Product 26
-(26, 'S', 'beige', 7),
-(26, 'M', 'beige', 9),
-(26, 'L', 'beige', 4),
-
--- Product 27
-(27, 'S', 'cream', 9),
-(27, 'M', 'cream', 11),
-(27, 'L', 'cream', 6),
-
--- Product 28
-(28, 'S', 'white', 10),
-(28, 'M', 'white', 12),
-(28, 'L', 'white', 6),
-
--- Product 29
-(29, 'S', 'black', 8),
-(29, 'M', 'black', 10),
-(29, 'L', 'black', 5),
-
--- Product 30
-(30, 'S', 'pink', 7),
-(30, 'M', 'pink', 9),
-(30, 'L', 'pink', 4),
-
--- Product 31
-(31, 'S', 'red', 6),
-(31, 'M', 'red', 8),
-(31, 'L', 'red', 4),
-
--- Product 32
-(32, 'S', 'brown', 9),
-(32, 'M', 'brown', 10),
-(32, 'L', 'brown', 5),
-
--- Product 33
-(33, 'S', 'lavender', 8),
-(33, 'M', 'lavender', 9),
-(33, 'L', 'lavender', 5),
-
--- Product 34
-(34, 'S', 'green', 7),
-(34, 'M', 'green', 8),
-(34, 'L', 'green', 4),
-
--- Product 35
-(35, 'S', 'black', 6),
-(35, 'M', 'black', 7),
-(35, 'L', 'black', 3),
-
--- Product 36
-(36, 'S', 'white', 10),
-(36, 'M', 'white', 11),
-(36, 'L', 'white', 6);
+-- outerwear1
+(39, 'S', 'pink',  10),
+(39, 'M', 'pink',  12),
+(39, 'L', 'pink',  8),
+ 
+-- outerwear2
+(40, 'S', 'pink',  10),
+(40, 'M', 'pink',  12),
+(40, 'L', 'pink',  8),
+(40, 'S', 'blue',  9),
+(40, 'M', 'blue',  11),
+(40, 'L', 'blue',  7),
+ 
+-- outerwear3 
+(41, 'S', 'pink',  9),
+(41, 'M', 'pink',  11),
+(41, 'L', 'pink',  7),
+(41, 'S', 'navy',  9),
+(41, 'M', 'navy',  11),
+(41, 'L', 'navy',  7),
+ 
+-- outerwear4
+(42, 'S', 'pink',  9),
+(42, 'M', 'pink',  11),
+(42, 'L', 'pink',  7),
+ 
+-- outerwear5
+(43, 'S', 'black', 9),
+(43, 'M', 'black', 11),
+(43, 'L', 'black', 7),
+(43, 'S', 'brown', 8),
+(43, 'M', 'brown', 10),
+(43, 'L', 'brown', 6),
+ 
+-- outerwear6
+(44, 'S', 'blue',  9),
+(44, 'M', 'blue',  11),
+(44, 'L', 'blue',  7),
+ 
+-- outerwear7
+(45, 'S', 'blue',  10),
+(45, 'M', 'blue',  12),
+(45, 'L', 'blue',  8),
+ 
+-- outerwear8 
+(46, 'S', 'black', 9),
+(46, 'M', 'black', 11),
+(46, 'L', 'black', 7),
+(46, 'S', 'cream', 8),
+(46, 'M', 'cream', 10),
+(46, 'L', 'cream', 6),
+ 
+-- outerwear9
+(47, 'S', 'green', 8),
+(47, 'M', 'green', 10),
+(47, 'L', 'green', 6),
+(47, 'S', 'red',   8),
+(47, 'M', 'red',   10),
+(47, 'L', 'red',   6),
+ 
+-- outerwear10 
+(48, 'S', 'multicolor', 9),
+(48, 'M', 'multicolor', 11),
+(48, 'L', 'multicolor', 7),
+ 
+-- outerwear11 
+(49, 'S', 'black', 8),
+(49, 'M', 'black', 10),
+(49, 'L', 'black', 6),
+ 
+-- outerwear12 
+(50, 'S', 'beige', 9),
+(50, 'M', 'beige', 11),
+(50, 'L', 'beige', 7);
+ 
+ 
 
 -- seed orders
 INSERT INTO orders (order_number, user_id, shipping_address, total_amount, status, order_date)
