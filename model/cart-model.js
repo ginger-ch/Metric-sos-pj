@@ -84,6 +84,12 @@ const createOrder = async (userId, items, total) => {
       INSERT INTO order_items (order_id, product_id, attribute_id, quantity, unit_price)
       VALUES (?, ?, ?, ?, ?)
     `, [orderId, item.product_id, item.attribute_id, item.quantity, item.price]);
+
+    await db.query(`
+      UPDATE product_attributes
+      SET stock_qty = stock_qty - ?
+      WHERE attribute_id = ?
+    `, [item.quantity, item.attribute_id]);
   }
 
   return orderId;
