@@ -17,10 +17,14 @@
       <div class="pm-controls">
         <div class="pm-filter">
           <select class="pm-select" id="categoryFilter">
-  <option value="">All Categories</option>
+  <option value="" <%= (!currentCategory || currentCategory === '') ? 'selected' : '' %>>All Categories</option>
+  
   <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
     <% categories.forEach(cat => { %>
-      <option value="<%= cat.category_id %>"><%= cat.category_name %></option>
+      <option value="<%= cat.category_id %>" 
+        <%= (typeof currentCategory !== 'undefined' && currentCategory == cat.category_id) ? 'selected' : '' %>>
+        <%= cat.category_name %>
+      </option>
     <% }) %>
   <% } %>
 </select>
@@ -55,7 +59,7 @@
         <div class="pm-card">
           <div class="pm-card-image">
             <% if (product.images && product.images.length > 0) { %>
-              <img src="<%= product.images[0] %>" alt="<%= product.name %>">
+              <img src="<%= product.main_image %>" alt="<%= product.name %>">
             <% } else { %>
               <div class="pm-image-placeholder">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">

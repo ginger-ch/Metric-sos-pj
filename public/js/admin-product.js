@@ -135,3 +135,46 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+// Change these lines to match your EJS IDs
+const searchInput = document.getElementById('searchInput'); // Was 'search-input'
+const categorySelect = document.getElementById('categoryFilter'); // Was 'category-filter'
+
+function applyFilters() {
+    const url = new URL(window.location.href);
+    
+    // Search logic
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+        const searchValue = searchInput.value.trim();
+        if (searchValue) url.searchParams.set('search', searchValue);
+        else url.searchParams.delete('search');
+    }
+
+    // Category logic
+    const categorySelect = document.getElementById('categoryFilter');
+    if (categorySelect) {
+        const categoryValue = categorySelect.value;
+        // If value is empty string (All Categories), remove the param
+        if (categoryValue && categoryValue !== "") {
+            url.searchParams.set('category', categoryValue);
+        } else {
+            url.searchParams.delete('category');
+        }
+    }
+
+    // Always reset to page 1 when filtering
+    url.searchParams.delete('page'); 
+    
+    window.location.href = url.href;
+}
+
+// Event Listeners
+if (searchInput) {
+    searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') applyFilters();
+    });
+}
+
+if (categorySelect) {
+    categorySelect.addEventListener('change', applyFilters);
+}

@@ -205,38 +205,40 @@ exports.getAllProducts = async (categoryId = null, search = '') => {
   }
 
   if (conditions.length > 0) query += ` WHERE ` + conditions.join(' AND ');
-  
-  // Group by ID to ensure the SUM works correctly per product
+
   query += ` GROUP BY p.product_id ORDER BY p.created_at DESC`;
 
   const [products] = await db.query(query, params);
-  console.log("PRODUCTS FROM QUERY:", products);
 
   for (let product of products) {
-
-  console.log("PRODUCT ID:", product._id);
 
   const [attrs] = await db.query(
     `SELECT size, color, stock_qty 
      FROM product_attributes 
      WHERE product_id = ?`,
     [product._id]
-
   );
-  
- product.sizes = typeof product.sizes === 'string'
+
+  product.attributes = attrs;
+
+ 
+  product.sizes = typeof product.sizes === 'string'
     ? product.sizes.split(',')
     : [];
 
-  product.colors = typeof product.colors === 'string'
-    ? product.colors
-    : '';
-  console.log("ATTRS FOR PRODUCT:", attrs); 
 
-  product.attributes = attrs;
+  product.category = {
+    name: product.category_name
+  };
+
+
+  product.images = product.main_image
+    ? [product.main_image]
+    : [];
 }
 
-console.log("FINAL PRODUCTS:", products);
+
+
 
   return products;
 }

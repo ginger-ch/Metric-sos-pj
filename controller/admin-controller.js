@@ -197,9 +197,12 @@ exports.getProduct = async (req, res) => {
       admin: {
         name: req.session?.user?.full_name || 'Admin',
         profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+        
       },
       products,
       categories,
+      currentCategory: req.query.category || '',
+      currentSearch: req.query.search || '',
       title: 'Product Management'
     });
   } catch (error) {
