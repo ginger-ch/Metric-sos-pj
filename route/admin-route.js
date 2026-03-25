@@ -12,6 +12,7 @@ function isAdmin(req, res, next) {
 router.get('/dashboard', isAdmin, adminController.getDashboard);
 router.get('/orders', isAdmin, adminController.getOrders);
 router.get('/categories', isAdmin, adminController.getCategories);
+router.get('/sales-history',  isAdmin, adminController.getSalesHistory);
 router.patch('/orders/:id/status', isAdmin, adminController.updateOrderStatus);
 
 // router.get('/dashboard', adminController.getDashboard);

@@ -1,1 +1,185 @@
-<%- include('../partials/admin-navbar') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sales History – Girlette</title>
+  <link rel="stylesheet" href="/css/navbar.css" />
+  <link rel="stylesheet" href="/css/sales-history.css" />
+</head>
+<body>
+
+  <%- include('../partials/navbar') %>
+
+  <div class="sales-page">
+
+    <!-- ===== Sidebar: Top Products ===== -->
+    <aside class="sales-sidebar">
+      <p class="sidebar-title">Top Products</p>
+
+      <% if (topProducts && topProducts.length > 0) { %>
+        <% topProducts.forEach(function(product, index) { %>
+          <div class="top-product-card <%= index === 0 ? 'active' : '' %>">
+            <div class="product-img-wrap">
+              <% if (product.image_url) { %>
+                <img src="<%= product.image_url %>" alt="<%= product.product_name %>" />
+              <% } else { %>
+                <div class="no-img">🛍️</div>
+              <% } %>
+              <span class="rank-badge">#<%= index + 1 %></span>
+            </div>
+            <div class="product-meta">
+              <div class="product-rank-label">
+                <%= index === 0 ? '1st' : index === 1 ? '2nd' : index === 2 ? '3rd' : (index + 1) + 'th' %>
+              </div>
+              <div class="product-orders">#<%= product.product_name %> · <%= product.total_orders %> Orders</div>
+            </div>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="empty-state">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          <p>No products yet</p>
+        </div>
+      <% } %>
+    </aside>
+
+    <!-- ===== Main Content ===== -->
+    <main class="sales-main">
+      <h1 class="page-heading">Sales History</h1>
+
+      <!-- ===== Total Daily Income ===== -->
+      <section class="sales-section">
+        <div class="section-header">
+          <span class="section-title">Total daily income</span>
+          <div class="filter-group">
+            <form method="GET" action="/admin/sales-history" id="dailyFilterForm" style="display:flex;gap:8px;">
+              <!-- Preserve monthly filter -->
+              <input type="hidden" name="monthly_year" value="<%= selectedMonthlyYear %>" />
+
+              <select name="daily_month" class="filter-select" onchange="document.getElementById('dailyFilterForm').submit()">
+                <% const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; %>
+                <% months.forEach(function(m, i) { %>
+                  <option value="<%= i + 1 %>" <%= (selectedDailyMonth == i + 1) ? 'selected' : '' %>><%= m %></option>
+                <% }) %>
+              </select>
+
+              <select name="daily_year" class="filter-select" onchange="document.getElementById('dailyFilterForm').submit()">
+                <% for (let y = currentYear; y >= currentYear - 4; y--) { %>
+                  <option value="<%= y %>" <%= (selectedDailyYear == y) ? 'selected' : '' %>><%= y %></option>
+                <% } %>
+              </select>
+            </form>
+          </div>
+        </div>
+
+        <div class="sales-table-wrap">
+          <% if (dailyData && dailyData.dates && dailyData.dates.length > 0) { %>
+            <table class="sales-table">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <% dailyData.dates.forEach(function(d) { %>
+                    <th><%= d.label %></th>
+                  <% }) %>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="row-label">Number of products</td>
+                  <% dailyData.dates.forEach(function(d) { %>
+                    <td><%= d.total_qty || 0 %></td>
+                  <% }) %>
+                </tr>
+                <tr>
+                  <td class="row-label">Sales amount</td>
+                  <% dailyData.dates.forEach(function(d) { %>
+                    <td class="<%= d.total_sales < 1000 ? 'highlight-low' : '' %>">
+                      <%= d.total_sales >= 1000
+                            ? Math.round(d.total_sales / 1000) + 'K$'
+                            : d.total_sales + '$' %>
+                    </td>
+                  <% }) %>
+                </tr>
+              </tbody>
+            </table>
+            <div class="scroll-hint">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              scroll for more
+            </div>
+          <% } else { %>
+            <div class="empty-state">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              <p>No sales data for this period.</p>
+            </div>
+          <% } %>
+        </div>
+      </section>
+
+      <!-- ===== Total Monthly Income ===== -->
+      <section class="sales-section">
+        <div class="section-header">
+          <span class="section-title">Total monthly income</span>
+          <div class="filter-group">
+            <form method="GET" action="/admin/sales-history" id="monthlyFilterForm" style="display:flex;gap:8px;">
+              <!-- Preserve daily filters -->
+              <input type="hidden" name="daily_month" value="<%= selectedDailyMonth %>" />
+              <input type="hidden" name="daily_year" value="<%= selectedDailyYear %>" />
+
+              <select name="monthly_year" class="filter-select" onchange="document.getElementById('monthlyFilterForm').submit()">
+                <% for (let y = currentYear; y >= currentYear - 4; y--) { %>
+                  <option value="<%= y %>" <%= (selectedMonthlyYear == y) ? 'selected' : '' %>><%= y %></option>
+                <% } %>
+              </select>
+            </form>
+          </div>
+        </div>
+
+        <div class="sales-table-wrap">
+          <% if (monthlyData && monthlyData.months && monthlyData.months.length > 0) { %>
+            <table class="sales-table">
+              <thead>
+                <tr>
+                  <th>Month</th>
+                  <% monthlyData.months.forEach(function(m) { %>
+                    <th><%= m.label %></th>
+                  <% }) %>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="row-label">Number of products</td>
+                  <% monthlyData.months.forEach(function(m) { %>
+                    <td><%= m.total_qty || 0 %></td>
+                  <% }) %>
+                </tr>
+                <tr>
+                  <td class="row-label">Sales amount</td>
+                  <% monthlyData.months.forEach(function(m) { %>
+                    <td class="<%= m.total_sales < 1000 ? 'highlight-low' : '' %>">
+                      <%= m.total_sales >= 1000
+                            ? Math.round(m.total_sales / 1000) + 'K$'
+                            : m.total_sales + '$' %>
+                    </td>
+                  <% }) %>
+                </tr>
+              </tbody>
+            </table>
+            <div class="scroll-hint">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+              scroll for more
+            </div>
+          <% } else { %>
+            <div class="empty-state">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+              <p>No sales data for this year.</p>
+            </div>
+          <% } %>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+</body>
+</html>
