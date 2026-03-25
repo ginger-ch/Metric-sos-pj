@@ -206,7 +206,7 @@ exports.getAllProducts = async (categoryId = null, search = '') => {
 
   if (conditions.length > 0) query += ` WHERE ` + conditions.join(' AND ');
 
-  query += ` GROUP BY p.product_id ORDER BY p.created_at DESC`;
+  query += ` GROUP BY p.product_id ORDER BY p.product_name DESC`;
 
   const [products] = await db.query(query, params);
 
