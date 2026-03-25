@@ -237,6 +237,27 @@
   border-radius: 50%;
 }
 
+.profile-logout-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #aaa;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.profile-logout-btn:hover {
+  color: #1a1a1a;
+  transform: translateX(2px);
+}
+
+.profile-logout-btn svg {
+  display: block;
+}
+
 @media (max-width: 768px) {
   /* .profile-identity {
     padding: 0 1.25rem 1.5rem;
@@ -289,6 +310,12 @@
   .profile-banner {
     height: 150px;
   }
+
+  .profile-logout-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+  
   .profile-error {
   margin: 1rem 3rem 0;
   padding: 0.75rem 1rem;
