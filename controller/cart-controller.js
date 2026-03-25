@@ -81,7 +81,18 @@ const removeItem = async (req, res) => {
 const checkout = async (req, res) => {
   try {
     const userId = req.session.user.user_id;
+    const items = await cartModel.getCartItems(userId);
+    
+    if (items.length === 0) {
+      return res.status(400).json({ success: false, message: 'Cart is empty' });
+    }
+
+    const total = items.reduce((sum, item) => sum + (Number(item.price) * item.quantity), 0);
+    // const shippingAddress = req.body.shippingAddress || 'Not specified';
+
+    await cartModel.createOrder(userId, items, total);
     await cartModel.clearCart(userId);
+
     res.json({ success: true });
   } catch (err) {
     console.error('Checkout error:', err);
