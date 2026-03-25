@@ -185,3 +185,40 @@ exports.updateCategory = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+ 
+
+exports.getSalesHistory = async (req, res) => {
+  try {
+    const now = new Date();
+    
+    const selectedDailyMonth = req.query.daily_month || (now.getMonth() + 1);
+    const selectedDailyYear  = req.query.daily_year  || now.getFullYear();
+    const selectedMonthlyYear = req.query.monthly_year || now.getFullYear();
+
+    const topProducts = await adminModel.getTopProducts(5);
+    const dailyRows = await adminModel.getDailySales(selectedDailyMonth, selectedDailyYear);
+    const monthlyRows = await adminModel.getMonthlySales(selectedMonthlyYear);
+
+    // Render page with ALL the data the navbar and page need
+    res.render('admin/sales-history', {
+      currentPage: 'sales-history', // Matches the check in your navbar.ejs
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+        role: 'Admin'
+      },
+      topProducts,
+      dailyData: { dates: dailyRows },
+      monthlyData: { months: monthlyRows },
+      selectedDailyMonth,
+      selectedDailyYear,
+      selectedMonthlyYear,
+      currentYear: now.getFullYear()
+    });
+
+  } catch (error) {
+    console.error("Error fetching sales history:", error);
+    res.status(500).send("Internal Server Error");
+  }
+};
+ 
