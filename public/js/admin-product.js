@@ -7,85 +7,131 @@ document.addEventListener('DOMContentLoaded', () => {
     const uploadText = document.getElementById('uploadText');
     const imageInput = document.getElementById('imageInput');
 
+    if (!modal || !form || !container) return; // prevent crash
+
     // --- Helper: Reset Image Box ---
     function resetImageBox() {
+        if (!uploadBox || !uploadText || !imageInput) return;
         uploadBox.style.backgroundImage = 'none';
         uploadText.innerText = "UPLOAD IMAGES";
-        imageInput.value = ""; // Clears the file selection
+        imageInput.value = "";
     }
 
-    function createAttributeRow(size = '', color = '', stock = '') {
+    // --- Create Attribute Row ---
+    function createAttributeRow(size = '', color = '', stock = 0){
         const row = document.createElement('div');
         row.className = 'pm-form-row attribute-row';
+
         row.innerHTML = `
-            <input type="text"   name="sizes[]"  class="pm-input" placeholder="Size" value="${size}">
-            <input type="text"   name="colors[]" class="pm-input" placeholder="Color" value="${color}">
-            <input type="number" name="stocks[]" class="pm-input" placeholder="Qty" value="${stock}">
-            <button type="button" class="btn-remove" title="Remove row">−</button>
+            <input type="text" name="sizes[]"  class="pm-input" placeholder="Size" value="${size}">
+            <input type="text" name="colors[]" class="pm-input" placeholder="Color" value="${color}">
+            <input type="number" name="stocks[]" class="pm-input" placeholder="Qty" value="${stock}" min="0">
+            <button type="button" class="btn-remove">−</button>
         `;
-        row.querySelector('.btn-remove').addEventListener('click', () => { row.remove(); });
+
+        row.querySelector('.btn-remove').addEventListener('click', () => {
+            row.remove();
+
+            // Ensure at least 1 row exists
+            if (container.children.length === 0) {
+                container.appendChild(createAttributeRow());
+            }
+        });
+
         return row;
     }
 
     // --- Image Preview Logic ---
-    imageInput.addEventListener('change', function() {
-        if (this.files && this.files[0]) {
+    if (imageInput) {
+        imageInput.addEventListener('change', function () {
+            if (!this.files || this.files.length === 0) return;
+
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 uploadBox.style.backgroundImage = `url(${e.target.result})`;
                 uploadBox.style.backgroundSize = 'cover';
                 uploadBox.style.backgroundPosition = 'center';
-                uploadText.innerText = `${imageInput.files.length} IMAGES SELECTED`;
-            }
+                uploadText.innerText = `${imageInput.files.length} IMAGE(S) SELECTED`;
+            };
             reader.readAsDataURL(this.files[0]);
-        }
-    });
+        });
+    }
 
-    // --- OPEN FOR NEW PRODUCT ---
-    document.getElementById('openModalBtn').addEventListener('click', () => {
-        modalTitle.innerText = "New Product";
-        form.action = "/admin/products"; 
-        form.reset();
-        resetImageBox(); // Clear images
-        container.innerHTML = ''; 
-        container.appendChild(createAttributeRow()); 
+    // --- OPEN: CREATE ---
+    const openBtn = document.getElementById('openModalBtn');
+    if (openBtn) {
+        openBtn.addEventListener('click', () => {
+            modalTitle.innerText = "New Product";
+            form.action = "/admin/products";
+
+            form.reset();
+            resetImageBox();
+
+            container.innerHTML = '';
+            container.appendChild(createAttributeRow());
+
+            modal.classList.add('active');
+        });
+    }
+
+    // --- OPEN: EDIT ---
+    document.addEventListener('click', (e) => {
+        const btn = e.target.closest('.edit-trigger');
+        if (!btn) return;
+
+        modalTitle.innerText = "Edit Product";
+        form.action = `/admin/products/${btn.dataset.id}/edit`;
+
+        resetImageBox();
+
+        document.getElementById('modalName').value = btn.dataset.name || '';
+        document.getElementById('modalDetail').value = btn.dataset.detail || '';
+        document.getElementById('modalPrice').value = btn.dataset.price || '';
+        document.getElementById('modalCategory').value = btn.dataset.category || '';
+
+        container.innerHTML = '';
+
+        // --- SAFER JSON PARSE ---
+        let attrs = [];
+        try {
+            if (btn.dataset.attributes) {
+                attrs = JSON.parse(btn.dataset.attributes);
+            }
+        } catch (err) {
+            console.error("Invalid attribute JSON:", err);
+        }
+
+        if (attrs.length > 0) {
+            attrs.forEach(a => {
+                container.appendChild(
+                    createAttributeRow(a.size, a.color, a.stock_qty)
+                );
+            });
+        } else {
+            container.appendChild(createAttributeRow());
+        }
+
         modal.classList.add('active');
     });
 
-    // --- OPEN FOR EDIT ---
-    document.addEventListener('click', (e) => {
-        const btn = e.target.closest('.edit-trigger');
-        if (btn) {
-            modalTitle.innerText = "Edit Product";
-            form.action = `/admin/products/${btn.dataset.id}/edit`;
-            resetImageBox(); // Reset image box for clean edit
-
-            document.getElementById('modalName').value = btn.dataset.name || '';
-            document.getElementById('modalDetail').value = btn.dataset.detail || '';
-            document.getElementById('modalPrice').value = btn.dataset.price || '';
-            document.getElementById('modalCategory').value = btn.dataset.category || '';
-
-            container.innerHTML = '';
-            if (btn.dataset.attributes) {
-                const attrs = JSON.parse(btn.dataset.attributes);
-                attrs.forEach(a => container.appendChild(createAttributeRow(a.size, a.color, a.stock_qty)));
-            } else {
-                container.appendChild(createAttributeRow());
-            }
-            modal.classList.add('active');
-        }
-    });
-
     // --- CLOSE MODAL ---
-    const closeModal = () => {
+    function closeModal() {
         modal.classList.remove('active');
-        resetImageBox(); // Clear image preview so it's gone when reopened
-    };
+        resetImageBox();
+    }
 
-    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+    const closeBtn = document.getElementById('closeModalBtn');
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
 
-    document.getElementById('add-attribute-btn').addEventListener('click', () => {
-        container.appendChild(createAttributeRow());
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
     });
+
+    // --- ADD ATTRIBUTE ---
+    const addBtn = document.getElementById('add-attribute-btn');
+    if (addBtn) {
+        addBtn.addEventListener('click', () => {
+            container.appendChild(createAttributeRow());
+        });
+    }
 });

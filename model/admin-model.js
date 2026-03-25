@@ -207,48 +207,96 @@ exports.getAllProducts = async (categoryId = null, search = '') => {
   if (conditions.length > 0) query += ` WHERE ` + conditions.join(' AND ');
   
   // Group by ID to ensure the SUM works correctly per product
-  query += ` GROUP BY p.product_id, p.created_at ORDER BY p.created_at DESC`;
+  query += ` GROUP BY p.product_id ORDER BY p.created_at DESC`;
 
   const [products] = await db.query(query, params);
+  console.log("PRODUCTS FROM QUERY:", products);
+
+  for (let product of products) {
+
+  console.log("PRODUCT ID:", product._id);
+
+  const [attrs] = await db.query(
+    `SELECT size, color, stock_qty 
+     FROM product_attributes 
+     WHERE product_id = ?`,
+    [product._id]
+
+  );
   
-  return products.map(p => ({
-    ...p,
-    category: { name: p.category_name },
-    images: p.main_image ? [p.main_image] : [],
-    sizes: p.sizes ? p.sizes.split(',') : [],
-    color: p.colors,
-    stock: p.total_stock || 0 // Pass the calculated stock to the UI
-  }));
-};
+ product.sizes = typeof product.sizes === 'string'
+    ? product.sizes.split(',')
+    : [];
+
+  product.colors = typeof product.colors === 'string'
+    ? product.colors
+    : '';
+  console.log("ATTRS FOR PRODUCT:", attrs); 
+
+  product.attributes = attrs;
+}
+
+console.log("FINAL PRODUCTS:", products);
+
+  return products;
+}
+  
+  
+
 
 exports.createFullProduct = async (data) => {
   const connection = await db.getConnection();
+
   try {
     await connection.beginTransaction();
 
     const [result] = await connection.query(
-      `INSERT INTO products (category_id, product_name, description, base_price) VALUES (?, ?, ?, ?)`,
-      [data.category_id, data.name, data.detail, data.price]
+      `INSERT INTO products (category_id, product_name, description, base_price)
+       VALUES (?, ?, ?, ?)`,
+      [
+  data.category,
+  data.name,
+  data.detail,
+  Number(data.price) || 0
+]
     );
+
     const productId = result.insertId;
 
-    if (data.imageUrl) {
+  
+    if (data.files) {
+      for (let file of data.files) {
+        const imagePath = file.path.replace('public', '');
+
+        await connection.query(
+          `INSERT INTO product_images (product_id, image_url, is_primary)
+           VALUES (?, ?, 1)`,
+          [productId, imagePath]
+        );
+      }
+    }
+
+
+    const sizes = Array.isArray(data.sizes) ? data.sizes : [data.sizes];
+    const colors = Array.isArray(data.colors) ? data.colors : [data.colors];
+    const stocks = Array.isArray(data.stocks) ? data.stocks : [data.stocks];
+
+    for (let i = 0; i < sizes.length; i++) {
+      if (!sizes[i] && !colors[i]) continue;
+
       await connection.query(
-        `INSERT INTO product_images (product_id, image_url, is_primary) VALUES (?, ?, 1)`,
-        [productId, data.imageUrl]
+        `INSERT INTO product_attributes (product_id, size, color, stock_qty)
+         VALUES (?, ?, ?, ?)`,
+        [productId, sizes[i], colors[i], Number(stocks[i]) || 0]
       );
     }
 
-    await connection.query(
-      `INSERT INTO product_attributes (product_id, size, color, stock_qty) VALUES (?, ?, ?, ?)`,
-      [productId, data.size, data.color, 0] 
-    );
-
     await connection.commit();
     return productId;
-  } catch (error) {
+
+  } catch (err) {
     await connection.rollback();
-    throw error;
+    throw err;
   } finally {
     connection.release();
   }
@@ -263,23 +311,33 @@ exports.updateProductData = async (productId, data) => {
     try {
         await connection.beginTransaction();
 
-  
+        // Safety check to ensure data actually arrived
+        if (!data || !data.name) {
+            throw new Error("Form data was not received correctly. Check Multer middleware.");
+        }
+
+        // 1. Update main table
         await connection.query(
             `UPDATE products SET product_name=?, category_id=?, base_price=?, description=? WHERE product_id=?`,
             [data.name, data.category, data.price, data.detail, productId]
         );
 
+        // 2. Refresh attributes
         await connection.query(`DELETE FROM product_attributes WHERE product_id=?`, [productId]);
         
-        if (data.sizes && data.sizes.length > 0) {
-            const sizeArr = Array.isArray(data.sizes) ? data.sizes : [data.sizes];
-            const colorArr = Array.isArray(data.colors) ? data.colors : [data.colors];
-            const stockArr = Array.isArray(data.stocks) ? data.stocks : [data.stocks];
+        if (data.sizes) {
+            // Force inputs into arrays (Multer makes them strings if there's only one)
+            const sizes = Array.isArray(data.sizes) ? data.sizes : [data.sizes];
+            const colors = Array.isArray(data.colors) ? data.colors : [data.colors];
+            const stocks = Array.isArray(data.stocks) ? data.stocks : [data.stocks];
 
-            for (let i = 0; i < sizeArr.length; i++) {
+            for (let i = 0; i < sizes.length; i++) {
+                // Skip rows that are totally empty
+                if (!sizes[i] && !colors[i]) continue;
+
                 await connection.query(
                     `INSERT INTO product_attributes (product_id, size, color, stock_qty) VALUES (?, ?, ?, ?)`,
-                    [productId, sizeArr[i], colorArr[i], stockArr[i]]
+                    [productId, sizes[i], colors[i], Number(stocks[i]) || 0]
                 );
             }
         }
@@ -292,4 +350,14 @@ exports.updateProductData = async (productId, data) => {
     } finally {
         connection.release();
     }
+};
+
+exports.getProductAttributes = async (productId) => {
+  const [rows] = await db.query(
+    `SELECT size, color, stock_qty 
+     FROM product_attributes 
+     WHERE product_id = ?`,
+    [productId]
+  );
+  return rows;
 };

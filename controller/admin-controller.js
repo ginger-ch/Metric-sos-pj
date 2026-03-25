@@ -210,41 +210,28 @@ exports.getProduct = async (req, res) => {
 
 
 exports.addProduct = async (req, res) => {
-  const connection = await db.getConnection();
   try {
-    await connection.beginTransaction();
+    console.log("CREATE BODY:", req.body);
+console.log("FILES:", req.files);
 
-    const { name, category, price, detail, sizes, colors, stocks } = req.body;
+    await adminModel.createFullProduct({
+      ...req.body,
+      files: req.files
+    });
+    
 
-    const [prodResult] = await connection.query(
-      `INSERT INTO products (product_name, category_id, base_price, description) VALUES (?, ?, ?, ?)`,
-      [name, category, price, detail]
-    );
-    const productId = prodResult.insertId;
-
-    if (sizes && sizes.length > 0) {
-      for (let i = 0; i < sizes.length; i++) {
-        await connection.query(
-          `INSERT INTO product_attributes (product_id, size, color, stock_qty) VALUES (?, ?, ?, ?)`,
-          [productId, sizes[i], colors[i], stocks[i]]
-        );
-      }
-    }
-
-    await connection.commit();
     res.redirect('/admin/product');
+
   } catch (err) {
-    await connection.rollback();
     console.error(err);
-    res.status(500).send("Failed to create product");
-  } finally {
-    connection.release();
+    res.status(500).send('Error');
   }
 };
 
+
 exports.deleteProduct = async (req, res) => {
   try {
-    await productModel.deleteProduct(req.params.id);
+    await adminModel.deleteProduct(req.params.id);
     res.redirect('/admin/product');
   } catch (error) {
     console.error(error);
@@ -263,4 +250,34 @@ exports.updateProduct = async (req, res) => {
         console.error("Update Error:", err);
         res.status(500).send("Error updating product");
     }
+};
+
+exports.editProductPage = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    
+    // 1. Fetch the specific product by ID
+    const product = await adminModel.getProductById(productId);
+    
+    // 2. Fetch categories so the dropdown has options
+    const categories = await adminModel.getAllCategories();
+
+    if (!product) {
+      return res.status(404).send('Product not found');
+    }
+
+    res.render('admin/edit-product', {
+      currentPage: 'product',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+      product,
+      categories,
+      title: 'Edit Product'
+    });
+  } catch (err) {
+    console.error("Edit Page Error:", err);
+    res.status(500).send('Server Error');
+  }
 };
