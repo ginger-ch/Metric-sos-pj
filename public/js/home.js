@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (newsletterForm) {
     newsletterForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      alert("Thank you for subscribing!");
+      showToast("Thank you for subscribing!");
     });
   }
 });
@@ -34,3 +34,16 @@ backToTop?.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
+
+function showToast(message) {
+  const toast = document.createElement("div");
+  toast.className = "girlette-toast";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 10);
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
