@@ -11,6 +11,11 @@ app.use(express.json());
 app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 app.use(flash());
 
+app.use((req, res, next) => {
+  res.locals.sessionUser = req.session.user || null;
+  next();
+});
+
 const homeModel = require('./model/home-model');
 
 app.use(async (req, res, next) => {
