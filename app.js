@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const flash   = require('connect-flash');
 const methodOverride = require('method-override');
+const homeModel = require('./model/home-model');
 const app     = express();
 
 app.set('view engine', 'ejs');
