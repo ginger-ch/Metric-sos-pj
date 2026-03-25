@@ -7,7 +7,6 @@ function isAdmin(req, res, next) {
   if (req.session.user && req.session.user.role === 'admin') {
     return next();
   }
-  return res.redirect('/login');
 }
 
 router.get('/dashboard', isAdmin, adminController.getDashboard);
@@ -27,10 +26,16 @@ router.delete('/products/:id', isAdmin, adminController.deleteProduct);
 // router.patch('/orders/:id/status', adminController.updateOrderStatus);
 // router.get('/categories', adminController.getCategories);
 
-// router.post('/categories', adminController.createCategory);
-// router.put('/categories/:id', adminController.updateCategory);
-// router.patch('/categories/:id/visibility', adminController.updateVisibility);
-// router.delete('/categories/:id', adminController.deleteCategory);
+router.get('/dashboard', adminController.getDashboard);
+router.get('/orders', adminController.getOrders);
+router.patch('/orders/:id/status', adminController.updateOrderStatus);
+router.get('/categories', adminController.getCategories);
+
+
+router.post('/categories', adminController.createCategory);
+router.put('/categories/:id', adminController.updateCategory);
+router.patch('/categories/:id/visibility', adminController.updateVisibility);
+router.delete('/categories/:id', adminController.deleteCategory);
 
 
 module.exports = router;

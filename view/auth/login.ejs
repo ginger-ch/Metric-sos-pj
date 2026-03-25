@@ -21,6 +21,7 @@
     <% } %>
 
     <form class="input-group" action="/login" method="POST">
+      <input type="hidden" name="returnTo" value="<%= typeof returnTo !== 'undefined' ? returnTo : '' %>">    
 
       <div class="input-wrapper">
         <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8">
