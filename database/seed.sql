@@ -276,43 +276,43 @@ VALUES
 
 -- pajamas
 -- pajamas1
-(1, '/image/products/pajamas/pajamas1_1.jpg', 1, 1),
-(1, '/image/products/pajamas/pajamas1_2.jpg', 0, 2),
+(51, '/image/products/pajamas/pajamas1_1.jpg', 1, 1),
+(51, '/image/products/pajamas/pajamas1_2.jpg', 0, 2),
 -- pajamas2
-(2, '/image/products/pajamas/pajamas2_1.jpg', 1, 1),
-(2, '/image/products/pajamas/pajamas2_2.jpg', 0, 2),
-(2, '/image/products/pajamas/pajamas2_3.jpg', 0, 3),
+(52, '/image/products/pajamas/pajamas2_1.jpg', 1, 1),
+(52, '/image/products/pajamas/pajamas2_2.jpg', 0, 2),
+(52, '/image/products/pajamas/pajamas2_3.jpg', 0, 3),
 -- pajamas3 (primary = pajamas3.jpg)
-(3, '/image/products/pajamas/pajamas3_1.jpg', 1, 1),
-(3, '/image/products/pajamas/pajamas3_2.jpg', 0, 2),
+(53, '/image/products/pajamas/pajamas3_1.jpg', 1, 1),
+(53, '/image/products/pajamas/pajamas3_2.jpg', 0, 2),
 -- pajamas4
-(4, '/image/products/pajamas/pajamas4_1.jpg', 1, 1),
-(4, '/image/products/pajamas/pajamas4_2.jpg', 0, 2),
+(54, '/image/products/pajamas/pajamas4_1.jpg', 1, 1),
+(54, '/image/products/pajamas/pajamas4_2.jpg', 0, 2),
 -- pajamas5
-(5, '/image/products/pajamas/pajamas5_1.jpg', 1, 1),
-(5, '/image/products/pajamas/pajamas5_2.jpg', 0, 2),
-(5, '/image/products/pajamas/pajamas5_3.jpg', 0, 3),
+(55, '/image/products/pajamas/pajamas5_1.jpg', 1, 1),
+(55, '/image/products/pajamas/pajamas5_2.jpg', 0, 2),
+(55, '/image/products/pajamas/pajamas5_3.jpg', 0, 3),
 -- pajamas6
-(6, '/image/products/pajamas/pajamas6_1.jpg', 1, 1),
-(6, '/image/products/pajamas/pajamas6_2.jpg', 0, 2),
+(56, '/image/products/pajamas/pajamas6_1.jpg', 1, 1),
+(56, '/image/products/pajamas/pajamas6_2.jpg', 0, 2),
 -- pajamas7
-(7, '/image/products/pajamas/pajamas7_1.jpg', 1, 1),
-(7, '/image/products/pajamas/pajamas7_2.jpg', 0, 2),
+(57, '/image/products/pajamas/pajamas7_1.jpg', 1, 1),
+(57, '/image/products/pajamas/pajamas7_2.jpg', 0, 2),
 -- pajamas8
-(8, '/image/products/pajamas/pajamas8_1.jpg', 1, 1),
-(8, '/image/products/pajamas/pajamas8_2.jpg', 0, 2),
+(58, '/image/products/pajamas/pajamas8_1.jpg', 1, 1),
+(58, '/image/products/pajamas/pajamas8_2.jpg', 0, 2),
 -- pajamas9
-(9, '/image/products/pajamas/pajamas9_1.jpg', 1, 1),
-(9, '/image/products/pajamas/pajamas9_2.jpg', 0, 2),
+(59, '/image/products/pajamas/pajamas9_1.jpg', 1, 1),
+(59, '/image/products/pajamas/pajamas9_2.jpg', 0, 2),
 -- pajamas10
-(10, '/image/products/pajamas/pajamas10_1.jpg', 1, 1),
-(10, '/image/products/pajamas/pajamas10_2.jpg', 0, 2),
+(60, '/image/products/pajamas/pajamas10_1.jpg', 1, 1),
+(60, '/image/products/pajamas/pajamas10_2.jpg', 0, 2),
 -- pajamas11
-(11, '/image/products/pajamas/pajamas11_1.jpg', 1, 1),
-(11, '/image/products/pajamas/pajamas11_2.jpg', 0, 2),
+(61, '/image/products/pajamas/pajamas11_1.jpg', 1, 1),
+(61, '/image/products/pajamas/pajamas11_2.jpg', 0, 2),
 -- pajamas12
-(12, '/image/products/pajamas/pajamas12_1.jpg', 1, 1),
-(12, '/image/products/pajamas/pajamas12_2.jpg', 0, 2);
+(62, '/image/products/pajamas/pajamas12_1.jpg', 1, 1),
+(62, '/image/products/pajamas/pajamas12_2.jpg', 0, 2);
  
  
  
@@ -605,74 +605,74 @@ VALUES
 
 -- pajamas
 -- pajamas1
-(1, 'S', 'yellow', 10),
-(1, 'M', 'yellow', 12),
-(1, 'L', 'yellow', 8),
+(51, 'S', 'yellow', 10),
+(51, 'M', 'yellow', 12),
+(51, 'L', 'yellow', 8),
 -- pajamas2
-(2, 'S', 'cream', 9),
-(2, 'M', 'cream', 11),
-(2, 'L', 'cream', 6),
-(2, 'S', 'grey', 8),
-(2, 'M', 'grey', 10),
-(2, 'L', 'grey', 5),
+(52, 'S', 'cream', 9),
+(52, 'M', 'cream', 11),
+(52, 'L', 'cream', 6),
+(52, 'S', 'grey', 8),
+(52, 'M', 'grey', 10),
+(52, 'L', 'grey', 5),
 -- pajamas3
-(3, 'S', 'cream', 10),
-(3, 'M', 'cream', 12),
-(3, 'L', 'cream', 7),
+(53, 'S', 'cream', 10),
+(53, 'M', 'cream', 12),
+(53, 'L', 'cream', 7),
 -- pajamas4
-(4, 'S', 'white', 10),
-(4, 'M', 'white', 12),
-(4, 'L', 'white', 8),
+(54, 'S', 'white', 10),
+(54, 'M', 'white', 12),
+(54, 'L', 'white', 8),
 -- pajamas5
-(5, 'S', 'pink', 8),
-(5, 'M', 'pink', 10),
-(5, 'L', 'pink', 6),
-(5, 'S', 'green', 8),
-(5, 'M', 'green', 9),
-(5, 'L', 'green', 5),
-(5, 'S', 'purple', 7),
-(5, 'M', 'purple', 9),
-(5, 'L', 'purple', 5),
+(55, 'S', 'pink', 8),
+(55, 'M', 'pink', 10),
+(55, 'L', 'pink', 6),
+(55, 'S', 'green', 8),
+(55, 'M', 'green', 9),
+(55, 'L', 'green', 5),
+(55, 'S', 'purple', 7),
+(55, 'M', 'purple', 9),
+(55, 'L', 'purple', 5),
 -- pajamas6:
-(6, 'S', 'purple', 9),
-(6, 'M', 'purple', 11),
-(6, 'L', 'purple', 6),
-(6, 'S', 'pink', 9),
-(6, 'M', 'pink', 10),
-(6, 'L', 'pink', 5),
+(56, 'S', 'purple', 9),
+(56, 'M', 'purple', 11),
+(56, 'L', 'purple', 6),
+(56, 'S', 'pink', 9),
+(56, 'M', 'pink', 10),
+(56, 'L', 'pink', 5),
 -- pajamas7
-(7, 'S', 'pink', 9),
-(7, 'M', 'pink', 11),
-(7, 'L', 'pink', 6),
-(7, 'S', 'cream', 8),
-(7, 'M', 'cream', 10),
-(7, 'L', 'cream', 5),
+(57, 'S', 'pink', 9),
+(57, 'M', 'pink', 11),
+(57, 'L', 'pink', 6),
+(57, 'S', 'cream', 8),
+(57, 'M', 'cream', 10),
+(57, 'L', 'cream', 5),
 -- pajamas8
-(8, 'S', 'white', 10),
-(8, 'M', 'white', 12),
-(8, 'L', 'white', 7),
+(58, 'S', 'white', 10),
+(58, 'M', 'white', 12),
+(58, 'L', 'white', 7),
 -- pajamas9
-(9, 'S', 'pink', 9),
-(9, 'M', 'pink', 11),
-(9, 'L', 'pink', 6),
-(9, 'S', 'blue', 8),
-(9, 'M', 'blue', 10),
-(9, 'L', 'blue', 5),
+(59, 'S', 'pink', 9),
+(59, 'M', 'pink', 11),
+(59, 'L', 'pink', 6),
+(59, 'S', 'blue', 8),
+(59, 'M', 'blue', 10),
+(59, 'L', 'blue', 5),
 -- pajamas10
-(10, 'S', 'pink', 10),
-(10, 'M', 'pink', 12),
-(10, 'L', 'pink', 7),
+(60, 'S', 'pink', 10),
+(60, 'M', 'pink', 12),
+(60, 'L', 'pink', 7),
 -- pajamas11
-(11, 'S', 'cream', 9),
-(11, 'M', 'cream', 11),
-(11, 'L', 'cream', 6),
+(61, 'S', 'cream', 9),
+(61, 'M', 'cream', 11),
+(61, 'L', 'cream', 6),
 -- pajamas12
-(12, 'S', 'red', 9),
-(12, 'M', 'red', 11),
-(12, 'L', 'red', 6),
-(12, 'S', 'blue', 8),
-(12, 'M', 'blue', 10),
-(12, 'L', 'blue', 5);
+(62, 'S', 'red', 9),
+(62, 'M', 'red', 11),
+(62, 'L', 'red', 6),
+(62, 'S', 'blue', 8),
+(62, 'M', 'blue', 10),
+(62, 'L', 'blue', 5);
  
  
 
