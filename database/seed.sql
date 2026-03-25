@@ -317,6 +317,9 @@ VALUES
  
  
 
+-- Bottom
+
+
 INSERT INTO product_attributes (product_id, size, color, stock_qty)
 VALUES
 -- top
