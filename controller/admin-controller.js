@@ -245,6 +245,7 @@ exports.deleteProduct = async (req, res) => {
     res.redirect('/admin/product?error=delete_failed');
   }
 };
+
 exports.updateProduct = async (req, res) => {
     try {
         const productId = req.params.id;
