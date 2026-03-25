@@ -120,7 +120,7 @@ VALUES
 (7, '/image/products/top/top7_2.jpg', 0, 2),
 -- top8
 (8, '/image/products/top/top8_1.jpg', 1, 1),
-(8, '/image/products/top/top8_2.jpg', 0, 2);
+(8, '/image/products/top/top8_2.jpg', 0, 2),
 -- top9
 (9, '/image/products/top/top9_1.jpg', 1, 1),
 (9, '/image/products/top/top9_2.jpg', 0, 2),
@@ -282,7 +282,7 @@ VALUES
 (52, '/image/products/pajamas/pajamas2_1.jpg', 1, 1),
 (52, '/image/products/pajamas/pajamas2_2.jpg', 0, 2),
 (52, '/image/products/pajamas/pajamas2_3.jpg', 0, 3),
--- pajamas3 (primary = pajamas3.jpg)
+-- pajamas3
 (53, '/image/products/pajamas/pajamas3_1.jpg', 1, 1),
 (53, '/image/products/pajamas/pajamas3_2.jpg', 0, 2),
 -- pajamas4
@@ -344,11 +344,11 @@ VALUES
 (6, 'S', 'cream', 10),
 (6, 'M', 'cream', 12),
 (6, 'L', 'cream', 8),
--- top7 เดะไปหามางับ
+-- top7
 (7, 'S', 'blue', 10),
 (7, 'M', 'blue', 12),
 (7, 'L', 'blue', 8),
--- top8 เดะไปหามางับ
+-- top8 
 (8, 'S', 'cream', 10),
 (8, 'M', 'cream', 12),
 (8, 'L', 'cream', 8),
