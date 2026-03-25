@@ -181,12 +181,11 @@ exports.getTopProducts = async (limit = 5) => {
     SELECT 
       p.product_name, 
       pi.image_url, 
-      COUNT(oi.order_id) AS total_orders
+      COUNT(oi.item_id) AS total_orders
     FROM products p
     LEFT JOIN order_items oi ON p.product_id = oi.product_id
-    -- Join with images table to get the primary image
     LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
-    GROUP BY p.product_id, pi.image_url
+    GROUP BY p.product_id, p.product_name, pi.image_url
     ORDER BY total_orders DESC
     LIMIT ?
   `, [limit]);
@@ -195,22 +194,16 @@ exports.getTopProducts = async (limit = 5) => {
 exports.getDailySales = async (month, year) => {
   const [daily] = await db.query(`
     SELECT 
-      DATE_FORMAT(order_date, '%d %b') AS label,
-      SUM(total_qty) AS total_qty,
-      SUM(daily_total) AS total_sales
-    FROM (
-      SELECT 
-        o.order_date,
-        SUM(oi.quantity) AS total_qty,
-        ANY_VALUE(o.total_amount) AS daily_total
-      FROM orders o
-      JOIN order_items oi ON o.order_id = oi.order_id
-      WHERE MONTH(o.order_date) = ? AND YEAR(o.order_date) = ?
-        AND o.status = 'completed'
-      GROUP BY o.order_id, o.order_date
-    ) AS order_summaries
-    GROUP BY label, DATE(order_date) -- Grouping by label and the date part
-    ORDER BY DATE(order_date) ASC
+      DATE_FORMAT(o.order_date, '%d %b') AS label,
+      SUM(oi.quantity) AS total_qty,
+      SUM(o.total_amount) AS total_sales
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    WHERE MONTH(o.order_date) = ? 
+      AND YEAR(o.order_date) = ?
+      AND o.status = 'completed'
+    GROUP BY label, DATE(o.order_date)
+    ORDER BY DATE(o.order_date) ASC
   `, [month, year]);
   return daily;
 };
@@ -218,22 +211,15 @@ exports.getDailySales = async (month, year) => {
 exports.getMonthlySales = async (year) => {
   const [monthly] = await db.query(`
     SELECT 
-      DATE_FORMAT(order_date, '%b') AS label,
-      SUM(total_qty) AS total_qty,
-      SUM(monthly_total) AS total_sales
-    FROM (
-      SELECT 
-        o.order_date,
-        SUM(oi.quantity) AS total_qty,
-        ANY_VALUE(o.total_amount) AS monthly_total
-      FROM orders o
-      JOIN order_items oi ON o.order_id = oi.order_id
-      WHERE YEAR(o.order_date) = ?
-        AND o.status = 'completed'
-      GROUP BY o.order_id, o.order_date
-    ) AS order_summaries
-    GROUP BY label, MONTH(order_date)
-    ORDER BY MONTH(order_date) ASC
+      DATE_FORMAT(o.order_date, '%b') AS label,
+      SUM(oi.quantity) AS total_qty,
+      SUM(o.total_amount) AS total_sales
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    WHERE YEAR(o.order_date) = ?
+      AND TRIM(LOWER(o.status)) = 'completed'
+    GROUP BY label, MONTH(o.order_date)
+    ORDER BY MONTH(o.order_date) ASC
   `, [year]);
   return monthly;
 };
