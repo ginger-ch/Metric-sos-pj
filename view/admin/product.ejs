@@ -1,6 +1,8 @@
 <%- include('../partials/admin-navbar') %>
 
 <link rel="stylesheet" href="/css/admin-product.css">
+<link rel="stylesheet" href="/css/admin-navbar.css">
+
 
 <div class="pm-page">
   <div class="pm-container">
@@ -15,13 +17,13 @@
       <div class="pm-controls">
         <div class="pm-filter">
           <select class="pm-select" id="categoryFilter">
-            <option value="">All Categories</option>
-            <% if (typeof categories !== 'undefined') { %>
-              <% categories.forEach(cat => { %>
-                <option value="<%= cat._id %>"><%= cat.name %></option>
-              <% }) %>
-            <% } %>
-          </select>
+  <option value="">All Categories</option>
+  <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+    <% categories.forEach(cat => { %>
+      <option value="<%= cat.category_id %>"><%= cat.category_name %></option>
+    <% }) %>
+  <% } %>
+</select>
         </div>
 
         <div class="pm-search">
@@ -75,9 +77,15 @@
               <span class="pm-meta-value"><%= product.category ? product.category.name : '-' %></span>
             </div>
             <div class="pm-meta-row">
-              <span class="pm-meta-label">PRICE</span>
-              <span class="pm-meta-value"><%= product.price %>$</span>
-            </div>
+  <span class="pm-meta-label">PRICE</span>
+  <span class="pm-meta-value"><%= product.price %></span>
+</div>
+<div class="pm-meta-row">
+  <span class="pm-meta-label">TOTAL STOCK</span>
+  <span class="pm-meta-value <%= product.stock === 0 ? 'text-danger' : '' %>">
+    <%= product.stock %> items
+  </span>
+</div>
             <div class="pm-meta-row">
               <span class="pm-meta-label">ATTRIBUTES</span>
               <span class="pm-meta-value">
@@ -90,7 +98,15 @@
           </div>
 
           <div class="pm-card-actions">
-            <a href="/admin/products/<%= product._id %>/edit" class="pm-btn-edit">EDIT</a>
+           <button type="button" 
+        class="pm-btn-edit edit-trigger" 
+        data-id="<%= product._id %>"
+        data-name="<%= product.name %>"
+        data-detail="<%= product.detail %>"
+        data-price="<%= product.price %>"
+        data-category="<%= product.category_id %>">
+  EDIT
+</button>
             <form action="/admin/products/<%= product._id %>?_method=DELETE" method="POST" style="display:inline;">
               <button type="submit" class="pm-btn-delete" onclick="return confirm('Delete this product?')">DELETE</button>
             </form>
@@ -110,17 +126,17 @@
 <!-- New Product Modal -->
 <div class="pm-modal-overlay" id="productModal">
   <div class="pm-modal">
-    <h2 class="pm-modal-title">New Product</h2>
+    <h2 class="pm-modal-title" id="modalTitle">New Product</h2>
 
-    <form action="/admin/products" method="POST" enctype="multipart/form-data" class="pm-form">
-
+    <form action="/admin/products" method="POST" enctype="multipart/form-data" class="pm-form" id="productForm">
+      
       <div class="pm-form-group">
         <label class="pm-label">Categories</label>
-        <select name="category" class="pm-input pm-input-select">
-          <option value="">5th</option>
+        <select name="category" id="modalCategory" class="pm-input pm-input-select" required>
+          <option value="" disabled selected>Select Category</option>
           <% if (typeof categories !== 'undefined') { %>
             <% categories.forEach(cat => { %>
-              <option value="<%= cat._id %>"><%= cat.name %></option>
+              <option value="<%= cat.category_id %>"><%= cat.category_name %></option>
             <% }) %>
           <% } %>
         </select>
@@ -128,48 +144,32 @@
 
       <div class="pm-form-group">
         <label class="pm-label">Product name</label>
-        <input type="text" name="name" class="pm-input" placeholder="5th">
+        <input type="text" name="name" id="modalName" class="pm-input" placeholder="5th">
       </div>
 
       <div class="pm-form-group">
         <label class="pm-label">Detail</label>
-        <textarea name="detail" class="pm-input pm-textarea" placeholder="About your product..."></textarea>
+        <textarea name="detail" id="modalDetail" class="pm-input pm-textarea" placeholder="About your product..."></textarea>
       </div>
 
       <div class="pm-form-row">
         <div class="pm-form-group pm-form-half">
           <label class="pm-label">Price</label>
-          <input type="number" name="price" class="pm-input" placeholder="$ amt">
+          <input type="number" name="price" id="modalPrice" class="pm-input" placeholder="$ amt">
         </div>
-
-        <div class="pm-form-group pm-form-half">
-          <label class="pm-label">&nbsp;</label>
-          <label class="pm-upload-box">
-            <input type="file" name="images" multiple accept="image/*" class="pm-file-input">
-            <span class="pm-upload-icon">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
-                <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
-              </svg>
-            </span>
-            <span class="pm-upload-text">UPLOAD IMAGES</span>
-          </label>
         </div>
-      </div>
 
       <div class="pm-form-group">
-        <label class="pm-label">Attributes</label>
-        <div class="pm-form-row">
-          <input type="text" name="sizes" class="pm-input pm-form-half" placeholder="Size">
-          <input type="text" name="color" class="pm-input pm-form-half" placeholder="Color">
-        </div>
+          <label class="pm-label">Inventory Variations</label>
+          <div id="attribute-container">
+              </div>
+          <button type="button" id="add-attribute-btn">+ Add Variation</button>
       </div>
 
       <div class="pm-modal-actions">
         <button type="button" class="pm-btn-cancel" id="closeModalBtn">CANCEL</button>
         <button type="submit" class="pm-btn-confirm">CONFIRM</button>
       </div>
-
     </form>
   </div>
 </div>

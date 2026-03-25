@@ -183,6 +183,7 @@ exports.getAllProducts = async (categoryId = null, search = '') => {
       p.base_price AS price,
       ANY_VALUE(c.category_name) AS category_name,
       ANY_VALUE(pi.image_url) AS main_image,
+      SUM(pa.stock_qty) AS total_stock, -- <--- Your new SUM logic here
       GROUP_CONCAT(DISTINCT pa.size) AS sizes,
       GROUP_CONCAT(DISTINCT pa.color) AS colors
     FROM products p
@@ -203,11 +204,9 @@ exports.getAllProducts = async (categoryId = null, search = '') => {
     params.push(`%${search}%`);
   }
 
-  if (conditions.length > 0) {
-    query += ` WHERE ` + conditions.join(' AND ');
-  }
-
-  // We also added p.created_at to the GROUP BY to satisfy the ORDER BY requirement
+  if (conditions.length > 0) query += ` WHERE ` + conditions.join(' AND ');
+  
+  // Group by ID to ensure the SUM works correctly per product
   query += ` GROUP BY p.product_id, p.created_at ORDER BY p.created_at DESC`;
 
   const [products] = await db.query(query, params);
@@ -217,7 +216,8 @@ exports.getAllProducts = async (categoryId = null, search = '') => {
     category: { name: p.category_name },
     images: p.main_image ? [p.main_image] : [],
     sizes: p.sizes ? p.sizes.split(',') : [],
-    color: p.colors
+    color: p.colors,
+    stock: p.total_stock || 0 // Pass the calculated stock to the UI
   }));
 };
 
@@ -256,4 +256,40 @@ exports.createFullProduct = async (data) => {
 
 exports.deleteProduct = async (id) => {
   await db.query(`DELETE FROM products WHERE product_id = ?`, [id]);
+};
+
+exports.updateProductData = async (productId, data) => {
+    const connection = await db.getConnection();
+    try {
+        await connection.beginTransaction();
+
+  
+        await connection.query(
+            `UPDATE products SET product_name=?, category_id=?, base_price=?, description=? WHERE product_id=?`,
+            [data.name, data.category, data.price, data.detail, productId]
+        );
+
+        await connection.query(`DELETE FROM product_attributes WHERE product_id=?`, [productId]);
+        
+        if (data.sizes && data.sizes.length > 0) {
+            const sizeArr = Array.isArray(data.sizes) ? data.sizes : [data.sizes];
+            const colorArr = Array.isArray(data.colors) ? data.colors : [data.colors];
+            const stockArr = Array.isArray(data.stocks) ? data.stocks : [data.stocks];
+
+            for (let i = 0; i < sizeArr.length; i++) {
+                await connection.query(
+                    `INSERT INTO product_attributes (product_id, size, color, stock_qty) VALUES (?, ?, ?, ?)`,
+                    [productId, sizeArr[i], colorArr[i], stockArr[i]]
+                );
+            }
+        }
+
+        await connection.commit();
+        return true;
+    } catch (err) {
+        await connection.rollback();
+        throw err; 
+    } finally {
+        connection.release();
+    }
 };

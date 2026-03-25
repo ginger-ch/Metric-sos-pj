@@ -11,6 +11,9 @@ router.post('/categories', adminController.createCategory);
 router.put('/categories/:id', adminController.updateCategory);
 router.patch('/categories/:id/visibility', adminController.updateVisibility);
 router.delete('/categories/:id', adminController.deleteCategory);
+router.get('/products/:id/edit', adminController.editProductPage);
+router.post('/products/:id/edit', adminController.updateProduct);
+router.delete('/products/:id', adminController.deleteProduct);
 
 
 module.exports = router;

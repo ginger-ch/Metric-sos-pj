@@ -1,10 +1,5 @@
-INSERT INTO categories (category_name, slug, visibility)
-VALUES
-('TOP', 'top', 'show'),
-('BOTTOM', 'bottom', 'show'),
-('DRESS', 'dress', 'show'),
-('OUTERWEAR', 'outerwear', 'show'),
-('PAJAMAS', 'pajamas', 'show');
+SET FOREIGN_KEY_CHECKS = 0;
+USE girllette;
 
 INSERT INTO products (category_id, product_name, description, base_price)
 VALUES

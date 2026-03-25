@@ -208,29 +208,37 @@ exports.getProduct = async (req, res) => {
   }
 };
 
+
 exports.addProduct = async (req, res) => {
+  const connection = await db.getConnection();
   try {
-    const { category, name, detail, price, sizes, color } = req.body;
-    
-    let imageUrl = null;
-    if (req.files && req.files.length > 0) {
-      imageUrl = `/uploads/${req.files[0].filename}`;
+    await connection.beginTransaction();
+
+    const { name, category, price, detail, sizes, colors, stocks } = req.body;
+
+    const [prodResult] = await connection.query(
+      `INSERT INTO products (product_name, category_id, base_price, description) VALUES (?, ?, ?, ?)`,
+      [name, category, price, detail]
+    );
+    const productId = prodResult.insertId;
+
+    if (sizes && sizes.length > 0) {
+      for (let i = 0; i < sizes.length; i++) {
+        await connection.query(
+          `INSERT INTO product_attributes (product_id, size, color, stock_qty) VALUES (?, ?, ?, ?)`,
+          [productId, sizes[i], colors[i], stocks[i]]
+        );
+      }
     }
 
-    await productModel.createFullProduct({
-      category_id: category,
-      name,
-      detail,
-      price,
-      size: sizes,
-      color,
-      imageUrl
-    });
-
+    await connection.commit();
     res.redirect('/admin/product');
-  } catch (error) {
-    console.error(error);
-    res.redirect('/admin/product?error=failed_to_add');
+  } catch (err) {
+    await connection.rollback();
+    console.error(err);
+    res.status(500).send("Failed to create product");
+  } finally {
+    connection.release();
   }
 };
 
@@ -242,4 +250,17 @@ exports.deleteProduct = async (req, res) => {
     console.error(error);
     res.redirect('/admin/product?error=delete_failed');
   }
+};
+exports.updateProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        
+
+        await adminModel.updateProductData(productId, req.body);
+        
+        res.redirect('/admin/product');
+    } catch (err) {
+        console.error("Update Error:", err);
+        res.status(500).send("Error updating product");
+    }
 };
