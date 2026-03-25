@@ -9,6 +9,7 @@ const contactController = require('../controller/contact-controller');
 const searchController = require('../controller/search-controller');
 const productDetailController = require('../controller/product-detail-controller');
 const cartController = require('../controller/cart-controller');
+const userController = require('../controller/user-controller');
 
 router.get('/', homeController.getHomePage);
 // router.get('/cart', cartController.requireLogin, cartController.getCart);
@@ -23,5 +24,8 @@ router.get('/contact', contactController.getContact);
 router.post('/subscribe', contactController.subscribe);
 router.get('/search', searchController.getSearch);
 router.get('/product/:id', productDetailController.getProduct);
+router.get('/profile', userController.getProfile);
+router.post('/profile/edit', userController.updateProfile);
+router.post('/profile/avatar', userController.upload.single('avatar'), userController.updateAvatar);
 
 module.exports = router;
