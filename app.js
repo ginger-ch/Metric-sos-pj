@@ -8,7 +8,7 @@ app.set('views', './view');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'secret', resave: false, saveUninitialized: false, cookie: { maxAge: 3600000 } }));
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -17,6 +17,15 @@ app.use((req, res, next) => {
 });
 
 const homeModel = require('./model/home-model');
+
+// app.use((req, res, next) => {
+//   console.log("---------------------------");
+//   console.log("Path:", req.url);
+//   console.log("Session ID:", req.sessionID);
+//   console.log("User in Session:", req.session.user ? req.session.user : "EMPTY (Not Logged In)");
+//   console.log("---------------------------");
+//   next();
+// });
 
 app.use(async (req, res, next) => {
   try {
@@ -27,9 +36,10 @@ app.use(async (req, res, next) => {
   next();
 });
 
+app.use('/', require('./route/webstore-route'));
 app.use('/', require('./route/auth-route'));
 app.use('/admin', require('./route/admin-route'));
-app.use('/', require('./route/webstore-route'));
+// app.use('/', require('./route/webstore-route'));
 
 app.listen(4000, () => {
   console.log('Girlette running at http://localhost:4000');
