@@ -80,6 +80,20 @@ VALUES
 (4, 'Black Bow Racing Leather Jacket', 'Statement black PU leather racing jacket with pink bow appliqués, contrast stripes, and zip pockets', 1290),
 (4, 'Beige Corduroy Collar Drawstring Jacket', 'Casual oversized jacket in beige with corduroy collar, snap buttons, and side drawstring tie', 890);
  
+ -- pajamas
+(5, 'Yellow Gingham Tomato Embroidery Pajama Set', 'Short sleeve pajama set in yellow gingham with cute tomato embroidery and red buttons', 590),
+(5, 'Ruffle Bow Cami Pajama Set', 'Sleeveless cami top and shorts set with ruffle hem and bow detail', 550),
+(5, 'Cute Bear Print Tee Pajama Set', 'Relaxed short sleeve tee and shorts set with adorable bear character print', 490),
+(5, 'Strawberry Print Cami Pajama Set', 'Delicate spaghetti strap crop top and shorts in white strawberry print', 520),
+(5, 'Pastel Plaid Button Pajama Set', 'Classic button-up short sleeve shirt and shorts in soft pastel plaid', 550),
+(5, 'Gingham Embroidery Long Pants Pajama Set', 'Button-up shirt and wide-leg long pants set in gingham with cute character embroidery', 620),
+(5, 'Cherry Print Ruffle Nightgown', 'Flowy spaghetti strap nightgown with cherry print and ruffle hem', 520),
+(5, 'Cherry Print Slip Nightgown', 'Loose-fit slip nightgown in white with allover cherry print and ruffle bottom', 490),
+(5, 'Lace Collar Gingham Nightgown', 'Short puff sleeve nightgown with lace eyelet collar and bow in gingham check', 590),
+(5, 'Gingham Lace Ruffle Cami Set', 'Cami top and shorts set with lace trim straps and ruffle hem in pink gingham', 550),
+(5, 'Flannel Bear Cherry Long Sleeve Set', 'Warm flannel long sleeve top and pants set with bear and cherry allover print', 690),
+(5, 'Letter Print Tee & Gingham Pants Set', 'Oversized letter print tee paired with wide-leg gingham check pants', 620);
+ 
 
 INSERT INTO product_images (product_id, image_url, is_primary, sort_order)
 VALUES
@@ -259,6 +273,47 @@ VALUES
 (49, '/image/products/outerwear/outerwear11_5.jpg', 0, 5),
 -- outerwear12
 (50, '/image/products/outerwear/outerwear12_1.jpg', 1, 1);
+
+-- pajamas
+-- pajamas1
+(1, '/image/products/pajamas/pajamas1_1.jpg', 1, 1),
+(1, '/image/products/pajamas/pajamas1_2.jpg', 0, 2),
+-- pajamas2
+(2, '/image/products/pajamas/pajamas2_1.jpg', 1, 1),
+(2, '/image/products/pajamas/pajamas2_2.jpg', 0, 2),
+(2, '/image/products/pajamas/pajamas2_3.jpg', 0, 3),
+-- pajamas3 (primary = pajamas3.jpg)
+(3, '/image/products/pajamas/pajamas3.jpg', 1, 1),
+(3, '/image/products/pajamas/pajamas3_2.jpg', 0, 2),
+-- pajamas4
+(4, '/image/products/pajamas/pajamas4_1.jpg', 1, 1),
+(4, '/image/products/pajamas/pajamas4_2.jpg', 0, 2),
+-- pajamas5
+(5, '/image/products/pajamas/pajamas5_1.jpg', 1, 1),
+(5, '/image/products/pajamas/pajamas5_2.jpg', 0, 2),
+(5, '/image/products/pajamas/pajamas5_3.jpg', 0, 3),
+-- pajamas6
+(6, '/image/products/pajamas/pajamas6_1.jpg', 1, 1),
+(6, '/image/products/pajamas/pajamas6_2.jpg', 0, 2),
+-- pajamas7
+(7, '/image/products/pajamas/pajamas7_1.jpg', 1, 1),
+(7, '/image/products/pajamas/pajamas7_2.jpg', 0, 2),
+-- pajamas8
+(8, '/image/products/pajamas/pajamas8_1.jpg', 1, 1),
+(8, '/image/products/pajamas/pajamas8_2.jpg', 0, 2),
+-- pajamas9
+(9, '/image/products/pajamas/pajamas9_1.jpg', 1, 1),
+(9, '/image/products/pajamas/pajamas9_2.jpg', 0, 2),
+-- pajamas10
+(10, '/image/products/pajamas/pajamas10_1.jpg', 1, 1),
+(10, '/image/products/pajamas/pajamas10_2.jpg', 0, 2),
+-- pajamas11
+(11, '/image/products/pajamas/pajamas11_1.jpg', 1, 1),
+(11, '/image/products/pajamas/pajamas11_2.jpg', 0, 2),
+-- pajamas12
+(12, '/image/products/pajamas/pajamas12_1.jpg', 1, 1),
+(12, '/image/products/pajamas/pajamas12_2.jpg', 0, 2);
+ 
  
  
 
@@ -546,7 +601,78 @@ VALUES
 -- outerwear12 
 (50, 'S', 'beige', 9),
 (50, 'M', 'beige', 11),
-(50, 'L', 'beige', 7);
+(50, 'L', 'beige', 7),
+
+-- pajamas
+-- pajamas1
+(1, 'S', 'yellow', 10),
+(1, 'M', 'yellow', 12),
+(1, 'L', 'yellow', 8),
+-- pajamas2
+(2, 'S', 'cream', 9),
+(2, 'M', 'cream', 11),
+(2, 'L', 'cream', 6),
+(2, 'S', 'grey', 8),
+(2, 'M', 'grey', 10),
+(2, 'L', 'grey', 5),
+-- pajamas3
+(3, 'S', 'cream', 10),
+(3, 'M', 'cream', 12),
+(3, 'L', 'cream', 7),
+-- pajamas4
+(4, 'S', 'white', 10),
+(4, 'M', 'white', 12),
+(4, 'L', 'white', 8),
+-- pajamas5
+(5, 'S', 'pink', 8),
+(5, 'M', 'pink', 10),
+(5, 'L', 'pink', 6),
+(5, 'S', 'green', 8),
+(5, 'M', 'green', 9),
+(5, 'L', 'green', 5),
+(5, 'S', 'purple', 7),
+(5, 'M', 'purple', 9),
+(5, 'L', 'purple', 5),
+-- pajamas6:
+(6, 'S', 'purple', 9),
+(6, 'M', 'purple', 11),
+(6, 'L', 'purple', 6),
+(6, 'S', 'pink', 9),
+(6, 'M', 'pink', 10),
+(6, 'L', 'pink', 5),
+-- pajamas7
+(7, 'S', 'pink', 9),
+(7, 'M', 'pink', 11),
+(7, 'L', 'pink', 6),
+(7, 'S', 'cream', 8),
+(7, 'M', 'cream', 10),
+(7, 'L', 'cream', 5),
+-- pajamas8
+(8, 'S', 'white', 10),
+(8, 'M', 'white', 12),
+(8, 'L', 'white', 7),
+-- pajamas9
+(9, 'S', 'pink', 9),
+(9, 'M', 'pink', 11),
+(9, 'L', 'pink', 6),
+(9, 'S', 'blue', 8),
+(9, 'M', 'blue', 10),
+(9, 'L', 'blue', 5),
+-- pajamas10
+(10, 'S', 'pink', 10),
+(10, 'M', 'pink', 12),
+(10, 'L', 'pink', 7),
+-- pajamas11
+(11, 'S', 'cream', 9),
+(11, 'M', 'cream', 11),
+(11, 'L', 'cream', 6),
+-- pajamas12
+(12, 'S', 'red', 9),
+(12, 'M', 'red', 11),
+(12, 'L', 'red', 6),
+(12, 'S', 'blue', 8),
+(12, 'M', 'blue', 10),
+(12, 'L', 'blue', 5);
  
  
 
