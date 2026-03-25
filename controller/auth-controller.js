@@ -1,5 +1,6 @@
 const userModel = require('../model/user-model');
 
+//login
 exports.getLogin = (req, res) => {
   res.render('auth/login', {
     error: req.flash('error')[0] || null,
@@ -41,6 +42,7 @@ exports.postLogin = async (req, res) => {
   }
 };
 
+//register
 exports.getRegister = (req, res) => {
   res.render('auth/register', {
     errors: {},
@@ -76,4 +78,18 @@ exports.postRegister = async (req, res) => {
     }
     res.render('auth/register', { errors, formData: req.body });
   }
+};
+
+//logout
+exports.logout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Logout Error:', err);
+      return res.redirect('/');
+    }
+    
+    res.clearCookie('connect.sid');
+    
+    res.redirect('/login'); 
+  });
 };
