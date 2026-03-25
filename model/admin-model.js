@@ -128,7 +128,6 @@ exports.updateOrderStatus = async (id, status) => {
   );
 };
 
-// Categories
 exports.getAllCategories = async (filter = '', search = '') => {
   const conditions = [];
   const params = [];
@@ -173,6 +172,196 @@ exports.updateCategory = async (id, name, slug, visibility) => {
     `UPDATE categories SET category_name = ?, slug = ?, visibility = ? WHERE category_id = ?`,
     [name, slug, visibility, id]
   );
+};
+
+exports.getAllProducts = async (categoryId = null, search = '') => {
+  let query = `
+    SELECT 
+      p.product_id AS _id, 
+      p.product_name AS name, 
+      p.description AS detail, 
+      p.base_price AS price,
+      ANY_VALUE(c.category_name) AS category_name,
+      ANY_VALUE(pi.image_url) AS main_image,
+      SUM(pa.stock_qty) AS total_stock, -- <--- Your new SUM logic here
+      GROUP_CONCAT(DISTINCT pa.size) AS sizes,
+      GROUP_CONCAT(DISTINCT pa.color) AS colors
+    FROM products p
+    LEFT JOIN categories c ON p.category_id = c.category_id
+    LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+    LEFT JOIN product_attributes pa ON p.product_id = pa.product_id
+  `;
+
+  const conditions = [];
+  const params = [];
+
+  if (categoryId) {
+    conditions.push(`p.category_id = ?`);
+    params.push(categoryId);
+  }
+  if (search) {
+    conditions.push(`p.product_name LIKE ?`);
+    params.push(`%${search}%`);
+  }
+
+  if (conditions.length > 0) query += ` WHERE ` + conditions.join(' AND ');
+
+  query += ` GROUP BY p.product_id ORDER BY p.created_at DESC`;
+
+  const [products] = await db.query(query, params);
+
+  for (let product of products) {
+
+  const [attrs] = await db.query(
+    `SELECT size, color, stock_qty 
+     FROM product_attributes 
+     WHERE product_id = ?`,
+    [product._id]
+  );
+
+  product.attributes = attrs;
+
+ 
+  product.sizes = typeof product.sizes === 'string'
+    ? product.sizes.split(',')
+    : [];
+
+
+  product.category = {
+    name: product.category_name
+  };
+
+
+  product.images = product.main_image
+    ? [product.main_image]
+    : [];
+}
+
+
+
+
+  return products;
+}
+  
+  
+
+
+exports.createFullProduct = async (data) => {
+  const connection = await db.getConnection();
+
+  try {
+    await connection.beginTransaction();
+
+    const [result] = await connection.query(
+      `INSERT INTO products (category_id, product_name, description, base_price)
+       VALUES (?, ?, ?, ?)`,
+      [
+  data.category,
+  data.name,
+  data.detail,
+  Number(data.price) || 0
+]
+    );
+
+    const productId = result.insertId;
+
+  
+    if (data.files) {
+      for (let file of data.files) {
+        const imagePath = file.path.replace('public', '');
+
+        await connection.query(
+          `INSERT INTO product_images (product_id, image_url, is_primary)
+           VALUES (?, ?, 1)`,
+          [productId, imagePath]
+        );
+      }
+    }
+
+
+    const sizes = Array.isArray(data.sizes) ? data.sizes : [data.sizes];
+    const colors = Array.isArray(data.colors) ? data.colors : [data.colors];
+    const stocks = Array.isArray(data.stocks) ? data.stocks : [data.stocks];
+
+    for (let i = 0; i < sizes.length; i++) {
+      if (!sizes[i] && !colors[i]) continue;
+
+      await connection.query(
+        `INSERT INTO product_attributes (product_id, size, color, stock_qty)
+         VALUES (?, ?, ?, ?)`,
+        [productId, sizes[i], colors[i], Number(stocks[i]) || 0]
+      );
+    }
+
+    await connection.commit();
+    return productId;
+
+  } catch (err) {
+    await connection.rollback();
+    throw err;
+  } finally {
+    connection.release();
+  }
+};
+
+exports.deleteProduct = async (id) => {
+  await db.query(`DELETE FROM products WHERE product_id = ?`, [id]);
+};
+
+exports.updateProductData = async (productId, data) => {
+    const connection = await db.getConnection();
+    try {
+        await connection.beginTransaction();
+
+        // Safety check to ensure data actually arrived
+        if (!data || !data.name) {
+            throw new Error("Form data was not received correctly. Check Multer middleware.");
+        }
+
+        // 1. Update main table
+        await connection.query(
+            `UPDATE products SET product_name=?, category_id=?, base_price=?, description=? WHERE product_id=?`,
+            [data.name, data.category, data.price, data.detail, productId]
+        );
+
+        // 2. Refresh attributes
+        await connection.query(`DELETE FROM product_attributes WHERE product_id=?`, [productId]);
+        
+        if (data.sizes) {
+            // Force inputs into arrays (Multer makes them strings if there's only one)
+            const sizes = Array.isArray(data.sizes) ? data.sizes : [data.sizes];
+            const colors = Array.isArray(data.colors) ? data.colors : [data.colors];
+            const stocks = Array.isArray(data.stocks) ? data.stocks : [data.stocks];
+
+            for (let i = 0; i < sizes.length; i++) {
+                // Skip rows that are totally empty
+                if (!sizes[i] && !colors[i]) continue;
+
+                await connection.query(
+                    `INSERT INTO product_attributes (product_id, size, color, stock_qty) VALUES (?, ?, ?, ?)`,
+                    [productId, sizes[i], colors[i], Number(stocks[i]) || 0]
+                );
+            }
+        }
+
+        await connection.commit();
+        return true;
+    } catch (err) {
+        await connection.rollback();
+        throw err; 
+    } finally {
+        connection.release();
+    }
+};
+
+exports.getProductAttributes = async (productId) => {
+  const [rows] = await db.query(
+    `SELECT size, color, stock_qty 
+     FROM product_attributes 
+     WHERE product_id = ?`,
+    [productId]
+  );
+  return rows;
 };
 
 // Sales History
@@ -222,4 +411,5 @@ exports.getMonthlySales = async (year) => {
     ORDER BY MONTH(o.order_date) ASC
   `, [year]);
   return monthly;
+
 };

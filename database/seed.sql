@@ -8,6 +8,7 @@ TRUNCATE TABLE categories;
 TRUNCATE TABLE users;
 SET FOREIGN_KEY_CHECKS = 1;
 
+
 INSERT INTO users (full_name, username, email, password_hash, role)
 VALUES ('Admin', 'admin', 'admin@girllette.com', 'admin1234', 'admin');
 
@@ -79,7 +80,7 @@ VALUES
 (4, 'Lace Tie-Front Shrug Cardigan', 'Delicate sheer lace shrug with ruffle trim and front tie closure', 590),
 (4, 'Crochet Star Crop Sweater', 'Handmade-style open-knit crochet crop sweater with star motif and contrast stripe sleeves', 750),
 (4, 'Colorblock Stripe Knit Sweater', 'Retro colorblock stripe knit sweater with V-neck lace-up detail in green, brown, and grey tones', 790),
-(4, 'Black Bow Racing Leather Jacket', 'Statement black PU leather racing jacket with pink bow appliques, contrast stripes, and zip pockets', 1290),
+(4, 'Black Bow Racing Leather Jacket', 'Statement black PU leather racing jacket with pink bow appliqués, contrast stripes, and zip pockets', 1290),
 (4, 'Beige Corduroy Collar Drawstring Jacket', 'Casual oversized jacket in beige with corduroy collar, snap buttons, and side drawstring tie', 890),
  
  -- pajamas
@@ -320,9 +321,6 @@ VALUES
  
  
  
-
--- Bottom
-
 
 INSERT INTO product_attributes (product_id, size, color, stock_qty)
 VALUES

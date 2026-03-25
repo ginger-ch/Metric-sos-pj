@@ -1,0 +1,564 @@
+/* ============================================
+   Product Management - admin-product.css
+   Place in: public/css/admin-product.css
+   ============================================ */
+
+/* ---------- Page Layout ---------- */
+.pm-page {
+  min-height: 100vh;
+  background-color: #f2f1ef;
+  padding: 36px 28px;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+.pm-container {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+.pm-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.pm-title {
+  font-size: 30px;
+  font-weight: 800;
+  margin: 0 0 4px 0;
+  color: #111;
+  letter-spacing: -0.6px;
+}
+
+.pm-subtitle {
+  font-size: 13px;
+  color: #999;
+  margin: 0;
+}
+
+.pm-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ---------- Filter & Search ---------- */
+.pm-select,
+.pm-search-input {
+  height: 38px;
+  border: 1.5px solid #ddd;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 13px;
+  color: #333;
+  padding: 0 12px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.pm-select {
+  padding-right: 30px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  cursor: pointer;
+}
+
+.pm-select:focus,
+.pm-search-input:focus {
+  border-color: #999;
+}
+
+.pm-search {
+  position: relative;
+}
+
+.pm-search-input {
+  padding-right: 38px;
+  width: 190px;
+}
+
+.pm-search-icon {
+  position: absolute;
+  right: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #bbb;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+/* ---------- Add Button ---------- */
+.pm-add-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  border: none;
+  background: #111;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  flex-shrink: 0;
+}
+
+.pm-add-btn:hover {
+  background: #333;
+  transform: scale(1.05);
+}
+
+/* ---------- Product List ---------- */
+.pm-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.pm-empty {
+  text-align: center;
+  padding: 64px 20px;
+  color: #bbb;
+  font-size: 14px;
+  background: #fff;
+  border-radius: 12px;
+  border: 1.5px dashed #e0e0e0;
+}
+
+/* ---------- Product Card ---------- */
+.pm-card {
+  background: #fff;
+  border: 1.5px solid #e8e8e8;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 18px 22px;
+  transition: box-shadow 0.2s;
+}
+
+.pm-card:hover {
+  box-shadow: 0 3px 16px rgba(0, 0, 0, 0.08);
+}
+
+/* Product Image */
+.pm-card-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #efefef;
+  flex-shrink: 0;
+}
+
+.pm-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pm-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ccc;
+}
+
+/* Card Info */
+.pm-card-info {
+  flex: 1.4;
+  min-width: 0;
+}
+
+.pm-card-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 5px;
+}
+
+.pm-card-detail {
+  font-size: 12.5px;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+/* Card Meta */
+.pm-card-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.pm-meta-row {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  font-size: 11.5px;
+  line-height: 1.5;
+}
+
+.pm-meta-label {
+  color: #bbb;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.pm-meta-value {
+  color: #444;
+  font-weight: 500;
+}
+
+.pm-meta-value.text-danger {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+/* Card Actions */
+.pm-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+  flex-shrink: 0;
+  width: 100px;
+}
+
+/* ---------- EDIT & DELETE Buttons — consistent sizing ---------- */
+.pm-btn-edit,
+.pm-btn-delete {
+  display: block;
+  width: 100%;
+  padding: 8px 0;
+  border-radius: 7px;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+  border: none;
+  transition: opacity 0.15s, transform 0.1s;
+  line-height: 1;
+  box-sizing: border-box;
+}
+
+.pm-btn-edit {
+  background: #fce8e8;
+  color: #c0392b;
+}
+
+.pm-btn-edit:hover {
+  background: #f9d5d5;
+}
+
+.pm-btn-delete {
+  background: #111;
+  color: #fff;
+}
+
+.pm-btn-delete:hover {
+  background: #2d2d2d;
+}
+
+/* ---------- Modal Overlay ---------- */
+.pm-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.38);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(3px);
+}
+
+.pm-modal-overlay.active {
+  display: flex;
+}
+
+/* ---------- Modal ---------- */
+.pm-modal {
+  background: #fff;
+  border-radius: 14px;
+  width: 100%;
+  max-width: 500px;
+  padding: 34px 34px 28px;
+  box-shadow: 0 16px 56px rgba(0, 0, 0, 0.18);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.pm-modal-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111;
+  margin: 0 0 24px 0;
+  letter-spacing: -0.3px;
+}
+
+/* ---------- Form ---------- */
+.pm-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.pm-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.pm-form-row {
+  display: flex;
+  gap: 12px;
+}
+
+.pm-form-half {
+  flex: 1;
+  min-width: 0;
+}
+
+.pm-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #555;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.pm-input {
+  height: 40px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 7px;
+  font-size: 13px;
+  color: #333;
+  padding: 0 12px;
+  outline: none;
+  background: #fafafa;
+  transition: border-color 0.2s, background 0.2s;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.pm-input:focus {
+  border-color: #999;
+  background: #fff;
+}
+
+.pm-input-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-color: #fafafa;
+  cursor: pointer;
+  padding-right: 28px;
+}
+
+.pm-textarea {
+  height: auto;
+  min-height: 82px;
+  padding: 10px 12px;
+  resize: vertical;
+  line-height: 1.5;
+}
+
+/* ---------- Attribute / Variation Rows ---------- */
+#attribute-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.attribute-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.attribute-row .pm-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.btn-remove {
+  background: #111;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  width: 38px;
+  height: 40px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+.btn-remove:hover {
+  background: #333;
+}
+
+#add-attribute-btn {
+  width: 100%;
+  height: 38px;
+  background: #fff;
+  border: 1.5px dashed #ccc;
+  border-radius: 7px;
+  color: #555;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  margin-top: 4px;
+}
+
+#add-attribute-btn:hover {
+  border-color: #999;
+  background: #f8f8f8;
+}
+
+/* ---------- Upload Box ---------- */
+.pm-upload-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px dashed #d0d0d0;
+  border-radius: 8px;
+  background: #fafafa;
+  padding: 18px 12px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  gap: 6px;
+}
+
+.pm-upload-box:hover {
+  border-color: #999;
+  background: #f3f3f3;
+}
+
+.pm-file-input {
+  display: none;
+}
+
+.pm-upload-icon {
+  color: #bbb;
+}
+
+.pm-upload-text {
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #bbb;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* ---------- Modal Actions ---------- */
+.pm-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+/* CANCEL & CONFIRM — same height, same padding */
+.pm-btn-cancel,
+.pm-btn-confirm {
+  padding: 10px 28px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  border: none;
+  transition: opacity 0.15s, transform 0.1s;
+  line-height: 1;
+}
+
+.pm-btn-cancel {
+  background: #111;
+  color: #fff;
+}
+
+.pm-btn-confirm {
+  background: #fce8e8;
+  color: #c0392b;
+}
+
+.pm-btn-cancel:hover,
+.pm-btn-confirm:hover {
+  opacity: 0.82;
+  transform: translateY(-1px);
+}
+
+/* ---------- Responsive: Mobile ---------- */
+@media (max-width: 640px) {
+  .pm-page {
+    padding: 20px 14px;
+  }
+
+  .pm-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .pm-controls {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .pm-search-input {
+    width: 100%;
+  }
+
+  .pm-card {
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .pm-card-meta {
+    width: 100%;
+  }
+
+  .pm-card-actions {
+    flex-direction: row;
+    width: 100%;
+  }
+
+  .pm-btn-edit,
+  .pm-btn-delete {
+    flex: 1;
+  }
+
+  .pm-modal {
+    padding: 24px 18px 20px;
+    margin: 14px;
+  }
+
+  .pm-form-row {
+    flex-direction: column;
+  }
+
+  .attribute-row {
+    flex-wrap: wrap;
+  }
+}

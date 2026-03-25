@@ -1,0 +1,198 @@
+<%- include('../partials/admin-navbar') %>
+
+<link rel="stylesheet" href="/css/admin-product.css">
+<link rel="stylesheet" href="/css/admin-navbar.css">
+
+
+<div class="pm-page">
+  <div class="pm-container">
+
+    <!-- Page Header -->
+    <div class="pm-header">
+      <div class="pm-title-block">
+        <h1 class="pm-title">Product</h1>
+        <p class="pm-subtitle">Manage clothing inventory</p>
+      </div>
+
+      <div class="pm-controls">
+        <div class="pm-filter">
+          <select class="pm-select" id="categoryFilter">
+  <option value="" <%= (!currentCategory || currentCategory === '') ? 'selected' : '' %>>All Categories</option>
+  
+  <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+    <% categories.forEach(cat => { %>
+      <option value="<%= cat.category_id %>" 
+        <%= (typeof currentCategory !== 'undefined' && currentCategory == cat.category_id) ? 'selected' : '' %>>
+        <%= cat.category_name %>
+      </option>
+    <% }) %>
+  <% } %>
+</select>
+        </div>
+
+        <div class="pm-search">
+          <input
+            type="text"
+            class="pm-search-input"
+            placeholder="Search order name"
+            id="searchInput"
+          />
+          <span class="pm-search-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+        </div>
+
+        <button class="pm-add-btn" id="openModalBtn" title="Add new product">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product List -->
+    <div class="pm-list">
+      <% if (typeof products !== 'undefined' && products.length > 0) { %>
+        <% products.forEach(product => { %>
+        <div class="pm-card">
+          <div class="pm-card-image">
+            <% if (product.images && product.images.length > 0) { %>
+              <img src="<%= product.main_image %>" alt="<%= product.name %>">
+            <% } else { %>
+              <div class="pm-image-placeholder">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+                  <polyline points="21 15 16 10 5 21"/>
+                </svg>
+              </div>
+            <% } %>
+          </div>
+
+          <div class="pm-card-info">
+            <div class="pm-card-name"><%= product.name %></div>
+            <div class="pm-card-detail"><%= product.detail || 'Detail...' %></div>
+          </div>
+
+          <div class="pm-card-meta">
+            <div class="pm-meta-row">
+              <span class="pm-meta-label">CATEGORY</span>
+              <span class="pm-meta-value"><%= product.category ? product.category.name : '-' %></span>
+            </div>
+            <div class="pm-meta-row">
+  <span class="pm-meta-label">PRICE</span>
+  <span class="pm-meta-value"><%= product.price %></span>
+</div>
+<div class="pm-meta-row">
+  <span class="pm-meta-label">TOTAL STOCK</span>
+  <span class="pm-meta-value <%= product.stock === 0 ? 'text-danger' : '' %>">
+    <%= product.stock %> items
+  </span>
+</div>
+            <div class="pm-meta-row">
+              <span class="pm-meta-label">ATTRIBUTES</span>
+              <span class="pm-meta-value">
+                <% if (product.sizes && product.sizes.length > 0) { %>
+                  <%= product.sizes.join(', ') %>
+                <% } %>
+                <% if (product.colors) { %>
+                <br><%= product.colors %>
+                <% } %>
+              </span>
+            </div>
+          </div>
+
+          <div class="pm-card-actions">
+           <button type="button" 
+        class="pm-btn-edit edit-trigger" 
+        data-id="<%= product._id %>"
+        data-name="<%= product.name %>"
+        data-detail="<%= product.detail %>"
+        data-price="<%= product.price %>"
+        data-category="<%= product.category_id %>"
+        data-attributes='<%- JSON.stringify(product.attributes || []) %>'>
+  EDIT
+</button>
+
+            <form action="/admin/products/<%= product._id %>?_method=DELETE" method="POST" style="display:inline;">
+              <button type="submit" class="pm-btn-delete" onclick="return confirm('Delete this product?')">DELETE</button>
+            </form>
+          </div>
+        </div>
+        <% }) %>
+      <% } else { %>
+        <div class="pm-empty">
+          <p>No products found. Add your first product!</p>
+        </div>
+      <% } %>
+    </div>
+
+  </div>
+</div>
+
+<!-- New Product Modal -->
+<div class="pm-modal-overlay" id="productModal">
+  <div class="pm-modal">
+    <h2 class="pm-modal-title" id="modalTitle">New Product</h2>
+
+    <form action="/admin/products" method="POST" enctype="multipart/form-data" class="pm-form" id="productForm">
+      
+      <div class="pm-form-group">
+        <label class="pm-label">Categories</label>
+        <select name="category" id="modalCategory" class="pm-input pm-input-select" required>
+          <option value="" disabled selected>Select Category</option>
+          <% if (typeof categories !== 'undefined') { %>
+            <% categories.forEach(cat => { %>
+              <option value="<%= cat.category_id %>"><%= cat.category_name %></option>
+            <% }) %>
+          <% } %>
+        </select>
+      </div>
+
+      <div class="pm-form-group">
+        <label class="pm-label">Product name</label>
+        <input type="text" name="name" id="modalName" class="pm-input" placeholder="Cotton Shirt">
+      </div>
+
+      <div class="pm-form-group">
+        <label class="pm-label">Detail</label>
+        <textarea name="detail" id="modalDetail" class="pm-input pm-textarea" placeholder="About your product..."></textarea>
+      </div>
+
+<div class="pm-form-row">
+  <div class="pm-form-group pm-form-half">
+    <label class="pm-label">Price</label>
+    <input type="number" name="price" id="modalPrice" class="pm-input" placeholder="190">
+  </div>
+
+  <div class="pm-form-group pm-form-half">
+    <label class="pm-label">&nbsp;</label>
+    <label class="pm-upload-box" id="imageUploadBox">
+      <input type="file" name="images" id="imageInput" multiple accept="image/*" class="pm-file-input">
+      <span class="pm-upload-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+        </svg>
+      </span>
+      <span class="pm-upload-text" id="uploadText">UPLOAD IMAGES</span>
+    </label>
+  </div>
+</div>
+
+      <div class="pm-form-group">
+          <label class="pm-label">Inventory Variations</label>
+          <div id="attribute-container">
+              </div>
+          <button type="button" id="add-attribute-btn">+ Add Variation</button>
+      </div>
+
+      <div class="pm-modal-actions">
+        <button type="button" class="pm-btn-cancel" id="closeModalBtn">CANCEL</button>
+        <button type="submit" class="pm-btn-confirm">CONFIRM</button>
+      </div>
+    </form>
+  </div>
+</div>
+<script src="/js/admin-product.js"></script>

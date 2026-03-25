@@ -1,5 +1,6 @@
 const adminModel = require('../model/admin-model');
 
+
 exports.getDashboard = async (req, res) => {
   try {
     const categories = await adminModel.getCategories();
@@ -185,6 +186,109 @@ exports.updateCategory = async (req, res) => {
     res.status(500).send('Server Error');
   }
 };
+
+
+exports.getProduct = async (req, res) => {
+  try {
+    const { category, search } = req.query;
+    
+    const categories = await adminModel.getAllCategories(); 
+  
+    const products = await adminModel.getAllProducts(category, search);
+
+    res.render('admin/product', {
+      currentPage: 'product',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+        
+      },
+      products,
+      categories,
+      currentCategory: req.query.category || '',
+      currentSearch: req.query.search || '',
+      title: 'Product Management'
+    });
+  } catch (error) {
+    console.error("DETAILED ERROR:", error); 
+    res.status(500).send('Server Error');
+  }
+};
+
+
+exports.addProduct = async (req, res) => {
+  try {
+    console.log("CREATE BODY:", req.body);
+console.log("FILES:", req.files);
+
+    await adminModel.createFullProduct({
+      ...req.body,
+      files: req.files
+    });
+    
+
+    res.redirect('/admin/product');
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error');
+  }
+};
+
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    await adminModel.deleteProduct(req.params.id);
+    res.redirect('/admin/product');
+  } catch (error) {
+    console.error(error);
+    res.redirect('/admin/product?error=delete_failed');
+  }
+};
+exports.updateProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        
+
+        await adminModel.updateProductData(productId, req.body);
+        
+        res.redirect('/admin/product');
+    } catch (err) {
+        console.error("Update Error:", err);
+        res.status(500).send("Error updating product");
+    }
+};
+
+exports.editProductPage = async (req, res) => {
+  try {
+    const productId = req.params.id;
+    
+    // 1. Fetch the specific product by ID
+    const product = await adminModel.getProductById(productId);
+    
+    // 2. Fetch categories so the dropdown has options
+    const categories = await adminModel.getAllCategories();
+
+    if (!product) {
+      return res.status(404).send('Product not found');
+    }
+
+    res.render('admin/edit-product', {
+      currentPage: 'product',
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+      },
+      product,
+      categories,
+      title: 'Edit Product'
+    });
+  } catch (err) {
+    console.error("Edit Page Error:", err);
+    res.status(500).send('Server Error');
+  }
+};
+
  
 
 exports.getSalesHistory = async (req, res) => {
@@ -222,3 +326,4 @@ exports.getSalesHistory = async (req, res) => {
   }
 };
  
+

@@ -22,7 +22,7 @@ docker-compose.override.yml
 .vscode/
 .idea/
 
-# Upload files
 
 public/uploads/
+
 
