@@ -18,6 +18,12 @@ router.post('/cart/add', cartController.requireLogin, cartController.addToCart);
 router.post('/cart/update', cartController.requireLogin, cartController.updateQuantity);
 router.post('/cart/remove', cartController.requireLogin, cartController.removeItem);
 router.post('/cart/checkout', cartController.requireLogin, cartController.checkout);
+router.get('/cart/count', async (req, res) => {
+  if (!req.session.user) return res.json({ count: 0 });
+  const cartModel = require('../model/cart-model');
+  const count = await cartModel.getCartCount(req.session.user.user_id);
+  res.json({ count });
+});
 router.get('/products', allProductsController.getAllProducts);
 router.get('/category/:slug', categoryController.getCategoryPage);
 router.get('/contact', contactController.getContact);

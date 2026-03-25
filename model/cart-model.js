@@ -69,11 +69,33 @@ const getCartCount = async (userId) => {
   return count;
 };
 
+const createOrder = async (userId, items, total) => {
+  const orderNumber = '#' + Date.now().toString().slice(-6);
+
+  const [result] = await db.query(`
+    INSERT INTO orders (order_number, user_id, shipping_address, total_amount, status)
+    VALUES (?, ?, 'Not specified', ?, 'pending')
+  `, [orderNumber, userId, total]);
+
+  const orderId = result.insertId;
+
+  for (const item of items) {
+    await db.query(`
+      INSERT INTO order_items (order_id, product_id, attribute_id, quantity, unit_price)
+      VALUES (?, ?, ?, ?, ?)
+    `, [orderId, item.product_id, item.attribute_id, item.quantity, item.price]);
+  }
+
+  return orderId;
+};
+
 module.exports = { 
   getCartItems, 
   addItem, 
   updateQuantity, 
   removeItem, 
   clearCart, 
-  getCartCount 
+  getCartCount,
+  createOrder
 };
+
