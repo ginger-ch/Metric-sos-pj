@@ -17,14 +17,33 @@ const getBestSellers = async () => {
 
 const getCategories = async () => {
   const [categories] = await db.query(`
-    SELECT category_id AS id,
-           category_name AS name,
-           slug
-    FROM categories
-    WHERE visibility = 'show'
-    ORDER BY category_name ASC
+    SELECT 
+      c.category_id AS id,
+      c.category_name AS name,
+      c.slug,
+      (
+        SELECT pi.image_url 
+        FROM products p
+        JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_primary = 1
+        WHERE p.category_id = c.category_id
+        LIMIT 1
+      ) AS image
+    FROM categories c
+    WHERE c.visibility = 'show'
+    ORDER BY c.category_id ASC
   `);
   return categories;
 };
 
-module.exports = { getBestSellers, getCategories };
+const getNewestProductImage = async () => {
+  const [[result]] = await db.query(`
+    SELECT pi.image_url AS image
+    FROM products p
+    JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_primary = 1
+    ORDER BY p.created_at DESC
+    LIMIT 1
+  `);
+  return result?.image || null;
+};
+
+module.exports = { getBestSellers, getCategories, getNewestProductImage };

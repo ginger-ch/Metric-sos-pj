@@ -13,6 +13,11 @@ app.use(session({ secret: 'secret', resave: false, saveUninitialized: false }));
 app.use(flash());
 app.use(methodOverride('_method'));
 
+app.use((req, res, next) => {
+  res.locals.sessionUser = req.session.user || null;
+  next();
+});
+
 const homeModel = require('./model/home-model');
 
 app.use(async (req, res, next) => {
@@ -31,3 +36,4 @@ app.use('/', require('./route/webstore-route'));
 app.listen(4000, () => {
   console.log('Girlette running at http://localhost:4000');
 });
+
