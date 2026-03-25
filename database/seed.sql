@@ -5,6 +5,7 @@ TRUNCATE TABLE product_attributes;
 TRUNCATE TABLE product_images;
 TRUNCATE TABLE products;
 TRUNCATE TABLE categories;
+TRUNCATE TABLE users;
 SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO categories (category_name, slug, visibility)
