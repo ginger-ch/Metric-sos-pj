@@ -23,4 +23,6 @@ docker-compose.override.yml
 .idea/
 
 # Upload files
+
 public/uploads/
+

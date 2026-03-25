@@ -1,15 +1,3 @@
-// const mysql = require("mysql2");
-
-// const db = mysql.createConnection({
-//   host: "db",
-//   user: "root",
-//   password: "password",
-//   database: "girllette"
-// });
-
-// module.exports = db;
-
-// ขอลองแบบ pool นะเตง
 const mysql = require('mysql2/promise');
 
 const db = mysql.createPool({
@@ -20,5 +8,5 @@ const db = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
 });
-
 module.exports = db;
+
