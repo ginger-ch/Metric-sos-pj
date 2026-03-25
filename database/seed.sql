@@ -606,82 +606,11 @@ VALUES
 -- outerwear12 
 (50, 'S', 'beige', 9),
 (50, 'M', 'beige', 11),
-(50, 'L', 'beige', 7),
+(50, 'L', 'beige', 7);
 
--- pajamas
--- pajamas1
-(51, 'S', 'yellow', 10),
-(51, 'M', 'yellow', 12),
-(51, 'L', 'yellow', 8),
--- pajamas2
-(52, 'S', 'cream', 9),
-(52, 'M', 'cream', 11),
-(52, 'L', 'cream', 6),
-(52, 'S', 'grey', 8),
-(52, 'M', 'grey', 10),
-(52, 'L', 'grey', 5),
--- pajamas3
-(53, 'S', 'cream', 10),
-(53, 'M', 'cream', 12),
-(53, 'L', 'cream', 7),
--- pajamas4
-(54, 'S', 'white', 10),
-(54, 'M', 'white', 12),
-(54, 'L', 'white', 8),
--- pajamas5
-(55, 'S', 'pink', 8),
-(55, 'M', 'pink', 10),
-(55, 'L', 'pink', 6),
-(55, 'S', 'green', 8),
-(55, 'M', 'green', 9),
-(55, 'L', 'green', 5),
-(55, 'S', 'purple', 7),
-(55, 'M', 'purple', 9),
-(55, 'L', 'purple', 5),
--- pajamas6:
-(56, 'S', 'purple', 9),
-(56, 'M', 'purple', 11),
-(56, 'L', 'purple', 6),
-(56, 'S', 'pink', 9),
-(56, 'M', 'pink', 10),
-(56, 'L', 'pink', 5),
--- pajamas7
-(57, 'S', 'pink', 9),
-(57, 'M', 'pink', 11),
-(57, 'L', 'pink', 6),
-(57, 'S', 'cream', 8),
-(57, 'M', 'cream', 10),
-(57, 'L', 'cream', 5),
--- pajamas8
-(58, 'S', 'white', 10),
-(58, 'M', 'white', 12),
-(58, 'L', 'white', 7),
--- pajamas9
-(59, 'S', 'pink', 9),
-(59, 'M', 'pink', 11),
-(59, 'L', 'pink', 6),
-(59, 'S', 'blue', 8),
-(59, 'M', 'blue', 10),
-(59, 'L', 'blue', 5),
--- pajamas10
-(60, 'S', 'pink', 10),
-(60, 'M', 'pink', 12),
-(60, 'L', 'pink', 7),
--- pajamas11
-(61, 'S', 'cream', 9),
-(61, 'M', 'cream', 11),
-(61, 'L', 'cream', 6),
--- pajamas12
-(62, 'S', 'red', 9),
-(62, 'M', 'red', 11),
-(62, 'L', 'red', 6),
-(62, 'S', 'blue', 8),
-(62, 'M', 'blue', 10),
-(62, 'L', 'blue', 5);
- 
+
  
 
--- seed orders
 INSERT INTO orders (order_number, user_id, shipping_address, total_amount, status, order_date)
 VALUES
 ('#0001', NULL, '123 Test St', 300.00, 'pending',   '2025-01-20'),
@@ -691,47 +620,34 @@ VALUES
 ('#0005', NULL, '123 Test St', 500.00, 'completed', '2025-03-01'),
 ('#0006', NULL, '123 Test St', 300.00, 'pending',   '2025-03-05'),
 ('#0007', NULL, '123 Test St', 450.00, 'cancelled', '2025-03-10'),
-('#0008', NULL, '123 Test St', 590.00, 'pending',   '2025-04-01');
+('#0008', NULL, '123 Test St', 590.00, 'pending',   '2025-04-01'),
+('#2026-001', 1, 'Bangkok, TH', 1200.00, 'completed', '2026-03-05 10:00:00'),
+('#2026-002', 1, 'Chiang Mai, TH', 850.00,  'completed', '2026-03-12 14:30:00'),
+('#2026-003', 1, 'Phuket, TH', 2100.00, 'completed', '2026-03-20 09:15:00'),
+('#2026-004', 1, 'Chonburi, TH', 450.00,  'completed', '2026-03-25 16:00:00');
 
--- seed order_items (เชื่อม order กับ product)
-INSERT INTO order_items (order_id, product_id, attribute_id, quantity, unit_price)
-VALUES
-(1, 1, 1, 1, 300.00),
-(2, 2, 4, 1, 450.00),
-(3, 3, 7, 1, 590.00),
-(4, 4, 10, 1, 590.00),
-(5, 5, 13, 1, 500.00),
-(6, 1, 2, 1, 300.00),
-(7, 2, 5, 1, 450.00),
-(8, 3, 8, 1, 590.00),
-(9, 1, 1, 1, 490.00),  -- Order #M001
-(10, 2, 4, 1, 450.00), -- Order #M002
-(11, 3, 7, 1, 550.00), -- Order #M003
-(12, 4, 10, 1, 490.00),-- Order #M004
-(13, 5, 13, 1, 520.00),-- Order #M005
-(14, 6, 16, 1, 490.00),-- Order #M006
-(15, 7, 19, 1, 490.00);-- Order #M007
-
+-- 2. Link orders to products
 INSERT INTO order_items (order_id, product_id, attribute_id, quantity, unit_price)
 VALUES
 ((SELECT order_id FROM orders WHERE order_number = '#0001'), 1, 1, 1, 300.00),
 ((SELECT order_id FROM orders WHERE order_number = '#0002'), 2, 4, 1, 450.00),
 ((SELECT order_id FROM orders WHERE order_number = '#0003'), 3, 7, 1, 590.00),
 ((SELECT order_id FROM orders WHERE order_number = '#0004'), 4, 10, 1, 590.00),
-((SELECT order_id FROM orders WHERE order_number = '#0005'), 5, 13, 1, 500.00);
-
--- 1. Create New Completed Orders for 2026
-INSERT INTO orders (order_number, user_id, shipping_address, total_amount, status, order_date)
-VALUES
-('#2026-001', 1, 'Bangkok, TH', 1200.00, 'completed', '2026-03-05 10:00:00'),
-('#2026-002', 1, 'Chiang Mai, TH', 850.00,  'completed', '2026-03-12 14:30:00'),
-('#2026-003', 1, 'Phuket, TH', 2100.00, 'completed', '2026-03-20 09:15:00'),
-('#2026-004', 1, 'Chonburi, TH', 450.00,  'completed', '2026-03-25 16:00:00');
-
--- 2. Link these new orders to products in order_items
-INSERT INTO order_items (order_id, product_id, attribute_id, quantity, unit_price)
-VALUES
+((SELECT order_id FROM orders WHERE order_number = '#0005'), 5, 13, 1, 500.00),
 ((SELECT order_id FROM orders WHERE order_number = '#2026-001'), 49, 133, 1, 1200.00),
 ((SELECT order_id FROM orders WHERE order_number = '#2026-002'), 39, 103, 1, 850.00),
 ((SELECT order_id FROM orders WHERE order_number = '#2026-003'), 1, 1, 2, 1050.00),
 ((SELECT order_id FROM orders WHERE order_number = '#2026-004'), 13, 37, 1, 450.00);
+
+-- 3. Final missing attributes (The floating data at the end of your prompt)
+INSERT INTO product_attributes (product_id, size, color, stock_qty)
+VALUES
+(3, 'S', 'pink', 9),
+(3, 'M', 'pink', 14),
+(3, 'L', 'pink', 6),
+(4, 'S', 'beige', 10),
+(4, 'M', 'beige', 11),
+(4, 'L', 'beige', 5),
+(5, 'S', 'blue', 13),
+(5, 'M', 'blue', 9),
+(5, 'L', 'blue', 4);
