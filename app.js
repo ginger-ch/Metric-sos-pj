@@ -18,16 +18,8 @@ app.use((req, res, next) => {
   next();
 });
 
-const homeModel = require('./model/home-model');
 
-// app.use((req, res, next) => {
-//   console.log("---------------------------");
-//   console.log("Path:", req.url);
-//   console.log("Session ID:", req.sessionID);
-//   console.log("User in Session:", req.session.user ? req.session.user : "EMPTY (Not Logged In)");
-//   console.log("---------------------------");
-//   next();
-// });
+app.use('/', require('./route/auth-route'));
 
 app.use(async (req, res, next) => {
   try {
