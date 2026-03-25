@@ -606,7 +606,7 @@ VALUES
 -- outerwear12 
 (50, 'S', 'beige', 9),
 (50, 'M', 'beige', 11),
-(50, 'L', 'beige', 7),
+(50, 'L', 'beige', 7);
 
 
  
