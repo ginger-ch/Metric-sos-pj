@@ -188,6 +188,11 @@
   color: var(--soft-black);
 }
 
+.accordion-body .status-select {
+  margin-top: 4px;
+  width: 100%;
+}
+
 .pagination {
   display: flex;
   justify-content: center;
