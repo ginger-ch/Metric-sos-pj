@@ -7,6 +7,7 @@ const db = mysql.createPool({
   database: process.env.DB_NAME     || 'girllette',
   waitForConnections: true,
   connectionLimit: 10,
+
 });
 module.exports = db;
 

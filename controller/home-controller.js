@@ -1,4 +1,5 @@
-const homeModel = require('../model/home-model');
+const { dummyProducts, dummyCategories } = require('../model/dummyData');
+
 
 const getHomePage = async (req, res) => {
   try {
