@@ -39,6 +39,13 @@ function changeQty(amount) {
   }
 }
 
+function showToast(msg, duration = 2500) {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.style.display = 'block';
+  setTimeout(() => toast.style.display = 'none', duration);
+}
+
 async function addToCart() {
   const btn = document.getElementById('addToCartBtn');
   const productId = btn.dataset.productId;
@@ -46,41 +53,36 @@ async function addToCart() {
   const maxStock = parseInt(btn.getAttribute('data-stock'));
 
   if (!selectedAttributeId) {
-    alert("Please select a size first!");
+    showToast("Please select a size first!");
     return;
   }
-
   if (!userId || userId === "") {
-    alert("Please log in to add items to your cart.");
-    window.location.href = "/login";
+    const returnTo = encodeURIComponent(window.location.pathname);
+    window.location.href = "/login?returnTo=" + returnTo;
     return;
   }
-
   if (qty > maxStock) {
-    alert("Quantity exceeds available stock.");
+    showToast("Quantity exceeds available stock.");
     return;
   }
-
-
   try {
     const response = await fetch('/cart/add', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-        productId: productId, 
-        attributeId: selectedAttributeId,
+        product_id: productId, 
+        attribute_id: selectedAttributeId,
         quantity: qty 
       })
     });
-
     if (response.ok) {
-      alert("Added to cart!");
+      showToast("Added to cart!");
     } else {
       const result = await response.json();
-      alert(result.message || "Failed to add to cart.");
+      showToast(result.message || "Failed to add to cart.");
     }
   } catch (err) {
-    alert("An error occurred. Please try again.");
+    showToast("An error occurred. Please try again.");
   }
 }
 

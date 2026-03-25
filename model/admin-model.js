@@ -9,6 +9,7 @@ exports.getCategories = async () => {
     LEFT JOIN products p ON p.category_id = c.category_id
     WHERE c.visibility = 'show'
     GROUP BY c.category_id
+    ORDER BY c.category_name ASC
   `);
   return categories;
 };
@@ -172,4 +173,53 @@ exports.updateCategory = async (id, name, slug, visibility) => {
     `UPDATE categories SET category_name = ?, slug = ?, visibility = ? WHERE category_id = ?`,
     [name, slug, visibility, id]
   );
+};
+
+// Sales History
+exports.getTopProducts = async (limit = 5) => {
+  const [products] = await db.query(`
+    SELECT 
+      p.product_name, 
+      pi.image_url, 
+      COUNT(oi.item_id) AS total_orders
+    FROM products p
+    LEFT JOIN order_items oi ON p.product_id = oi.product_id
+    LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
+    GROUP BY p.product_id, p.product_name, pi.image_url
+    ORDER BY total_orders DESC
+    LIMIT ?
+  `, [limit]);
+  return products;
+};
+exports.getDailySales = async (month, year) => {
+  const [daily] = await db.query(`
+    SELECT 
+      DATE_FORMAT(o.order_date, '%d %b') AS label,
+      SUM(oi.quantity) AS total_qty,
+      SUM(o.total_amount) AS total_sales
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    WHERE MONTH(o.order_date) = ? 
+      AND YEAR(o.order_date) = ?
+      AND o.status = 'completed'
+    GROUP BY label, DATE(o.order_date)
+    ORDER BY DATE(o.order_date) ASC
+  `, [month, year]);
+  return daily;
+};
+
+exports.getMonthlySales = async (year) => {
+  const [monthly] = await db.query(`
+    SELECT 
+      DATE_FORMAT(o.order_date, '%b') AS label,
+      SUM(oi.quantity) AS total_qty,
+      SUM(o.total_amount) AS total_sales
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    WHERE YEAR(o.order_date) = ?
+      AND TRIM(LOWER(o.status)) = 'completed'
+    GROUP BY label, MONTH(o.order_date)
+    ORDER BY MONTH(o.order_date) ASC
+  `, [year]);
+  return monthly;
 };
