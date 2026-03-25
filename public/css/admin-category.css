@@ -1,0 +1,242 @@
+.admin-category-container {
+  padding: 2rem 2.5rem;
+  font-family: 'Helvetica Neue', sans-serif;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.page-header h1 { font-size: 2rem; font-weight: 700; font-family: var(--font-display); color: var(--soft-black);}
+.page-header p  { color: #888; font-size: 0.9rem; }
+
+.filter-search-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-search-bar select {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.search-input-wrap {
+  position: relative;
+}
+
+.search-input-wrap input {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.4rem 2rem 0.4rem 0.75rem;
+  font-size: 0.9rem;
+  width: 200px;
+}
+
+.search-icon {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.btn-add {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+  line-height: 1;
+}
+
+.category-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.category-table th {
+  text-align: left;
+  padding: 0.6rem 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  font-size: 0.78rem;
+  border-bottom: 2px solid #222;
+}
+
+.category-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.action-btns { display: flex; gap: 0.4rem; align-items: center; }
+
+.btn-show, .btn-hide {
+  border: 1px solid #ccc;
+  background: #fff;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.btn-edit {
+  border: 1px solid #f8c8c8;
+  background: #fff0f0;
+  color: #c0392b;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.btn-delete {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.modal-box {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  width: 420px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+
+.modal-box h2 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1.25rem; }
+
+.modal-box label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.88rem;
+  margin-bottom: 0.3rem;
+}
+
+.modal-box input,
+.modal-box select {
+  width: 100%;
+  border: 1px solid #eee;
+  background: #fafafa;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.btn-cancel {
+  background: #222; color: #fff;
+  border: none; border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.88rem; cursor: pointer;
+}
+
+.btn-confirm {
+  background: #f8c8c8; color: #555;
+  border: none; border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.88rem; cursor: pointer;
+}
+
+.category-accordion { display: none; }
+
+@media (max-width: 768px) {
+
+  .category-table    { display: none; }
+  .category-accordion { display: block; }
+
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .filter-search-bar {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .filter-search-bar select,
+  .search-input-wrap input {
+    width: 100%;
+  }
+
+  .search-input-wrap { width: 100%; }
+
+  .accordion-item {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+    background: #fff;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .accordion-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .accordion-arrow {
+    font-size: 0.75rem;
+    color: #888;
+    transition: transform 0.2s ease;
+  }
+
+  .accordion-item.open .accordion-arrow {
+    transform: rotate(180deg);
+  }
+
+  .accordion-body {
+    display: none;
+    padding: 0 1rem 1rem 1rem;
+    font-size: 0.85rem;
+    color: #555;
+    border-top: 1px solid #f0f0f0;
+  }
+
+  .accordion-body p { margin: 0.3rem 0; }
+
+  .accordion-item.open .accordion-body { display: block; }
+
+  .accordion-body .action-btns {
+    margin-top: 0.75rem;
+    flex-wrap: wrap;
+  }
+}
