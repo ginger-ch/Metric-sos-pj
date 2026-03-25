@@ -30,7 +30,7 @@ const getCategories = async () => {
       ) AS image
     FROM categories c
     WHERE c.visibility = 'show'
-    ORDER BY c.category_id ASC
+    ORDER BY c.category_name ASC
   `);
   return categories;
 };
