@@ -160,7 +160,7 @@ body {
 
 .nav-icon-btn:hover { color: var(--accent); }
 
-.basket-count {
+.cart-count {
   position: absolute;
   top: -5px; right: -8px;
   background: var(--accent);
@@ -175,7 +175,7 @@ body {
   font-weight: 500;
 }
 
-.basket-count.visible {
+.cart-count.visible {
   display: flex;
 }
 

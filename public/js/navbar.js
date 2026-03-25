@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function updateBasketCount() {
   try {
-    const basket = JSON.parse(localStorage.getItem('girlette_basket')) || [];
-    const total = basket.reduce((sum, item) => sum + (item.qty || 1), 0);
+    const cart = JSON.parse(localStorage.getItem('girlette_basket')) || [];
+    const total = cart.reduce((sum, item) => sum + (item.qty || 1), 0);
     const countEl = document.getElementById('basketCount');
     if (countEl) {
       countEl.textContent = total;

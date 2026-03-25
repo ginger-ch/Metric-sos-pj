@@ -162,7 +162,7 @@
             id="addToCartBtn"
             data-product-id="<%= product.product_id %>"
             data-stock="<%= product.stock %>"
-            data-user-id="<%= user ? user.id : '' %>" 
+            data-user-id="<%= user ? user.user_id : '' %>"
             onclick="addToCart()"
             >ADD TO CART</button>
         </div>
@@ -179,6 +179,22 @@
 
       </section>
     </div>
+
+      <div id="toast" style="
+        display:none;
+        position:fixed;
+        bottom:40px;
+        right:40px;
+        background:#2c2c2c;
+        color:#fff;
+        padding:18px 32px;
+        border-radius:12px;
+        font-size:16px;
+        font-weight:500;
+        z-index:9999;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+        transition: opacity 0.3s ease;
+      "></div>
   </main>
 
   <!-- ═══════════════════════════════════════ SCRIPTS -->

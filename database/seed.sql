@@ -703,4 +703,35 @@ VALUES
 (5, 5, 13, 1, 500.00),
 (6, 1, 2, 1, 300.00),
 (7, 2, 5, 1, 450.00),
-(8, 3, 8, 1, 590.00);
+(8, 3, 8, 1, 590.00),
+(9, 1, 1, 1, 490.00),  -- Order #M001
+(10, 2, 4, 1, 450.00), -- Order #M002
+(11, 3, 7, 1, 550.00), -- Order #M003
+(12, 4, 10, 1, 490.00),-- Order #M004
+(13, 5, 13, 1, 520.00),-- Order #M005
+(14, 6, 16, 1, 490.00),-- Order #M006
+(15, 7, 19, 1, 490.00);-- Order #M007
+
+INSERT INTO order_items (order_id, product_id, attribute_id, quantity, unit_price)
+VALUES
+((SELECT order_id FROM orders WHERE order_number = '#0001'), 1, 1, 1, 300.00),
+((SELECT order_id FROM orders WHERE order_number = '#0002'), 2, 4, 1, 450.00),
+((SELECT order_id FROM orders WHERE order_number = '#0003'), 3, 7, 1, 590.00),
+((SELECT order_id FROM orders WHERE order_number = '#0004'), 4, 10, 1, 590.00),
+((SELECT order_id FROM orders WHERE order_number = '#0005'), 5, 13, 1, 500.00);
+
+-- 1. Create New Completed Orders for 2026
+INSERT INTO orders (order_number, user_id, shipping_address, total_amount, status, order_date)
+VALUES
+('#2026-001', 1, 'Bangkok, TH', 1200.00, 'completed', '2026-03-05 10:00:00'),
+('#2026-002', 1, 'Chiang Mai, TH', 850.00,  'completed', '2026-03-12 14:30:00'),
+('#2026-003', 1, 'Phuket, TH', 2100.00, 'completed', '2026-03-20 09:15:00'),
+('#2026-004', 1, 'Chonburi, TH', 450.00,  'completed', '2026-03-25 16:00:00');
+
+-- 2. Link these new orders to products in order_items
+INSERT INTO order_items (order_id, product_id, attribute_id, quantity, unit_price)
+VALUES
+((SELECT order_id FROM orders WHERE order_number = '#2026-001'), 49, 133, 1, 1200.00),
+((SELECT order_id FROM orders WHERE order_number = '#2026-002'), 39, 103, 1, 850.00),
+((SELECT order_id FROM orders WHERE order_number = '#2026-003'), 1, 1, 2, 1050.00),
+((SELECT order_id FROM orders WHERE order_number = '#2026-004'), 13, 37, 1, 450.00);
