@@ -187,24 +187,26 @@ exports.updateCategory = async (req, res) => {
 };
  
 
-
 exports.getSalesHistory = async (req, res) => {
   try {
     const now = new Date();
     
-    // 1. Capture filters from query string or set defaults
     const selectedDailyMonth = req.query.daily_month || (now.getMonth() + 1);
     const selectedDailyYear  = req.query.daily_year  || now.getFullYear();
     const selectedMonthlyYear = req.query.monthly_year || now.getFullYear();
 
-    // 2. Fetch data from Model
     const topProducts = await adminModel.getTopProducts(5);
-    
     const dailyRows = await adminModel.getDailySales(selectedDailyMonth, selectedDailyYear);
     const monthlyRows = await adminModel.getMonthlySales(selectedMonthlyYear);
 
-    // 3. Render page with data
+    // Render page with ALL the data the navbar and page need
     res.render('admin/sales-history', {
+      currentPage: 'sales-history', // Matches the check in your navbar.ejs
+      admin: {
+        name: req.session?.user?.full_name || 'Admin',
+        profileImage: req.session?.user?.profile_image || '/image/default-avatar.png',
+        role: 'Admin'
+      },
       topProducts,
       dailyData: { dates: dailyRows },
       monthlyData: { months: monthlyRows },
