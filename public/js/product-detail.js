@@ -109,3 +109,28 @@ function selectColor(btn, colorName) {
     label.textContent = colorName;
   }
 }
+
+function selectImage(btn, imageUrl) {
+  document.getElementById('mainImage').src = imageUrl;
+  document.querySelectorAll('.gallery__thumb')
+    .forEach(t => t.classList.remove('gallery__thumb--active'));
+  btn.classList.add('gallery__thumb--active');
+}
+
+function selectColor(btn, colorName) {
+  if (btn.classList.contains('color-swatch--active')) return;
+
+  document.querySelectorAll('.color-swatch')
+    .forEach(s => s.classList.remove('color-swatch--active'));
+  btn.classList.add('color-swatch--active');
+
+  const label = document.getElementById('selectedColor');
+  if (label) label.textContent = colorName;
+
+  selectedAttributeId = null;
+  qty = 1;
+  document.getElementById('qtyValue').textContent = 1;
+
+  const hint = document.getElementById('stockHint');
+  if (hint) hint.textContent = '';
+}

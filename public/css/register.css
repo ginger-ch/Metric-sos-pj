@@ -1,0 +1,285 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&display=swap');
+
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+
+:root {
+  --bg: #e8b4b8;
+  --text: #1a1a1a;
+  --input-border: #1a1a1a;
+  --input-bg: transparent;
+  --btn-bg: #1a1a1a;
+  --btn-text: #ffffff;
+  --icon: #1a1a1a;
+  --focus: whitesmoke;
+}
+
+
+body {
+  min-height: 100vh;
+  background-color: #fdf0ee;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Jost', sans-serif;
+  color: var(--text);
+}
+
+
+.card {
+  width: 100%;
+  max-width: 680px;
+  min-height: 100vh;
+  padding: 40px 48px 48px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+
+.logo {
+  position: fixed;
+  top: 36px;
+  right: 80px;
+  width: 44px;
+  height: 44px;
+}
+
+
+.logo img {
+  width: 150%;
+  height: 150%;
+  object-fit: contain;
+  filter: brightness(0);
+}
+
+
+.form-area {
+  margin: auto;
+  width: 100%;
+  max-width: 320px;
+}
+
+
+h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+
+.form-group label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  margin-bottom: 5px;
+}
+
+
+.form-group input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+
+.form-group input:focus {
+  border-color: #888;
+}
+
+
+.form-group input::placeholder {
+  color: #bbb;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+
+.password-wrapper {
+  position: relative;
+}
+
+
+.password-wrapper input {
+  width: 100%;
+  padding: 10px 40px 10px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+
+.password-wrapper input::placeholder {
+  color: #bbb;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+}
+
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: #999;
+  display: flex;
+  align-items: center;
+}
+
+
+.toggle-password svg {
+  width: 16px;
+  height: 16px;
+}
+
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 16px 0;
+}
+
+
+.checkbox-group input[type="checkbox"] {
+  display: none;
+}
+
+
+.custom-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.custom-checkbox.unchecked {
+  background: #fff;
+  border: 1px solid #1a1a1a;
+}
+
+
+.custom-checkbox svg {
+  width: 10px;
+  height: 10px;
+  stroke: #fff;
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+.checkbox-group label {
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  cursor: pointer;
+}
+
+
+.btn-signup {
+  width: 100%;
+  padding: 12px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: none;
+  border-radius: 8px;
+  font-family: 'Jost', sans-serif;
+  font-size: 0.88rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+
+
+.btn-signup:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+
+.login-link {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 32px;
+  font-size: 0.82rem;
+  color: #aaa;
+}
+
+
+.login-link a {
+  color: #c97a6a;
+  text-decoration: none;
+  margin-left: 4px;
+}
+
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+
+.error-msg {
+  font-size: 0.72rem;
+  color: #b94040;
+  margin-top: 3px;
+  letter-spacing: 0.04em;
+}
+
+
+@media (max-width: 480px) {
+  .card {
+    padding: 32px 24px 36px;
+    min-height: unset;
+    border-radius: 0;
+  }
+
+
+  .logo {
+    top: 24px;
+    right: 24px;
+  }
+
+
+  .form-area {
+    max-width: 100%;
+    margin-top: 60px;
+  }
+}
+
