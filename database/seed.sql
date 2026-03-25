@@ -5,7 +5,11 @@ TRUNCATE TABLE product_attributes;
 TRUNCATE TABLE product_images;
 TRUNCATE TABLE products;
 TRUNCATE TABLE categories;
+TRUNCATE TABLE users;
 SET FOREIGN_KEY_CHECKS = 1;
+
+INSERT INTO users (full_name, username, email, password_hash, role)
+VALUES ('Admin', 'admin', 'admin@girllette.com', 'admin1234', 'admin');
 
 INSERT INTO categories (category_name, slug, visibility)
 VALUES
@@ -316,6 +320,9 @@ VALUES
  
  
  
+
+-- Bottom
+
 
 INSERT INTO product_attributes (product_id, size, color, stock_qty)
 VALUES

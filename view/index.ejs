@@ -65,71 +65,55 @@
       <div id="editorialCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner">
 
-          <!-- Slide 1: New Arrival, Top, Bottom -->
-          <div class="carousel-item active">
-            <div class="row g-2">
-              <div class="col-4">
-                <a href="/products?sort=new" class="editorial-item">
-                  <img src="/images/cat-new.jpg"
-                       onerror="this.src='https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80'"
-                       alt="New Arrival">
-                  <span class="editorial-label">New Arrival</span>
-                </a>
-              </div>
-              <div class="col-4">
-                <a href="/category/top" class="editorial-item">
-                  <img src="/images/cat-top.jpg"
-                       onerror="this.src='https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=80'"
-                       alt="Top">
-                  <span class="editorial-label">Top</span>
-                </a>
-              </div>
-              <div class="col-4">
-                <a href="/category/bottom" class="editorial-item">
-                  <img src="/images/cat-bottom.jpg"
-                       onerror="this.src='https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=600&q=80'"
-                       alt="Bottom">
-                  <span class="editorial-label">Bottom</span>
-                </a>
-              </div>
-            </div>
-          </div>
+          <%
+            const allItems = [
+              { 
+                name: 'New Arrival', 
+                slug: null, 
+                href: '/products?sort=new', 
+                image: newestImage
+              },
+              ...categories.map(cat => ({ 
+                name: cat.name, 
+                slug: cat.slug, 
+                href: `/category/${cat.slug}`,
+                image: cat.image   
+              }))
+            ];
 
-          <div class="carousel-item">
-            <div class="row g-2">
-              <div class="col-4">
-                <a href="/category/outerwear" class="editorial-item">
-                  <img src="/images/cat-outerwear.jpg"
-                       onerror="this.src='https://images.unsplash.com/photo-1576871337622-98d48d1cf531?w=600&q=80'"
-                       alt="Outerwear">
-                  <span class="editorial-label">Outerwear</span>
-                </a>
-              </div>
-              <div class="col-4">
-                <a href="/category/dress" class="editorial-item">
-                  <img src="/images/cat-dress.jpg"
-                       onerror="this.src='https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=600&q=80'"
-                       alt="Dress">
-                  <span class="editorial-label">Dress</span>
-                </a>
-              </div>
-              <div class="col-4">
-                <a href="/category/pajama" class="editorial-item">
-                  <img src="/images/cat-pajama.jpg"
-                       onerror="this.src='https://images.unsplash.com/photo-1585487000160-6ebcfceb0d03?w=600&q=80'"
-                       alt="Pajama">
-                  <span class="editorial-label">Pajama</span>
-                </a>
+            const chunks = [];
+            for (let i = 0; i < allItems.length; i += 3) {
+              chunks.push(allItems.slice(i, i + 3));
+            }
+          %>
+
+          <% chunks.forEach((chunk, chunkIndex) => { %>
+            <div class="carousel-item <%= chunkIndex === 0 ? 'active' : '' %>">
+              <div class="row g-2">
+                <% chunk.forEach(item => { %>
+                  <div class="col-4">
+                    <a href="<%= item.href %>" class="editorial-item">
+                     <img src="<%= item.image || 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80' %>"
+                      onerror="this.src='https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80'"
+                      alt="<%= item.name %>">
+                      <span class="editorial-label"><%= item.name %></span>
+                    </a>
+                  </div>
+                <% }) %>
               </div>
             </div>
-          </div>
+          <% }) %>
 
         </div>
 
         <div class="carousel-indicators editorial-indicators">
-          <button type="button" data-bs-target="#editorialCarousel" data-bs-slide-to="0" class="active"></button>
-          <button type="button" data-bs-target="#editorialCarousel" data-bs-slide-to="1"></button>
+          <% chunks.forEach((_, i) => { %>
+            <button type="button" data-bs-target="#editorialCarousel"
+                    data-bs-slide-to="<%= i %>"
+                    class="<%= i === 0 ? 'active' : '' %>"></button>
+          <% }) %>
         </div>
+
       </div>
     </div>
   </section>

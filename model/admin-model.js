@@ -9,6 +9,7 @@ exports.getCategories = async () => {
     LEFT JOIN products p ON p.category_id = c.category_id
     WHERE c.visibility = 'show'
     GROUP BY c.category_id
+    ORDER BY c.category_name ASC
   `);
   return categories;
 };

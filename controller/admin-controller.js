@@ -142,6 +142,9 @@ exports.createCategory = async (req, res) => {
     const { category_name, visibility } = req.body;
     const slug = category_name.toLowerCase().replace(/\s+/g, '-');
     await adminModel.createCategory(category_name, slug, visibility);
+
+    console.log("INSERT SUCCESS");
+
     res.redirect('/admin/categories');
   } catch (err) {
     console.error(err);
