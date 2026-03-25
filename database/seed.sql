@@ -27,10 +27,8 @@ VALUES
 (1, 'Red Pleated Sleeveless Top', 'Sleeveless top in deep red with delicate pleated front detail', 490),
 (1, 'Plaid Lace Collar Blouse', 'Loose plaid blouse with lace peter pan collar in beige tones', 520),
 (1, 'Ivory Polka Dot Bow Blouse', 'Soft ivory blouse with small polka dot print and front bow tie', 490),
--- top7(เกิดความผิดพลาดเล็กน้อย รูปยังไม่มี โปรดอัปเดตภายหลังนะจ้ะ)
-(1, 'TBD Top 7', 'Product details to be updated', 490),
--- top8(เกิดความผิดพลาดเล็กน้อย รูปยังไม่มี โปรดอัปเดตภายหลังนะจ้ะ)
-(1, 'TBD Top 8', 'Product details to be updated', 490),
+(1, 'Baby Blue Ruffle Tie Babydoll Top', 'Soft baby blue babydoll top with ruffle neckline and front tie detail', 490),
+(1, 'Cream Floral Peter Pan Collar Blouse', 'Puff sleeve blouse in cream with ditsy floral print, peter pan lace collar and eyelet hem', 520),
 (1, 'White Ribbon Bow Blouse', 'Crisp white short-sleeve blouse with black ribbon bow neckline', 520),
 (1, 'Cream Tie-Neck Chiffon Blouse', 'Flowy cream chiffon blouse with self-tie bow at neckline', 550),
 (1, 'Grey Stripe Sleeveless Shirt', 'Relaxed sleeveless collared shirt in grey stripe with front tie', 490),
@@ -78,7 +76,7 @@ VALUES
 (4, 'Crochet Star Crop Sweater', 'Handmade-style open-knit crochet crop sweater with star motif and contrast stripe sleeves', 750),
 (4, 'Colorblock Stripe Knit Sweater', 'Retro colorblock stripe knit sweater with V-neck lace-up detail in green, brown, and grey tones', 790),
 (4, 'Black Bow Racing Leather Jacket', 'Statement black PU leather racing jacket with pink bow appliqués, contrast stripes, and zip pockets', 1290),
-(4, 'Beige Corduroy Collar Drawstring Jacket', 'Casual oversized jacket in beige with corduroy collar, snap buttons, and side drawstring tie', 890);
+(4, 'Beige Corduroy Collar Drawstring Jacket', 'Casual oversized jacket in beige with corduroy collar, snap buttons, and side drawstring tie', 890),
  
  -- pajamas
 (5, 'Yellow Gingham Tomato Embroidery Pajama Set', 'Short sleeve pajama set in yellow gingham with cute tomato embroidery and red buttons', 590),
@@ -117,10 +115,12 @@ VALUES
 (6, '/image/products/top/top6_1.jpg', 1, 1),
 (6, '/image/products/top/top6_2.jpg', 0, 1),
 (6, '/image/products/top/top6_3.jpg', 0, 1),
--- top7 (เดะมาอัปเดตจ้ะ)
+-- top7
 (7, '/image/products/top/top7_1.jpg', 1, 1),
--- top8 (เดะมาอัปเดตจ้ะ)
+(7, '/image/products/top/top7_2.jpg', 0, 2),
+-- top8
 (8, '/image/products/top/top8_1.jpg', 1, 1),
+(8, '/image/products/top/top8_2.jpg', 0, 2);
 -- top9
 (9, '/image/products/top/top9_1.jpg', 1, 1),
 (9, '/image/products/top/top9_2.jpg', 0, 2),
@@ -272,7 +272,7 @@ VALUES
 (49, '/image/products/outerwear/outerwear11_4.jpg', 0, 4),
 (49, '/image/products/outerwear/outerwear11_5.jpg', 0, 5),
 -- outerwear12
-(50, '/image/products/outerwear/outerwear12_1.jpg', 1, 1);
+(50, '/image/products/outerwear/outerwear12_1.jpg', 1, 1),
 
 -- pajamas
 -- pajamas1
@@ -283,7 +283,7 @@ VALUES
 (2, '/image/products/pajamas/pajamas2_2.jpg', 0, 2),
 (2, '/image/products/pajamas/pajamas2_3.jpg', 0, 3),
 -- pajamas3 (primary = pajamas3.jpg)
-(3, '/image/products/pajamas/pajamas3.jpg', 1, 1),
+(3, '/image/products/pajamas/pajamas3_1.jpg', 1, 1),
 (3, '/image/products/pajamas/pajamas3_2.jpg', 0, 2),
 -- pajamas4
 (4, '/image/products/pajamas/pajamas4_1.jpg', 1, 1),
@@ -345,13 +345,13 @@ VALUES
 (6, 'M', 'cream', 12),
 (6, 'L', 'cream', 8),
 -- top7 เดะไปหามางับ
-(7, 'S', 'TBD', 0),
-(7, 'M', 'TBD', 0),
-(7, 'L', 'TBD', 0),
+(7, 'S', 'blue', 10),
+(7, 'M', 'blue', 12),
+(7, 'L', 'blue', 8),
 -- top8 เดะไปหามางับ
-(8, 'S', 'TBD', 0),
-(8, 'M', 'TBD', 0),
-(8, 'L', 'TBD', 0),
+(8, 'S', 'cream', 10),
+(8, 'M', 'cream', 12),
+(8, 'L', 'cream', 8),
 -- top9
 (9, 'S', 'white', 9),
 (9, 'M', 'white', 10),
