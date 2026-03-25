@@ -4,13 +4,16 @@ exports.getLogin = (req, res) => {
   res.render('auth/login', {
     error: req.flash('error')[0] || null,
     success: null,
-    formData: {}
+    formData: {},
+    returnTo: req.query.returnTo || ''
   });
 };
 
 exports.postLogin = async (req, res) => {
   const { username, password } = req.body;
   console.log('LOGIN ATTEMPT:', username, password);
+  console.log('req.body.returnTo:', req.body.returnTo);
+  console.log('req.query.returnTo:', req.query.returnTo);
 
   try {
     const user = await userModel.findByUsername(username);
@@ -33,7 +36,9 @@ exports.postLogin = async (req, res) => {
       // return res.redirect('/admin');
       return res.redirect('/admin/dashboard');
     }
-    res.redirect('/');
+    const redirectTo = req.body.returnTo || req.session.returnTo || '/';
+    delete req.session.returnTo;
+    return res.redirect(redirectTo);
   } catch (err) {
     console.error(err);
     req.flash('error', 'Something went wrong.');
