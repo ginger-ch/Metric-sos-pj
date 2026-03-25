@@ -166,3 +166,10 @@ exports.updateCategoryVisibility = async (id, visibility) => {
 exports.deleteCategory = async (id) => {
   await db.query(`DELETE FROM categories WHERE category_id = ?`, [id]);
 };
+
+exports.updateCategory = async (id, name, slug, visibility) => {
+  await db.query(
+    `UPDATE categories SET category_name = ?, slug = ?, visibility = ? WHERE category_id = ?`,
+    [name, slug, visibility, id]
+  );
+};
