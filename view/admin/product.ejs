@@ -104,7 +104,8 @@
         data-name="<%= product.name %>"
         data-detail="<%= product.detail %>"
         data-price="<%= product.price %>"
-        data-category="<%= product.category_id %>">
+        data-category="<%= product.category_id %>"
+        data-attributes='<%- JSON.stringify(product.attributes || []) %>'>
   EDIT
 </button>
             <form action="/admin/products/<%= product._id %>?_method=DELETE" method="POST" style="display:inline;">
@@ -144,7 +145,7 @@
 
       <div class="pm-form-group">
         <label class="pm-label">Product name</label>
-        <input type="text" name="name" id="modalName" class="pm-input" placeholder="5th">
+        <input type="text" name="name" id="modalName" class="pm-input" placeholder="Cotton Shirt">
       </div>
 
       <div class="pm-form-group">
@@ -152,12 +153,26 @@
         <textarea name="detail" id="modalDetail" class="pm-input pm-textarea" placeholder="About your product..."></textarea>
       </div>
 
-      <div class="pm-form-row">
-        <div class="pm-form-group pm-form-half">
-          <label class="pm-label">Price</label>
-          <input type="number" name="price" id="modalPrice" class="pm-input" placeholder="$ amt">
-        </div>
-        </div>
+<div class="pm-form-row">
+  <div class="pm-form-group pm-form-half">
+    <label class="pm-label">Price</label>
+    <input type="number" name="price" id="modalPrice" class="pm-input" placeholder="190">
+  </div>
+
+  <div class="pm-form-group pm-form-half">
+    <label class="pm-label">&nbsp;</label>
+    <label class="pm-upload-box" id="imageUploadBox">
+      <input type="file" name="images" id="imageInput" multiple accept="image/*" class="pm-file-input">
+      <span class="pm-upload-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/>
+          <path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/>
+        </svg>
+      </span>
+      <span class="pm-upload-text" id="uploadText">UPLOAD IMAGES</span>
+    </label>
+  </div>
+</div>
 
       <div class="pm-form-group">
           <label class="pm-label">Inventory Variations</label>

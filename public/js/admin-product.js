@@ -3,7 +3,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('productForm');
     const modalTitle = document.getElementById('modalTitle');
     const container = document.getElementById('attribute-container');
+    const uploadBox = document.getElementById('imageUploadBox');
+    const uploadText = document.getElementById('uploadText');
+    const imageInput = document.getElementById('imageInput');
 
+    // --- Helper: Reset Image Box ---
+    function resetImageBox() {
+        uploadBox.style.backgroundImage = 'none';
+        uploadText.innerText = "UPLOAD IMAGES";
+        imageInput.value = ""; // Clears the file selection
+    }
 
     function createAttributeRow(size = '', color = '', stock = '') {
         const row = document.createElement('div');
@@ -14,35 +23,47 @@ document.addEventListener('DOMContentLoaded', () => {
             <input type="number" name="stocks[]" class="pm-input" placeholder="Qty" value="${stock}">
             <button type="button" class="btn-remove" title="Remove row">−</button>
         `;
-        
-        row.querySelector('.btn-remove').addEventListener('click', () => {
-            row.remove();
-        });
+        row.querySelector('.btn-remove').addEventListener('click', () => { row.remove(); });
         return row;
     }
 
+    // --- Image Preview Logic ---
+    imageInput.addEventListener('change', function() {
+        if (this.files && this.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                uploadBox.style.backgroundImage = `url(${e.target.result})`;
+                uploadBox.style.backgroundSize = 'cover';
+                uploadBox.style.backgroundPosition = 'center';
+                uploadText.innerText = `${imageInput.files.length} IMAGES SELECTED`;
+            }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
 
+    // --- OPEN FOR NEW PRODUCT ---
     document.getElementById('openModalBtn').addEventListener('click', () => {
         modalTitle.innerText = "New Product";
         form.action = "/admin/products"; 
         form.reset();
-        container.innerHTML = ''; // Clear old rows
-        container.appendChild(createAttributeRow()); // Add one empty row
+        resetImageBox(); // Clear images
+        container.innerHTML = ''; 
+        container.appendChild(createAttributeRow()); 
         modal.classList.add('active');
     });
 
-  
+    // --- OPEN FOR EDIT ---
     document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('edit-trigger')) {
-            const btn = e.target;
+        const btn = e.target.closest('.edit-trigger');
+        if (btn) {
             modalTitle.innerText = "Edit Product";
-            form.action = `/admin/products/${btn.dataset.id}/edit`; 
+            form.action = `/admin/products/${btn.dataset.id}/edit`;
+            resetImageBox(); // Reset image box for clean edit
 
             document.getElementById('modalName').value = btn.dataset.name || '';
             document.getElementById('modalDetail').value = btn.dataset.detail || '';
             document.getElementById('modalPrice').value = btn.dataset.price || '';
             document.getElementById('modalCategory').value = btn.dataset.category || '';
-
 
             container.innerHTML = '';
             if (btn.dataset.attributes) {
@@ -51,22 +72,20 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 container.appendChild(createAttributeRow());
             }
-
             modal.classList.add('active');
         }
     });
 
+    // --- CLOSE MODAL ---
+    const closeModal = () => {
+        modal.classList.remove('active');
+        resetImageBox(); // Clear image preview so it's gone when reopened
+    };
+
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
     document.getElementById('add-attribute-btn').addEventListener('click', () => {
         container.appendChild(createAttributeRow());
-    });
-
-
-    document.getElementById('closeModalBtn').addEventListener('click', () => {
-        modal.classList.remove('active');
-    });
-
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.classList.remove('active');
     });
 });
