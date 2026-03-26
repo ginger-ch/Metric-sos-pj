@@ -205,8 +205,7 @@ exports.getAllProducts = async (categoryId = null, search = '') => {
     params.push(`%${search}%`);
   }
 
-  query += ` GROUP BY p.product_id ORDER BY p.created_at DESC`;
-
+  query += ` GROUP BY p.product_id ORDER BY p.product_name DESC`;
   const [products] = await db.query(query, params);
 
   for (let product of products) {
