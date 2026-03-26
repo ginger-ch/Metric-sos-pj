@@ -18,7 +18,7 @@ const getProducts = async (offset, limit) => {
 
 const getTotalCount = async () => {
   const [[{ total }]] = await db.query(`
-    SELECT COUNT(*) AS total FROM products
+    SELECT COUNT(*) AS total
     FROM products p
     WHERE p.is_deleted = 0
   `);
