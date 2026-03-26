@@ -86,8 +86,8 @@
 </div>
 <div class="pm-meta-row">
   <span class="pm-meta-label">TOTAL STOCK</span>
-  <span class="pm-meta-value <%= product.stock === 0 ? 'text-danger' : '' %>">
-    <%= product.stock %> items
+  <span class="pm-meta-value <%= (product.total_stock == 0) ? 'text-danger' : '' %>">
+    <%= product.total_stock || 0 %> items
   </span>
 </div>
             <div class="pm-meta-row">

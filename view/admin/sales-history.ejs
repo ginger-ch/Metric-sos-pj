@@ -97,7 +97,7 @@
                     <td class="<%= d.total_sales < 1000 ? 'highlight-low' : '' %>">
                       <%= d.total_sales >= 1000
                             ? Math.round(d.total_sales / 1000) + 'K$'
-                            : d.total_sales + '$' %>
+                            : d.total_sales  %>
                     </td>
                   <% }) %>
                 </tr>
@@ -158,8 +158,8 @@
                   <% monthlyData.months.forEach(function(m) { %>
                     <td class="<%= m.total_sales < 1000 ? 'highlight-low' : '' %>">
                       <%= m.total_sales >= 1000
-                            ? Math.round(m.total_sales / 1000) + 'K$'
-                            : m.total_sales + '$' %>
+                            ? Math.round(m.total_sales / 1000) + 'K฿'
+                            : m.total_sales  %>
                     </td>
                   <% }) %>
                 </tr>

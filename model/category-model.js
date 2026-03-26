@@ -10,7 +10,9 @@ const getProductsBySlug = async (slug, offset, limit) => {
     JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN product_images pi
       ON p.product_id = pi.product_id AND pi.is_primary = 1
-    WHERE c.slug = ? AND c.visibility = 'show'
+    WHERE c.slug = ? 
+      AND c.visibility = 'show' 
+      AND p.is_deleted = 0  /* <--- Combined filters correctly after JOINs */
     ORDER BY p.created_at DESC
     LIMIT ? OFFSET ?
   `, [slug, limit, offset]);
@@ -22,7 +24,9 @@ const getTotalBySlug = async (slug) => {
     SELECT COUNT(*) AS total
     FROM products p
     JOIN categories c ON p.category_id = c.category_id
-    WHERE c.slug = ? AND c.visibility = 'show'
+    WHERE c.slug = ? 
+      AND c.visibility = 'show'
+      AND p.is_deleted = 0  /* <--- Added to keep counts accurate */
   `, [slug]);
   return total;
 };

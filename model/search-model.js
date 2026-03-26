@@ -9,7 +9,9 @@ exports.searchProducts = async (q, limit, offset) => {
     FROM products p
     LEFT JOIN product_images pi
       ON p.product_id = pi.product_id AND pi.is_primary = 1
-    WHERE p.product_name LIKE ?
+    WHERE p.product_name LIKE ? 
+      AND p.is_deleted = 0  /* <--- Hide deleted items from search results */
+    ORDER BY p.created_at DESC /* Added sorting to keep search results relevant */
     LIMIT ? OFFSET ?
   `, [`%${q}%`, limit, offset]);
   return products;
@@ -18,8 +20,9 @@ exports.searchProducts = async (q, limit, offset) => {
 exports.countSearchProducts = async (q) => {
   const [[{ total }]] = await db.query(`
     SELECT COUNT(*) AS total
-    FROM products
-    WHERE product_name LIKE ?
+    FROM products p          /* Added alias 'p' for consistency */
+    WHERE p.product_name LIKE ? 
+      AND p.is_deleted = 0  /* <--- Only count active products */
   `, [`%${q}%`]);
   return total;
 };
