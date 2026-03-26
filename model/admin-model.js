@@ -175,7 +175,7 @@ exports.updateCategory = async (id, name, slug, visibility) => {
 };
 
 exports.getAllProducts = async (categoryId = null, search = '') => {
-  let query = `
+ let query = `
     SELECT 
       p.product_id AS _id, 
       p.product_name AS name, 
@@ -183,30 +183,29 @@ exports.getAllProducts = async (categoryId = null, search = '') => {
       p.base_price AS price,
       ANY_VALUE(c.category_name) AS category_name,
       ANY_VALUE(pi.image_url) AS main_image,
-      SUM(pa.stock_qty) AS total_stock, -- <--- Your new SUM logic here
+      SUM(pa.stock_qty) AS total_stock, 
       GROUP_CONCAT(DISTINCT pa.size) AS sizes,
       GROUP_CONCAT(DISTINCT pa.color) AS colors
     FROM products p
     LEFT JOIN categories c ON p.category_id = c.category_id
     LEFT JOIN product_images pi ON p.product_id = pi.product_id AND pi.is_primary = 1
     LEFT JOIN product_attributes pa ON p.product_id = pa.product_id
+    WHERE p.is_deleted = 0  /* <--- MOVED TO THE CORRECT SPOT */
   `;
 
-  const conditions = [];
   const params = [];
 
+  // If you are adding more filters, use "AND"
   if (categoryId) {
-    conditions.push(`p.category_id = ?`);
+    query += ` AND p.category_id = ?`;
     params.push(categoryId);
   }
   if (search) {
-    conditions.push(`p.product_name LIKE ?`);
+    query += ` AND p.product_name LIKE ?`;
     params.push(`%${search}%`);
   }
 
-  if (conditions.length > 0) query += ` WHERE ` + conditions.join(' AND ');
-
-  query += ` GROUP BY p.product_id ORDER BY p.product_name DESC`;
+  query += ` GROUP BY p.product_id ORDER BY p.created_at DESC`;
 
   const [products] = await db.query(query, params);
 
@@ -305,7 +304,7 @@ exports.createFullProduct = async (data) => {
 };
 
 exports.deleteProduct = async (id) => {
-  await db.query(`DELETE FROM products WHERE product_id = ?`, [id]);
+  await db.query(`UPDATE products SET is_deleted = 1 WHERE product_id = ?`, [id]);
 };
 
 exports.updateProductData = async (productId, data) => {

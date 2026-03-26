@@ -9,9 +9,10 @@ const getBestSellers = async () => {
     FROM products p
     LEFT JOIN product_images pi
       ON p.product_id = pi.product_id AND pi.is_primary = 1
+    WHERE p.is_deleted = 0  /* <--- Only show active best sellers */
     ORDER BY p.created_at DESC
     LIMIT 4
-  `);
+  `, []);
   return products;
 };
 
@@ -25,7 +26,8 @@ const getCategories = async () => {
         SELECT pi.image_url 
         FROM products p
         JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_primary = 1
-        WHERE p.category_id = c.category_id
+        WHERE p.category_id = c.category_id 
+          AND p.is_deleted = 0  /* <--- Don't use images from deleted products */
         LIMIT 1
       ) AS image
     FROM categories c
@@ -40,6 +42,7 @@ const getNewestProductImage = async () => {
     SELECT pi.image_url AS image
     FROM products p
     JOIN product_images pi ON pi.product_id = p.product_id AND pi.is_primary = 1
+    WHERE p.is_deleted = 0  /* <--- Ensure the hero image is an active product */
     ORDER BY p.created_at DESC
     LIMIT 1
   `);
