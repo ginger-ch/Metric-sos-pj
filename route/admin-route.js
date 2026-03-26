@@ -19,7 +19,14 @@ router.get('/product', isAdmin, adminController.getProduct);
 router.get('/products/:id/edit', isAdmin, adminController.editProductPage);
 router.post('/products/:id/edit', isAdmin, upload.array('images'), adminController.updateProduct);
 router.post('/products', isAdmin, upload.array('images'), adminController.addProduct);
+
+router.post('/categories', isAdmin, adminController.createCategory);
+router.put('/categories/:id', adminController.updateCategory);
+router.patch('/categories/:id/visibility', adminController.updateVisibility);
 router.delete('/products/:id', isAdmin, adminController.deleteProduct);
+router.delete('/categories/:id', adminController.deleteCategory);
+
+
 
 
 module.exports = router;
