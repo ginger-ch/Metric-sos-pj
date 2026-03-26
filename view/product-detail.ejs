@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= product.product_name %> – Girlette</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/product-detail.css" />
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+</head>
+<body>
+
+      <%- include('partials/navbar') %>
+  
+  <!-- ═══════════════════════════════════════ MAIN -->
+  <main class="product-page">
+    <a href="javascript:history.back()" class="back-link">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+    </a>
+
+    <div class="product-layout">
+
+      <!-- ─── GALLERY ───────────────────────────────────────
+           product.images  = array of product_images rows
+           Each row: { image_id, image_url, is_primary, sort_order }
+      ─────────────────────────────────────────────────────── -->
+      <%
+        const primaryImg =
+          product.images.find(img => img.is_primary === 1) ||
+          product.images[0] ||
+          null;
+      %>
+      <section class="gallery">
+        <div class="gallery__main">
+          <img
+            id="mainImage"
+            src="<%= primaryImg ? primaryImg.image_url : '/images/placeholder.jpg' %>"
+            alt="<%= product.product_name %>"
+            class="gallery__main-img"
+          />
+        </div>
+
+        <% if (product.images.length > 1) { %>
+          <div class="gallery__thumbs">
+            <% product.images.forEach(img => { %>
+              <button
+                class="gallery__thumb <%= (primaryImg && img.image_id === primaryImg.image_id) ? 'gallery__thumb--active' : '' %>"
+                onclick="selectImage(this, '<%= img.image_url %>')"
+                aria-label="View image"
+              >
+                <img src="<%= img.image_url %>" alt="<%= product.product_name %>" />
+              </button>
+            <% }) %>
+          </div>
+        <% } %>
+      </section>
+
+      <!-- ─── PRODUCT INFO ──────────────────────────────────
+           product.product_name  → products.product_name
+           product.base_price    → products.base_price
+           product.description   → products.description
+           product.category_name → categories.category_name  (JOINed)
+           product.attributes    → array of product_attributes rows
+             each: { attribute_id, size, color, stock_qty }
+      ─────────────────────────────────────────────────────── -->
+      <section class="product-info">
+
+        <% if (product.category_name) { %>
+          <p class="product-info__category"><%= product.category_name %></p>
+        <% } %>
+
+        <h1 class="product-info__name"><%= product.product_name %></h1>
+        <p class="product-info__price">฿<%= Number(product.base_price).toLocaleString() %></p>
+
+        <%
+          /* ── Derive unique colors from product_attributes ── */
+          const uniqueColors = [...new Set(
+            product.attributes
+              .map(a => a.color)
+              .filter(Boolean)
+          )];
+
+          /* ── Derive sizes with total stock, sorted ── */
+          const SIZE_ORDER = ['XS','S','M','L','XL','XXL'];
+          const sizeStockMap = {};
+          product.attributes.forEach(a => {
+            if (!a.size) return;
+            sizeStockMap[a.size] = (sizeStockMap[a.size] || 0) + a.stock_qty;
+          });
+          const uniqueSizes = Object.keys(sizeStockMap).sort(
+            (a, b) => SIZE_ORDER.indexOf(a) - SIZE_ORDER.indexOf(b)
+          );
+        %>
+
+        <!-- Color selector (derived from product_attributes.color) -->
+        <% if (uniqueColors.length > 0) { %>
+          <div class="option-group">
+            <label class="option-group__label">
+              Color
+              <span class="option-group__value" id="selectedColor">
+                <%= uniqueColors[0] %>
+              </span>
+            </label>
+            <div class="color-swatches">
+              <% uniqueColors.forEach((color, i) => { %>
+                <button
+                  class="color-swatch <%= i === 0 ? 'color-swatch--active' : '' %>"
+                  data-color="<%= color %>"
+                  style="background-color: <%= color %>;"
+                  aria-label="<%= color %>"
+                  title="<%= color %>"
+                  onclick="selectColor(this, '<%= color %>')"
+                ></button>
+              <% }) %>
+            </div>
+          </div>
+        <% } %>
+
+        <!-- Size selector (derived from product_attributes.size + stock_qty) -->
+        <% if (uniqueSizes.length > 0) { %>
+          <div class="option-group">
+            <label class="option-group__label">Size</label>
+            <div class="size-pills">
+              <% uniqueSizes.forEach((size, i) => { %>
+                <%
+                  const totalStock   = sizeStockMap[size];
+                  const isAvailable  = totalStock > 0;
+                  /* Use the first attribute row matching this size for attribute_id */
+                  const matchAttr = product.attributes.find(a => a.size === size);
+                %>
+                <button
+                  class="size-pill
+                    <%= i === 0 && isAvailable ? 'size-pill--active' : '' %>
+                    <%= isAvailable ? '' : 'size-pill--disabled' %>"
+                  data-size="<%= size %>"
+                  data-attribute-id="<%= matchAttr ? matchAttr.attribute_id : '' %>"
+                  data-stock="<%= totalStock %>"
+                  onclick="selectSize(this)"
+                  <%= isAvailable ? '' : 'disabled' %>
+                ><%= size %></button>
+              <% }) %>
+            </div>
+            <p class="stock-hint" id="stockHint"></p>
+          </div>
+        <% } %>
+
+        <!-- Quantity + Add to cart -->
+        <div class="purchase-row">
+          <div class="qty">
+            <button class="qty__btn" onclick="changeQty(-1)" aria-label="Decrease">−</button>
+            <span class="qty__value" id="qtyValue">1</span>
+            <button class="qty__btn" onclick="changeQty(1)" aria-label="Increase">+</button>
+          </div>
+          <button
+            class="add-to-cart-btn"
+            id="addToCartBtn"
+            data-product-id="<%= product.product_id %>"
+            data-stock="<%= product.stock %>"
+            data-user-id="<%= user ? user.user_id : '' %>"
+            onclick="addToCart()"
+            >ADD TO CART</button>
+        </div>
+
+        <!-- Description (products.description) -->
+        <% if (product.description) { %>
+          <div class="description">
+            <h3 class="description__heading">Description</h3>
+            <p class="description__text"><%= product.description %></p>
+          </div>
+        <% } %>
+
+        
+
+      </section>
+    </div>
+
+      <div id="toast" class="product-toast"></div>
+  </main>
+
+  <!-- ═══════════════════════════════════════ SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/navbar.js"></script>
+    <script src="/js/product-detail.js"></script>
+</body>
+</html>

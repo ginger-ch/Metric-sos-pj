@@ -1,3 +1,5 @@
+<%- include('../layouts/header', { extraCss: '/css/admin-navbar.css' }) %>
+
 <nav class="adm-navbar">
   <div class="adm-navbar__brand">
     <a href="/admin/dashboard">Girlette</a>
@@ -6,18 +8,20 @@
   <ul class="adm-navbar__links">
     <li><a href="/admin/sales-history" class="<%= currentPage === 'sales-history' ? 'adm-active' : '' %>">Sales History</a></li>
     <li><a href="/admin/orders"        class="<%= currentPage === 'orders'        ? 'adm-active' : '' %>">Orders</a></li>
-    <li><a href="/admin/products"      class="<%= currentPage === 'products'      ? 'adm-active' : '' %>">Product</a></li>
+    <li><a href="/admin/product"      class="<%= currentPage === 'product'      ? 'adm-active' : '' %>">Product</a></li>
     <li><a href="/admin/categories"    class="<%= currentPage === 'categories'    ? 'adm-active' : '' %>">Categories</a></li>
   </ul>
 
   <div class="adm-navbar__actions">
-    <a href="/logout" class="adm-icon-btn" title="Logout">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-        <polyline points="16 17 21 12 16 7"/>
-        <line x1="21" y1="12" x2="9" y2="12"/>
-      </svg>
-    </a>
+    <form action="/logout" method="POST">
+      <button type="submit" class="adm-icon-btn" title="Logout">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </form>
     <button class="adm-icon-btn" title="Notifications">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>

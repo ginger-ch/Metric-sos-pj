@@ -1,22 +1,16 @@
-const express = require('express');
-const router = express.Router();
+const express    = require('express');
+const router     = express.Router();
+const controller = require('../controller/auth-controller');
+const cartController = require('../controller/cart-controller');
 
-router.get('/login', (req, res) => {
-  res.render('auth/login', {
-    error: req.flash('error')[0] || null,
-    success: null,
-    formData: {}
-  });
-});
+router.get('/login', controller.getLogin);
+router.post('/login', controller.postLogin);
 
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
-  if (username === 'admin' && password === '1234') {
-    res.redirect('/');
-  } else {
-    req.flash('error', 'Incorrect username or password.');
-    res.redirect('/login');
-  }
-});
+router.get('/register', controller.getRegister);
+router.post('/register', controller.postRegister);
+
+router.post('/cart/add', cartController.addToCart);
+
+router.post('/logout', controller.logout);
 
 module.exports = router;

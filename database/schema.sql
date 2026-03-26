@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS girllette;
-USE girlletee;
+USE girllette;
 
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -12,10 +12,9 @@ CREATE TABLE users (
     date_of_birth DATE,
     address TEXT,
     profile_image VARCHAR(255),
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    role ENUM('user', 'admin') DEFAULT 'user'
 );
-
-
 CREATE TABLE categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL,
@@ -23,7 +22,6 @@ CREATE TABLE categories (
     visibility ENUM('show','hidden') DEFAULT 'show',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-
 
 CREATE TABLE products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -35,7 +33,6 @@ CREATE TABLE products (
     FOREIGN KEY (category_id) REFERENCES categories(category_id)
         ON DELETE SET NULL
 );
-
 
 CREATE TABLE product_images (
     image_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,7 +54,6 @@ CREATE TABLE product_attributes (
         ON DELETE CASCADE
 );
 
-
 CREATE TABLE cart_items (
     cart_item_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NULL,
@@ -77,7 +73,6 @@ CREATE TABLE cart_items (
         ON DELETE SET NULL
 );
 
-
 CREATE TABLE orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     order_number VARCHAR(20) NOT NULL UNIQUE,
@@ -91,7 +86,6 @@ CREATE TABLE orders (
     FOREIGN KEY (user_id) REFERENCES users(user_id)
         ON DELETE SET NULL
 );
-
 
 CREATE TABLE order_items (
     item_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -109,3 +103,11 @@ CREATE TABLE order_items (
     FOREIGN KEY (attribute_id) REFERENCES product_attributes(attribute_id)
         ON DELETE SET NULL
 );
+
+CREATE TABLE subscribers (
+     id INT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE products ADD COLUMN is_deleted BOOLEAN DEFAULT 0;

@@ -1,0 +1,100 @@
+const userModel = require('../model/user-model');
+
+//login
+exports.getLogin = (req, res) => {
+  res.render('auth/login', {
+    error: req.flash('error')[0] || null,
+    success: null,
+    formData: {},
+    returnTo: req.query.returnTo || ''
+  });
+};
+
+exports.postLogin = async (req, res) => {
+  const { username, password } = req.body;
+  console.log('LOGIN ATTEMPT:', username, password);
+  console.log('req.body.returnTo:', req.body.returnTo);
+  console.log('req.query.returnTo:', req.query.returnTo);
+
+  try {
+    const user = await userModel.findByUsername(username);
+    console.log('USER FOUND:', user);
+
+    if (!user) {
+      req.flash('error', 'Incorrect username or password.');
+      return res.redirect('/login');
+    }
+
+    const match = password === user.password_hash;
+    if (!match) {
+      req.flash('error', 'Incorrect username or password.');
+      return res.redirect('/login');
+    }
+
+    req.session.user = user;
+
+    if (user.role === 'admin') {
+      // return res.redirect('/admin');
+      return res.redirect('/admin/dashboard');
+    }
+    const redirectTo = req.body.returnTo || req.session.returnTo || '/';
+    delete req.session.returnTo;
+    return res.redirect(redirectTo);
+  } catch (err) {
+    console.error(err);
+    req.flash('error', 'Something went wrong.');
+    res.redirect('/login');
+  }
+};
+
+//register
+exports.getRegister = (req, res) => {
+  res.render('auth/register', {
+    errors: {},
+    formData: {}
+  });
+};
+
+exports.postRegister = async (req, res) => {
+  const { username, email, password, full_name } = req.body;
+  const errors = {};
+
+  if (!username) errors.username = 'Username is required';
+  if (!email)    errors.email    = 'Email is required';
+  if (!password) errors.password = 'Password is required';
+
+  if (Object.keys(errors).length > 0) {
+    return res.render('auth/register', { errors, formData: req.body });
+  }
+
+  try {
+    const password_hash = password;
+    await userModel.createUser(username, email, password_hash, full_name);
+
+    req.flash('success', 'Account created!');
+    res.redirect('/login');
+  } catch (err) {
+    console.error(err); 
+    if (err.code === 'ER_DUP_ENTRY') {
+      if (err.message.includes('username')) errors.username = 'Username already taken';
+      if (err.message.includes('email'))    errors.email    = 'Email already in use';
+    } else {
+      errors.general = 'Something went wrong. Please try again.';
+    }
+    res.render('auth/register', { errors, formData: req.body });
+  }
+};
+
+//logout
+exports.logout = (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Logout Error:', err);
+      return res.redirect('/');
+    }
+    
+    res.clearCookie('connect.sid');
+    
+    res.redirect('/login'); 
+  });
+};
