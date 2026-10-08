@@ -1,4 +1,4 @@
-name: SonarQube
+name: build
 on:
   push:
     branches:
@@ -34,4 +34,3 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=ginger-ch_Metric-sos-pj
-        
