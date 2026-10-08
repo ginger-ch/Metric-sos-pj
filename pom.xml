@@ -17,7 +17,7 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.organization>ginger-ch</sonar.organization>
         <sonar.projectKey>ginger-ch_Metric-sos-pj</sonar.projectKey>
-        
+
         <sonar.inclusions>
             controller/**,
             model/**,
