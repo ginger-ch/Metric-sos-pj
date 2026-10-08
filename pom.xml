@@ -30,21 +30,21 @@
             database/**/*.sql,
             public/js/**/*.js,
             public/css/**/*.css,
-            app.js,
-            *.js
+            app.js
         </sonar.inclusions>
 
         <sonar.coverage.exclusions>
-            view/**,
-            database/**,
-            public/**,
-            config/**,
-            middleware/**,
-            route/**,
-            controller/**,
-            test/**,
-            tests/**,
-            app.js
+            **/view/**,
+            **/database/**,
+            **/public/**,
+            **/config/**,
+            **/middleware/**,
+            **/route/**,
+            **/controller/**,
+            **/test/**,
+            **/tests/**,
+            **/app.js,
+            **/node_modules/**
         </sonar.coverage.exclusions>
 
     </properties>
