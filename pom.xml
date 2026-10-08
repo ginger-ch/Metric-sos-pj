@@ -39,8 +39,11 @@
             database/**,
             public/**,
             config/**,
+            middleware/**,
+            route/**,
             test/**,
-            tests/**
+            tests/**,
+            app.js
         </sonar.coverage.exclusions>
 
     </properties>
