@@ -18,6 +18,8 @@
         <sonar.organization>ginger-ch</sonar.organization>
         <sonar.projectKey>ginger-ch_Metric-sos-pj</sonar.projectKey>
 
+        <sonar.javascript.lcov.reportPaths>coverage/lcov.info</sonar.javascript.lcov.reportPaths>
+
         <sonar.inclusions>
             controller/**,
             model/**,
@@ -32,12 +34,14 @@
             *.js
         </sonar.inclusions>
 
-        <sonar.exclusions>
-            **/node_modules/**,
-            **/public/image/**,
-            target/**,
-            .github/**
-        </sonar.exclusions>
+        <sonar.coverage.exclusions>
+            view/**,
+            database/**,
+            public/**,
+            config/**,
+            test/**,
+            tests/**
+        </sonar.coverage.exclusions>
 
     </properties>
 
