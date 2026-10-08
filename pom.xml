@@ -14,8 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.13.0</junit.version>
 
-        <sonar.organization>ginger-ch_Metric-sos-pj</sonar.organization>
-        <sonar.projectKey>ginger-ch</sonar.projectKey>
+        <sonar.organization>ginger-ch</sonar.organization>
+        <sonar.projectKey>ginger-ch_Metric-sos-pj</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
