@@ -41,6 +41,7 @@
             config/**,
             middleware/**,
             route/**,
+            controller/**,
             test/**,
             tests/**,
             app.js
