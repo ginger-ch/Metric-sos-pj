@@ -17,6 +17,10 @@
         <sonar.organization>ginger-ch</sonar.organization>
         <sonar.projectKey>ginger-ch_Metric-sos-pj</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+        <sonar.sources>.</sonar.sources>
+        <sonar.inclusions>**/*.js,**/*.ejs,**/*.sql,**/*.css</sonar.inclusions>
+        <sonar.exclusions>**/node_modules/**,**/public/image/**,target/**</sonar.exclusions>
     </properties>
 
     <dependencies>
